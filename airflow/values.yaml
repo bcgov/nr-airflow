@@ -32,7 +32,9 @@ nameOverride: ""
 fullnameOverride: ""
 ## @param clusterDomain Kubernetes Cluster Domain
 ##
-clusterDomain: apps.emerald.devops.gov.bc.ca
+
+## Test clusterDomain: apps.emerald.devops.gov.bc.ca
+clusterDomain: cluster.local
 ## @param extraDeploy Extra objects to deploy (evaluated as a template)
 ##
 extraDeploy: []
@@ -174,10 +176,10 @@ initContainers: []
 extraVolumeMounts: []
 ## @param extraVolumes Optionally specify extra list of additional volumes for the all the Airflow pods
 ##
-# extraVolumes: []
+extraVolumes: []
 
 
-## Tested but not working due to network policies
+## Abi: Tested but not working due to network policies
 # extraVolumes:
   # - name: requirements
     # configMap:
@@ -201,7 +203,7 @@ web:
   image:
     registry: docker.io
     repository: bitnami/airflow
-    tag: 2.7.2-debian-11-r1
+    tag: 2.7.3-debian-11-r0
     digest: ""
     ## Specify a imagePullPolicy
     ## Defaults to 'Always' if image tag is 'latest', else set to 'IfNotPresent'
@@ -209,7 +211,7 @@ web:
     ##
     pullPolicy: IfNotPresent
     
-    ## Abi: Tried, seems to work but the other option is to create new Dockerfiles
+    ## Abi: Workaround for requirements.txt
     # lifecycle:
       # postStart:
         # exec:
@@ -267,7 +269,7 @@ web:
   ## @param web.livenessProbe.successThreshold Success threshold for livenessProbe
   ##
   livenessProbe:
-    enabled: true
+    enabled: false #TEST#
     initialDelaySeconds: 180
     periodSeconds: 20
     timeoutSeconds: 5
@@ -281,7 +283,7 @@ web:
   ## @param web.readinessProbe.successThreshold Success threshold for readinessProbe
   ##
   readinessProbe:
-    enabled: true
+    enabled: false #TEST#
     initialDelaySeconds: 30
     periodSeconds: 10
     timeoutSeconds: 5
@@ -316,8 +318,12 @@ web:
   ## @param web.resources.requests The requested resources for the Airflow web containers
   ##
   resources:
-    limits: {}
-    requests: {}
+    requests: 
+      memory: '1G'
+      cpu: '1'
+    limits:
+      cpu: '2'
+      memory: '2G'
   ## Configure Airflow web pods Security Context
   ## ref: https://kubernetes.io/docs/tasks/configure-pod-container/security-context/#set-the-security-context-for-a-pod
   ## @param web.podSecurityContext.enabled Enabled Airflow web pods' Security Context
@@ -331,11 +337,21 @@ web:
   ## @param web.containerSecurityContext.enabled Enabled Airflow web containers' Security Context
   ## @param web.containerSecurityContext.runAsUser Set Airflow web containers' Security Context runAsUser
   ## @param web.containerSecurityContext.runAsNonRoot Set Airflow web containers' Security Context runAsNonRoot
+  ## @param web.containerSecurityContext.privileged Set web container's Security Context privileged
+  ## @param web.containerSecurityContext.allowPrivilegeEscalation Set web container's Security Context allowPrivilegeEscalation
+  ## @param web.containerSecurityContext.capabilities.drop List of capabilities to be dropped
+  ## @param web.containerSecurityContext.seccompProfile.type Set container's Security Context seccomp profile
   ##
   containerSecurityContext:
     enabled: false
     runAsUser: 1001
     runAsNonRoot: true
+    privileged: false
+    allowPrivilegeEscalation: false
+    capabilities:
+      drop: ["ALL"]
+    seccompProfile:
+      type: "RuntimeDefault"
   ## @param web.lifecycleHooks for the Airflow web container(s) to automate configuration before or after startup
   ##
   lifecycleHooks: {}
@@ -345,8 +361,7 @@ web:
   hostAliases: []
   ## @param web.podLabels Add extra labels to the Airflow web pods
   ##
-  podLabels: 
-    DataClass: Low
+  podLabels: {}
   ## @param web.podAnnotations Add extra annotations to the Airflow web pods
   ##
   podAnnotations: {}
@@ -467,7 +482,7 @@ scheduler:
   image:
     registry: docker.io
     repository: bitnami/airflow-scheduler
-    tag: 2.7.2-debian-11-r0
+    tag: 2.7.3-debian-11-r0
     digest: ""
     ## Specify a imagePullPolicy
     ## Defaults to 'Always' if image tag is 'latest', else set to 'IfNotPresent'
@@ -521,8 +536,12 @@ scheduler:
   ## @param scheduler.resources.requests The requested resources for the Airflow scheduler containers
   ##
   resources:
-    limits: {}
-    requests: {}
+    requests: 
+      memory: '1G'
+      cpu: '1'
+    limits:
+      cpu: '2'
+      memory: '2G'
   ## Configure Airflow scheduler pods Security Context
   ## ref: https://kubernetes.io/docs/tasks/configure-pod-container/security-context/#set-the-security-context-for-a-pod
   ## @param scheduler.podSecurityContext.enabled Enabled Airflow scheduler pods' Security Context
@@ -536,11 +555,21 @@ scheduler:
   ## @param scheduler.containerSecurityContext.enabled Enabled Airflow scheduler containers' Security Context
   ## @param scheduler.containerSecurityContext.runAsUser Set Airflow scheduler containers' Security Context runAsUser
   ## @param scheduler.containerSecurityContext.runAsNonRoot Set Airflow scheduler containers' Security Context runAsNonRoot
+  ## @param scheduler.containerSecurityContext.privileged Set scheduler container's Security Context privileged
+  ## @param scheduler.containerSecurityContext.allowPrivilegeEscalation Set scheduler container's Security Context allowPrivilegeEscalation
+  ## @param scheduler.containerSecurityContext.capabilities.drop List of capabilities to be dropped
+  ## @param scheduler.containerSecurityContext.seccompProfile.type Set container's Security Context seccomp profile
   ##
   containerSecurityContext:
     enabled: false
     runAsUser: 1001
     runAsNonRoot: true
+    privileged: false
+    allowPrivilegeEscalation: false
+    capabilities:
+      drop: ["ALL"]
+    seccompProfile:
+      type: "RuntimeDefault"
   ## @param scheduler.lifecycleHooks for the Airflow scheduler container(s) to automate configuration before or after startup
   ##
   lifecycleHooks: {}
@@ -550,8 +579,7 @@ scheduler:
   hostAliases: []
   ## @param scheduler.podLabels Add extra labels to the Airflow scheduler pods
   ##
-  podLabels: 
-    DataClass: Low
+  podLabels: {}
   ## @param scheduler.podAnnotations Add extra annotations to the Airflow scheduler pods
   ##
   podAnnotations: {}
@@ -672,7 +700,7 @@ worker:
   image:
     registry: docker.io
     repository: bitnami/airflow-worker
-    tag: 2.7.2-debian-11-r1
+    tag: 2.7.3-debian-11-r0
     digest: ""
     ## Specify a imagePullPolicy
     ## Defaults to 'Always' if image tag is 'latest', else set to 'IfNotPresent'
@@ -725,7 +753,7 @@ worker:
   ## @param worker.livenessProbe.successThreshold Success threshold for livenessProbe
   ##
   livenessProbe:
-    enabled: true
+    enabled: false #TEST#
     initialDelaySeconds: 180
     periodSeconds: 20
     timeoutSeconds: 5
@@ -739,7 +767,7 @@ worker:
   ## @param worker.readinessProbe.successThreshold Success threshold for readinessProbe
   ##
   readinessProbe:
-    enabled: true
+    enabled: false #TEST#
     initialDelaySeconds: 30
     periodSeconds: 10
     timeoutSeconds: 5
@@ -774,8 +802,12 @@ worker:
   ## @param worker.resources.requests The requested resources for the Airflow worker containers
   ##
   resources:
-    limits: {}
-    requests: {}
+    requests: 
+      memory: '1G'
+      cpu: '1'
+    limits:
+      cpu: '2'
+      memory: '2G'
   ## Configure Airflow worker pods Security Context
   ## ref: https://kubernetes.io/docs/tasks/configure-pod-container/security-context/#set-the-security-context-for-a-pod
   ## @param worker.podSecurityContext.enabled Enabled Airflow worker pods' Security Context
@@ -789,11 +821,21 @@ worker:
   ## @param worker.containerSecurityContext.enabled Enabled Airflow worker containers' Security Context
   ## @param worker.containerSecurityContext.runAsUser Set Airflow worker containers' Security Context runAsUser
   ## @param worker.containerSecurityContext.runAsNonRoot Set Airflow worker containers' Security Context runAsNonRoot
+  ## @param worker.containerSecurityContext.privileged Set worker container's Security Context privileged
+  ## @param worker.containerSecurityContext.allowPrivilegeEscalation Set worker container's Security Context allowPrivilegeEscalation
+  ## @param worker.containerSecurityContext.capabilities.drop List of capabilities to be dropped
+  ## @param worker.containerSecurityContext.seccompProfile.type Set container's Security Context seccomp profile
   ##
   containerSecurityContext:
     enabled: false
     runAsUser: 1001
     runAsNonRoot: true
+    privileged: false
+    allowPrivilegeEscalation: false
+    capabilities:
+      drop: ["ALL"]
+    seccompProfile:
+      type: "RuntimeDefault"
   ## @param worker.lifecycleHooks for the Airflow worker container(s) to automate configuration before or after startup
   ##
   lifecycleHooks: {}
@@ -803,8 +845,7 @@ worker:
   hostAliases: []
   ## @param worker.podLabels Add extra labels to the Airflow worker pods
   ##
-  podLabels: 
-    DataClass: Low
+  podLabels: {}
   ## @param worker.podAnnotations Add extra annotations to the Airflow worker pods
   ##
   podAnnotations: {}
@@ -946,7 +987,7 @@ git:
   image:
     registry: docker.io
     repository: bitnami/git
-    tag: 2.42.0-debian-11-r45
+    tag: 2.42.1-debian-11-r0
     digest: ""
     ## Specify a imagePullPolicy
     ## Defaults to 'Always' if image tag is 'latest', else set to 'IfNotPresent'
@@ -1263,8 +1304,8 @@ serviceAccount:
   create: false
   ## @param serviceAccount.name The name of the ServiceAccount to use.
   ## If not set and create is true, a name is generated using the common.names.fullname template
-  ## Abi: testing this
-  name: airflow-admin
+  ##
+  name: ""
   ## @param serviceAccount.automountServiceAccountToken Allows auto mount of ServiceAccountToken on the serviceAccount created
   ## Can be set to false if pods using this serviceAccount do not need to use K8s API
   ##
@@ -1309,7 +1350,7 @@ metrics:
   image:
     registry: docker.io
     repository: bitnami/airflow-exporter
-    tag: 0.20220314.0-debian-11-r438
+    tag: 0.20220314.0-debian-11-r440
     digest: ""
     pullPolicy: IfNotPresent
     ## Optionally specify an array of imagePullSecrets.
@@ -1354,16 +1395,27 @@ metrics:
   ## @param metrics.containerSecurityContext.enabled Enable Airflow exporter containers' Security Context
   ## @param metrics.containerSecurityContext.runAsUser Set Airflow exporter containers' Security Context runAsUser
   ## @param metrics.containerSecurityContext.runAsNonRoot Set Airflow exporter containers' Security Context runAsNonRoot
+  ## @param metrics.containerSecurityContext.privileged Set metrics container's Security Context privileged
+  ## @param metrics.containerSecurityContext.allowPrivilegeEscalation Set metrics container's Security Context allowPrivilegeEscalation
+  ## @param metrics.containerSecurityContext.capabilities.drop List of capabilities to be dropped
+  ## @param metrics.containerSecurityContext.seccompProfile.type Set container's Security Context seccomp profile
   ## e.g:
   ##   containerSecurityContext:
   ##     enabled: true
   ##     capabilities:
   ##       drop: ["NET_RAW"]
   ##     readOnlyRootFilesystem: true
+  ##
   containerSecurityContext:
     enabled: false
     runAsUser: 1001
     runAsNonRoot: true
+    privileged: false
+    allowPrivilegeEscalation: false
+    capabilities:
+      drop: ["ALL"]
+    seccompProfile:
+      type: "RuntimeDefault"
   ## @param metrics.lifecycleHooks for the Airflow exporter container(s) to automate configuration before or after startup
   ##
   lifecycleHooks: {}
@@ -1374,8 +1426,7 @@ metrics:
   ## @param metrics.podLabels Extra labels for Airflow exporter pods
   ## Ref: https://kubernetes.io/docs/concepts/overview/working-with-objects/labels/
   ##
-  podLabels: 
-    DataClass: Low
+  podLabels: {}
   ## @param metrics.podAnnotations Extra annotations for Airflow exporter pods
   ## ref: https://kubernetes.io/docs/concepts/overview/working-with-objects/annotations/
   ##
@@ -1499,7 +1550,7 @@ postgresql:
   auth:
     enablePostgresUser: true
     username: bn_airflow
-    password: bn_password
+    password: bn_password #TEST#
     database: bitnami_airflow
     existingSecret: ""
   architecture: standalone
