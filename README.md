@@ -21,8 +21,14 @@ helm upgrade dev-release-af . --version 16.1.2
 ```
 
 ## Create OpenShift ConfigMap with DAGs: 
+
 ```sh
 oc create configmap airflow-dags --from-file=dags
+```
+
+Delete if already exists: 
+```sh
+oc delete configmap airflow-dags
 ```
 
 Hooking Airbyte: https://airbyte.com/blog/orchestrating-airbyte-api-airbyte-cloud-airflow
