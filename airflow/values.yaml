@@ -215,7 +215,7 @@ web:
     lifecycle:
       postStart:
         exec:
-          command: ["/bin/bash", "-c", "source /opt/bitnami/airflow/venv/bin/activate &&  pip install  --trusted-host artifacts.developer.gov.bc.ca --index-url=https://artifacts.developer.gov.bc.ca/artifactory/pypi-remote  apache-airflow-providers-oracle apache-airflow-providers-airbyte oracledb"]  
+          command: ["/bin/bash", "-c", "source /opt/bitnami/airflow/venv/bin/activate &&  pip install  --trusted-host artifacts.developer.gov.bc.ca --index-url=https://artifacts.developer.gov.bc.ca/artifactory/pypi-remote apache-airflow-providers-oracle apache-airflow-providers-airbyte apache-airflow-providers-cncf-kubernetes oracledb psycopg2 configparser"]  
     
     ## Optionally specify an array of imagePullSecrets.
     ## Secrets must be manually created in the namespace.
@@ -505,7 +505,7 @@ scheduler:
     lifecycle:
       postStart:
         exec:
-          command: ["/bin/bash", "-c", "source /opt/bitnami/airflow/venv/bin/activate &&  pip install  --trusted-host artifacts.developer.gov.bc.ca --index-url=https://artifacts.developer.gov.bc.ca/artifactory/pypi-remote  apache-airflow-providers-oracle apache-airflow-providers-airbyte oracledb"]  
+          command: ["/bin/bash", "-c", "source /opt/bitnami/airflow/venv/bin/activate &&  pip install  --trusted-host artifacts.developer.gov.bc.ca --index-url=https://artifacts.developer.gov.bc.ca/artifactory/pypi-remote  apache-airflow-providers-oracle apache-airflow-providers-airbyte apache-airflow-providers-cncf-kubernetes oracledb psycopg2 configparser"]  
 
   ## @param scheduler.replicaCount Number of scheduler replicas
   ##
@@ -730,7 +730,7 @@ worker:
     lifecycle:
       postStart:
         exec:
-          command: ["/bin/bash", "-c", "source /opt/bitnami/airflow/venv/bin/activate &&  pip install  --trusted-host artifacts.developer.gov.bc.ca --index-url=https://artifacts.developer.gov.bc.ca/artifactory/pypi-remote  apache-airflow-providers-oracle apache-airflow-providers-airbyte oracledb"]  
+          command: ["/bin/bash", "-c", "source /opt/bitnami/airflow/venv/bin/activate &&  pip install  --trusted-host artifacts.developer.gov.bc.ca --index-url=https://artifacts.developer.gov.bc.ca/artifactory/pypi-remote  apache-airflow-providers-oracle apache-airflow-providers-airbyte apache-airflow-providers-cncf-kubernetes oracledb psycopg2 configparser"]  
 
   ## @param worker.command Override default container command (useful when using custom images)
   ##
