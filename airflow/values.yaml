@@ -11,7 +11,7 @@
 ## @param global.storageClass Global StorageClass for Persistent Volume(s)
 ##
 global:
-  imageRegistry: artifacts.developer.gov.bc.ca/docker-remote
+  imageRegistry: artifacts.developer.gov.bc.ca/docker-remote # Abi: needed to not hit Docker Hub pull limit
   ## E.g.
   ## imagePullSecrets:
   ##   - myRegistryKeySecretName
@@ -90,7 +90,8 @@ auth:
 ## @param executor Airflow executor. Allowed values: `SequentialExecutor`, `LocalExecutor`, `CeleryExecutor`, `KubernetesExecutor`, `CeleryKubernetesExecutor` and `LocalKubernetesExecutor`
 ## ref: http://airflow.apache.org/docs/stable/executor/index.html
 ##
-executor: CeleryExecutor
+executor: KubernetesExecutor # Abi: needed to fix worker/scheduler issue
+# CeleryExecutor
 ## @param loadExamples Switch to load some Airflow examples
 ##
 loadExamples: false
@@ -111,9 +112,8 @@ existingConfigmap: ""
 dags:
   ## @param dags.existingConfigmap Name of an existing ConfigMap with all the DAGs files you want to load in Airflow
   ##
-  ## ABI: Need to test again ##
-  # existingConfigmap: airflow-dags
-  existingConfigmap: ""
+  ## existingConfigmap: ""
+  existingConfigmap: airflow-dags # Abi: way to add DAG files, see README
   ## OS Shell + Utility image
   ## ref: https://hub.docker.com/r/bitnami/os-shell/tags/
   ## @param dags.image.registry [default: REGISTRY_NAME] Init container load-dags image registry
@@ -179,7 +179,7 @@ extraVolumeMounts: []
 extraVolumes: []
 
 
-## Abi: Tested but not working due to network policies
+## Abi: Does not work due to network policies
 # extraVolumes:
   # - name: requirements
     # configMap:
@@ -211,11 +211,11 @@ web:
     ##
     pullPolicy: IfNotPresent
     
-    ## Abi: Workaround for requirements.txt
-    # lifecycle:
-      # postStart:
-        # exec:
-          # command: ["/bin/bash", "-c", "source /opt/bitnami/airflow/venv/bin/activate &&  pip install  --trusted-host artifacts.developer.gov.bc.ca --index-url=https://artifacts.developer.gov.bc.ca/artifactory/pypi-remote  apache-airflow-providers-airbyte"]  
+    ## Abi: Workaround for requirements.txt not working to add new Python libraries
+    lifecycle:
+      postStart:
+        exec:
+          command: ["/bin/bash", "-c", "source /opt/bitnami/airflow/venv/bin/activate &&  pip install  --trusted-host artifacts.developer.gov.bc.ca --index-url=https://artifacts.developer.gov.bc.ca/artifactory/pypi-remote  apache-airflow-providers-oracle apache-airflow-providers-airbyte oracledb"]  
     
     ## Optionally specify an array of imagePullSecrets.
     ## Secrets must be manually created in the namespace.
@@ -500,6 +500,13 @@ scheduler:
     ## Set to true if you would like to see extra information on logs
     ##
     debug: false
+    
+    ## Abi: Workaround for requirements.txt not working to add new Python libraries
+    lifecycle:
+      postStart:
+        exec:
+          command: ["/bin/bash", "-c", "source /opt/bitnami/airflow/venv/bin/activate &&  pip install  --trusted-host artifacts.developer.gov.bc.ca --index-url=https://artifacts.developer.gov.bc.ca/artifactory/pypi-remote  apache-airflow-providers-oracle apache-airflow-providers-airbyte oracledb"]  
+
   ## @param scheduler.replicaCount Number of scheduler replicas
   ##
   replicaCount: 1
@@ -718,6 +725,13 @@ worker:
     ## Set to true if you would like to see extra information on logs
     ##
     debug: false
+
+    ## Abi: Workaround for requirements.txt not working to add new Python libraries
+    lifecycle:
+      postStart:
+        exec:
+          command: ["/bin/bash", "-c", "source /opt/bitnami/airflow/venv/bin/activate &&  pip install  --trusted-host artifacts.developer.gov.bc.ca --index-url=https://artifacts.developer.gov.bc.ca/artifactory/pypi-remote  apache-airflow-providers-oracle apache-airflow-providers-airbyte oracledb"]  
+
   ## @param worker.command Override default container command (useful when using custom images)
   ##
   command: []
@@ -1297,15 +1311,16 @@ ingress:
 
 ## Service account for Airflow pods to use.
 ## ref: https://kubernetes.io/docs/tasks/configure-pod-container/configure-service-account/
-##
+
+## Abi: needed for k8 executor
 serviceAccount:
   ## @param serviceAccount.create Enable creation of ServiceAccount for Airflow pods
   ##
-  create: false
+  create: true
   ## @param serviceAccount.name The name of the ServiceAccount to use.
   ## If not set and create is true, a name is generated using the common.names.fullname template
   ##
-  name: ""
+  name: airflow-admin
   ## @param serviceAccount.automountServiceAccountToken Allows auto mount of ServiceAccountToken on the serviceAccount created
   ## Can be set to false if pods using this serviceAccount do not need to use K8s API
   ##
@@ -1316,21 +1331,22 @@ serviceAccount:
 ## Role Based Access
 ## Ref: https://kubernetes.io/docs/admin/authorization/rbac/
 ## @param rbac.create Create Role and RoleBinding
-##
+
+## Abi: needed for k8 executor
 rbac:
-  create: false
+  create: true
   ## @param rbac.rules Custom RBAC rules to set
   ## e.g:
-  ## rules:
-  ##   - apiGroups:
-  ##       - ""
-  ##     resources:
-  ##       - pods
-  ##     verbs:
-  ##       - get
-  ##       - list
+  rules:
+     - apiGroups:
+         - ""
+       resources:
+         - pods
+       verbs:
+         - get
+         - list
   ##
-  rules: []
+  # rules: []
 
 ## @section Airflow metrics parameters
 
@@ -1550,7 +1566,7 @@ postgresql:
   auth:
     enablePostgresUser: true
     username: bn_airflow
-    password: bn_password #TEST#
+    password: bn_password 
     database: bitnami_airflow
     existingSecret: ""
   architecture: standalone
@@ -1582,7 +1598,7 @@ externalDatabase:
 ## @param redis.architecture Redis&reg; architecture. Allowed values: `standalone` or `replication`
 ##
 redis:
-  enabled: true
+  enabled: false ## Abi: not needed for k8 executor
   auth:
     enabled: true
     ## Redis&reg; password (both master and slave). Defaults to a random 10-character alphanumeric string if not set and auth.enabled is true.
