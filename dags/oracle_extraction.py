@@ -7,11 +7,11 @@ import configparser
 
 # Function to retrieve Oracle database connection
 def get_oracle_connection():
-    oracle_username = 'APP_NRM_HOUSING'
-    oracle_password = 'Welc0me2'
-    oracle_host = 'nrkdb03.bcgov'
+    oracle_username = 'PROXY_RRS_PMT_REPLICATION'
+    oracle_password = 'S7fg#54gg9K'
+    oracle_host = 'nrcdb03.bcgov'
     oracle_port = '1521'
-    oracle_database = 'geoprd.nrs.bcgov'
+    oracle_database = 'rrstst1.nrs.bcgov'
     
     dsn = oracledb.makedsn(host=oracle_host, port=oracle_port, service_name=oracle_database)
     oracle_connection = oracledb.connect(user=oracle_username, password=oracle_password, dsn=dsn)
