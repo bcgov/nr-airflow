@@ -1,2 +1,5 @@
-apache-airflow-providers-oracle==3.7.4
-apache-airflow-providers-airbyte==3.3.2
+apache-airflow-providers-oracle
+apache-airflow-providers-airbyte
+oracledb
+psycopg2
+configparser
