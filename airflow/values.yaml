@@ -225,11 +225,11 @@ web:
     pullPolicy: IfNotPresent
     
     ## Abi: Workaround for requirements.txt not working to add new Python libraries
+    ## Abi: Moved these to deployment.yaml for web and scheduler and statefulset.yaml for worker
     lifecycle:
       postStart:
         exec:
-          command: ["/bin/bash", "-c", "source /opt/bitnami/airflow/venv/bin/activate &&  pip install --index-url=https://default-a1b9b0-sroovq:X7xNMddMIquXKPoYAqes25RX@artifacts.developer.gov.bc.ca/artifactory/pypi-remote apache-airflow-providers-oracle==3.8.0 oracledb apache-airflow"]  
-          # Libraries to include: apache-airflow-providers-airbyte apache-airflow-providers-cncf-kubernetes oracledb psycopg2 configparser
+          command: ["/bin/bash", "-c", "source /opt/bitnami/airflow/venv/bin/activate && pip install --trusted-host artifacts.developer.gov.bc.ca --index-url=https://default-a1b9b0-sroovq:X7xNMddMIquXKPoYAqes25RX@artifacts.developer.gov.bc.ca/artifactory/api/pypi/pypi-remote/simple apache-airflow-providers-oracle"] 
 
     ## Optionally specify an array of imagePullSecrets.
     ## Secrets must be manually created in the namespace.
@@ -516,11 +516,11 @@ scheduler:
     debug: false
     
     ## Abi: Workaround for requirements.txt not working to add new Python libraries
+    ## Abi: Moved these to deployment.yaml for web and scheduler and statefulset.yaml for worker
     lifecycle:
       postStart:
         exec:
-          command: ["/bin/bash", "-c", "source /opt/bitnami/airflow/venv/bin/activate &&  pip install --index-url=https://default-a1b9b0-sroovq:X7xNMddMIquXKPoYAqes25RX@artifacts.developer.gov.bc.ca/artifactory/pypi-remote apache-airflow-providers-oracle==3.8.0 oracledb apache-airflow"]  
-          # Libraries to include: apache-airflow-providers-airbyte apache-airflow-providers-cncf-kubernetes oracledb psycopg2 configparser
+          command: ["/bin/bash", "-c", "source /opt/bitnami/airflow/venv/bin/activate && pip install --trusted-host artifacts.developer.gov.bc.ca --index-url=https://default-a1b9b0-sroovq:X7xNMddMIquXKPoYAqes25RX@artifacts.developer.gov.bc.ca/artifactory/api/pypi/pypi-remote/simple apache-airflow-providers-oracle"] 
 
   ## @param scheduler.replicaCount Number of scheduler replicas
   ##
@@ -742,11 +742,11 @@ worker:
     debug: false
 
     ## Abi: Workaround for requirements.txt not working to add new Python libraries
+    ## Abi: Moved these to deployment.yaml for web and scheduler and statefulset.yaml for worker
     lifecycle:
       postStart:
         exec:
-          command: ["/bin/bash", "-c", "source /opt/bitnami/airflow/venv/bin/activate &&  pip install --index-url=https://default-a1b9b0-sroovq:X7xNMddMIquXKPoYAqes25RX@artifacts.developer.gov.bc.ca/artifactory/pypi-remote apache-airflow-providers-oracle==3.8.0 oracledb apache-airflow"]  
-          # Libraries to include: apache-airflow-providers-airbyte apache-airflow-providers-cncf-kubernetes oracledb psycopg2 configparser
+          command: ["/bin/bash", "-c", "source /opt/bitnami/airflow/venv/bin/activate && pip install --trusted-host artifacts.developer.gov.bc.ca --index-url=https://default-a1b9b0-sroovq:X7xNMddMIquXKPoYAqes25RX@artifacts.developer.gov.bc.ca/artifactory/api/pypi/pypi-remote/simple apache-airflow-providers-oracle"] 
 
   ## @param worker.command Override default container command (useful when using custom images)
   ##
