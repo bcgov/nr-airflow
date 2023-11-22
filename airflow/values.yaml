@@ -9,7 +9,10 @@
 ## @param global.imageRegistry Global Docker image registry
 ## @param global.imagePullSecrets Global Docker registry secret names as an array
 ## @param global.storageClass Global StorageClass for Persistent Volume(s)
-##
+
+
+# Abi: all podSecurityContext and containerSecurityContext have been disabled so this can run in OpenShift (even in redis and postgres charts)
+
 global:
   imageRegistry: artifacts.developer.gov.bc.ca/docker-remote # Abi: needed to not hit Docker Hub pull limit
   ## E.g.
@@ -178,6 +181,16 @@ extraVolumeMounts: []
 ##
 extraVolumes: []
 
+# Abi: this is what we would use if the pip install worked
+# To create config map, oc create configmap requirements --from-file=requirements.txt 
+# extraVolumes:
+  # - name: requirements
+    # configMap:
+      # name: requirements
+# extraVolumeMounts:
+  # - name: requirements
+    # mountPath: /bitnami/python/
+
 
 ## Abi: Does not work due to network policies
 # extraVolumes:
@@ -215,8 +228,9 @@ web:
     lifecycle:
       postStart:
         exec:
-          command: ["/bin/bash", "-c", "source /opt/bitnami/airflow/venv/bin/activate &&  pip install  --trusted-host artifacts.developer.gov.bc.ca --index-url=https://artifacts.developer.gov.bc.ca/artifactory/pypi-remote apache-airflow-providers-oracle apache-airflow-providers-airbyte apache-airflow-providers-cncf-kubernetes oracledb psycopg2 configparser"]  
-    
+          command: ["/bin/bash", "-c", "source /opt/bitnami/airflow/venv/bin/activate &&  pip install --index-url=https://default-a1b9b0-sroovq:X7xNMddMIquXKPoYAqes25RX@artifacts.developer.gov.bc.ca/artifactory/pypi-remote apache-airflow-providers-oracle==3.8.0 oracledb apache-airflow"]  
+          # Libraries to include: apache-airflow-providers-airbyte apache-airflow-providers-cncf-kubernetes oracledb psycopg2 configparser
+
     ## Optionally specify an array of imagePullSecrets.
     ## Secrets must be manually created in the namespace.
     ## ref: https://kubernetes.io/docs/tasks/configure-pod-container/pull-image-private-registry/
@@ -269,7 +283,7 @@ web:
   ## @param web.livenessProbe.successThreshold Success threshold for livenessProbe
   ##
   livenessProbe:
-    enabled: false #TEST#
+    enabled: true
     initialDelaySeconds: 180
     periodSeconds: 20
     timeoutSeconds: 5
@@ -283,7 +297,7 @@ web:
   ## @param web.readinessProbe.successThreshold Success threshold for readinessProbe
   ##
   readinessProbe:
-    enabled: false #TEST#
+    enabled: true
     initialDelaySeconds: 30
     periodSeconds: 10
     timeoutSeconds: 5
@@ -505,7 +519,8 @@ scheduler:
     lifecycle:
       postStart:
         exec:
-          command: ["/bin/bash", "-c", "source /opt/bitnami/airflow/venv/bin/activate &&  pip install  --trusted-host artifacts.developer.gov.bc.ca --index-url=https://artifacts.developer.gov.bc.ca/artifactory/pypi-remote  apache-airflow-providers-oracle apache-airflow-providers-airbyte apache-airflow-providers-cncf-kubernetes oracledb psycopg2 configparser"]  
+          command: ["/bin/bash", "-c", "source /opt/bitnami/airflow/venv/bin/activate &&  pip install --index-url=https://default-a1b9b0-sroovq:X7xNMddMIquXKPoYAqes25RX@artifacts.developer.gov.bc.ca/artifactory/pypi-remote apache-airflow-providers-oracle==3.8.0 oracledb apache-airflow"]  
+          # Libraries to include: apache-airflow-providers-airbyte apache-airflow-providers-cncf-kubernetes oracledb psycopg2 configparser
 
   ## @param scheduler.replicaCount Number of scheduler replicas
   ##
@@ -730,7 +745,8 @@ worker:
     lifecycle:
       postStart:
         exec:
-          command: ["/bin/bash", "-c", "source /opt/bitnami/airflow/venv/bin/activate &&  pip install  --trusted-host artifacts.developer.gov.bc.ca --index-url=https://artifacts.developer.gov.bc.ca/artifactory/pypi-remote  apache-airflow-providers-oracle apache-airflow-providers-airbyte apache-airflow-providers-cncf-kubernetes oracledb psycopg2 configparser"]  
+          command: ["/bin/bash", "-c", "source /opt/bitnami/airflow/venv/bin/activate &&  pip install --index-url=https://default-a1b9b0-sroovq:X7xNMddMIquXKPoYAqes25RX@artifacts.developer.gov.bc.ca/artifactory/pypi-remote apache-airflow-providers-oracle==3.8.0 oracledb apache-airflow"]  
+          # Libraries to include: apache-airflow-providers-airbyte apache-airflow-providers-cncf-kubernetes oracledb psycopg2 configparser
 
   ## @param worker.command Override default container command (useful when using custom images)
   ##
@@ -767,7 +783,7 @@ worker:
   ## @param worker.livenessProbe.successThreshold Success threshold for livenessProbe
   ##
   livenessProbe:
-    enabled: false #TEST#
+    enabled: true
     initialDelaySeconds: 180
     periodSeconds: 20
     timeoutSeconds: 5
@@ -781,7 +797,7 @@ worker:
   ## @param worker.readinessProbe.successThreshold Success threshold for readinessProbe
   ##
   readinessProbe:
-    enabled: false #TEST#
+    enabled: true
     initialDelaySeconds: 30
     periodSeconds: 10
     timeoutSeconds: 5
