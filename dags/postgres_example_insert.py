@@ -17,17 +17,4 @@ with DAG('postgres_example_insert', default_args=default_args, schedule_interval
         autocommit=True,
     )
 
-    def print_result(**context):
-        ti = context['task_instance']
-        result = ti.xcom_pull(task_ids='execute_sql')
-        print("Result of SQL query:")
-        for row in result:
-            print(row)
-
-    t2 = PythonOperator(
-        task_id='print_result',
-        python_callable=print_result,
-        provide_context=True,
-    )
-
-    t1 >> t2
+    t1
