@@ -1,11 +1,6 @@
 from airflow import DAG
 from pendulum import datetime
-from airflow.providers.cncf.kubernetes.operators.kubernetes_pod import (
-    KubernetesPodOperator,
-)
-from airflow.configuration import conf
-
-namespace = conf.get("kubernetes", "NAMESPACE")
+from airflow.providers.cncf.kubernetes.operators.kubernetes_pod import KubernetesPodOperator
 
 fta_config = {
     "init":{
@@ -27,14 +22,15 @@ fta_config = {
 with DAG(
     start_date=datetime(2023, 11, 23),
     catchup=False,
-    schedule="@daily",
+    schedule=None,
     dag_id="openshift_pod",
 ) as dag:
     oc_run_replication_script = KubernetesPodOperator(
         task_id="run_replication_script",
-        image="image-registry.openshift-image-registry.svc:5000/a1b9b0-dev/airflow-replication@sha256:8a6a236ad979becbd41bb8cd9f6c3103e59430b604e8e88fa7d67f9477563ad6",
+        # need to add ODS and FTA secrets here then swap image
+        image="image-registry.openshift-image-registry.svc:5000/a1b9b0-dev/fta-replication-airflow@sha256:854bff78aeb3580224664b7e743884126e38aea8516f46713276145eee7dc96b",
         in_cluster=True,
-        namespace=namespace,
+        namespace="a1b9b0-dev",
         name="oc_run_replication_script",
         # give the Pod name a random suffix, ensure uniqueness in the namespace
         random_name_suffix=True,
@@ -42,8 +38,13 @@ with DAG(
         # reattach to worker instead of creating a new Pod on worker failure
         reattach_on_restart=True,
         # delete Pod after the task is finished
-        is_delete_operator_pod=True,
+        is_delete_operator_pod=False,
         get_logs=True,
         log_events_on_failure=True,
-        env_vars={"extract.json": f"{fta_config}"},
+        # Not using this right now, just testing it out
+        env_vars={"extract.json": f"{fta_config}"}
+        # container_resources=None,
+        # service_account_name="airflow-admin",
+        # configmaps=["fta-pipeline"]
+        # secrets=["ods-database", "fta-database"]
     )
