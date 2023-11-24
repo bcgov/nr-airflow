@@ -85,10 +85,6 @@ spec:
         - name: airflow-scheduler
           image: {{ include "airflow.schedulerImage" . | quote }}
           imagePullPolicy: {{ .Values.scheduler.image.pullPolicy | quote }}
-          lifecycle:
-            postStart:
-              exec:
-                command: ["/bin/bash", "-c", "source /opt/bitnami/airflow/venv/bin/activate && pip install --trusted-host artifacts.developer.gov.bc.ca --index-url=https://default-a1b9b0-sroovq:X7xNMddMIquXKPoYAqes25RX@artifacts.developer.gov.bc.ca/artifactory/api/pypi/pypi-remote/simple apache-airflow-providers-oracle"]
           {{- if .Values.scheduler.containerSecurityContext.enabled }}
           securityContext: {{- omit .Values.scheduler.containerSecurityContext "enabled" | toYaml | nindent 12 }}
           {{- end }}
