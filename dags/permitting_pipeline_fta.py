@@ -11,7 +11,7 @@ with DAG(
     start_date=datetime(2023, 11, 23),
     catchup=False,
     schedule=None,
-    dag_id="permitting_pipeline",
+    dag_id="permitting_pipeline_fta",
 ) as dag:
     run_fta_replication = KubernetesPodOperator(
         task_id="run_fta_replication",
