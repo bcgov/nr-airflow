@@ -29,7 +29,7 @@ with DAG(dag_id='airbyte_example',
 # trigger_airbyte_sync = SimpleHttpOperator(
 #        method="POST",
 #        task_id='start_airbyte_sync',
-#        http_conn_id='airbyte-api-cloud-connection',
+#        http_conn_id='airbyte-api',
 #        headers={
 #            "Content-Type":"application/json",
 #            "Accept": "application/json",
