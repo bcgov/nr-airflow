@@ -31,8 +31,6 @@ Delete if already exists:
 oc delete configmap airflow-dags
 ```
 
-Hooking Airbyte: https://airbyte.com/blog/orchestrating-airbyte-api-airbyte-cloud-airflow
-
 More info: https://apps.nrs.gov.bc.ca/int/confluence/x/zQ09Cg
 
 ```sh
