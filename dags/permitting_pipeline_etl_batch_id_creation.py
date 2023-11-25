@@ -49,7 +49,7 @@ def check_record_existence():
 
 
 # Define the SQL statement for insertion
-insert_sql = """
+insert_sql = f"""
     INSERT INTO app_rrs1.audit_batch_id (etl_batch_id, etl_batch_name, etl_batch_status,etl_batch_start_time,etl_batch_end_time) 
     VALUES ('{current_date}', 'permitting_data_pipeline', 'started','{current_datetime}',null);
 """
