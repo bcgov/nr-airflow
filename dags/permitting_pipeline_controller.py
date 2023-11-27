@@ -29,28 +29,24 @@ sub_dags_in_order = [
 ]
 
 # Create TriggerDagRunOperator for each sub-DAG
+trigger_operators = {}
 for sub_dag_id in sub_dags_in_order:
     trigger_operator = TriggerDagRunOperator(
         task_id=f'trigger_{sub_dag_id}',
         trigger_dag_id=sub_dag_id,
-        #conf={'batch_id': 'your_batch_id_value'},  # Pass any necessary configuration
+        # conf={'batch_id': 'your_batch_id_value'},  # Pass any necessary configuration
         dag=controller_dag,
     )
+    trigger_operators[sub_dag_id] = trigger_operator
 
-    # Set up task dependencies
-    if sub_dag_id == 'permitting_pipeline_etl_batch_id_creation':
-        controller_dag >> trigger_operator
-    elif sub_dag_id == 'permitting_pipeline_fta':
-        controller_dag >> trigger_operator
-    elif sub_dag_id == 'permitting_pipeline_rrs':
-        controller_dag >> trigger_operator
-    elif sub_dag_id == 'permitting_pipeline_ats':
-        controller_dag >> trigger_operator
-    elif sub_dag_id == 'permitting_pipeline_etl_batch_id_update':
-        controller_dag.get_task('trigger_permitting_pipeline_fta') >> trigger_operator
-        controller_dag.get_task('trigger_permitting_pipeline_rrs') >> trigger_operator
-        controller_dag.get_task('trigger_permitting_pipeline_ats') >> trigger_operator
-    else:
-        controller_dag >> trigger_operator
+# Set up task dependencies
+trigger_operators['permitting_pipeline_etl_batch_id_creation'] >> [
+    trigger_operators['permitting_pipeline_fta'],
+    trigger_operators['permitting_pipeline_rrs'],
+    trigger_operators['permitting_pipeline_ats']
+]
 
-# Define the order of task dependencies
+# Set up parallel execution for FTA, RRS, and ATS
+[trigger_operators['permitting_pipeline_fta'],
+ trigger_operators['permitting_pipeline_rrs'],
+ trigger_operators['permitting_pipeline_ats']] >> trigger_operators['permitting_pipeline_etl_batch_id_update']
