@@ -17,10 +17,10 @@ annotations:
 apiVersion: v2
 appVersion: 2.7.3
 dependencies:
-- condition: redis.enabled
-  name: redis
-  repository: oci://registry-1.docker.io/bitnamicharts
-  version: 18.x.x
+# - condition: redis.enabled
+  # name: redis
+  # repository: oci://registry-1.docker.io/bitnamicharts
+  # version: 18.x.x
 - condition: postgresql.enabled
   name: postgresql
   repository: oci://registry-1.docker.io/bitnamicharts
