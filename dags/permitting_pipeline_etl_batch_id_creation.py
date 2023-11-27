@@ -15,7 +15,7 @@ default_args = {
 
 # Define the DAG
 dag = DAG(
-    'pemitting_etl_batch_id_creation',
+    'permitting_pipeline_etl_batch_id_creation',
     default_args=default_args,
     description='DAG to insert a etl_batch_id record into a ODS table',
     schedule_interval=None,  # Set your desired schedule_interval
