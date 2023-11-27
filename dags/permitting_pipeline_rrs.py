@@ -16,7 +16,7 @@ with DAG(
     run_rrs_replication = KubernetesPodOperator(
         task_id="run_rrs_replication",
         ###image="image-registry.openshift-image-registry.svc:5000/a1b9b0-dev/data-replication-parametrized@sha256:8562520bc8ea4ca68f3abc0b45736c3fa0d59b3613aa31da95f60c29214d5abe",
-        image="image-registry.openshift-image-registry.svc:5000/a1b9b0-dev/data-replication-parametrized-audit@sha256:268a71695fc82cbce1788d6c25253ef216f88df6b1180fb1ef3622096114bb19",
+        image="image-registry.openshift-image-registry.svc:5000/a1b9b0-dev/data-replication-parametrized-audit@sha256:9191d54bcca1177820efb914db2e7fd33ca36785ca84e9b340f58d6ce8c01b5f",
         in_cluster=True,
         namespace="a1b9b0-dev",
         service_account_name="airflow-admin",
