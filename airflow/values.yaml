@@ -93,7 +93,7 @@ auth:
 ## @param executor Airflow executor. Allowed values: `SequentialExecutor`, `LocalExecutor`, `CeleryExecutor`, `KubernetesExecutor`, `CeleryKubernetesExecutor` and `LocalKubernetesExecutor`
 ## ref: http://airflow.apache.org/docs/stable/executor/index.html
 ##
-executor: KubernetesExecutor # Abi: needed to fix worker/scheduler issue
+executor: KubernetesExecutor # Abi: needed to fix worker/scheduler issue and run each job as a pod
 # CeleryExecutor
 ## @param loadExamples Switch to load some Airflow examples
 ##
@@ -115,8 +115,8 @@ existingConfigmap: ""
 dags:
   ## @param dags.existingConfigmap Name of an existing ConfigMap with all the DAGs files you want to load in Airflow
   ##
-  ## existingConfigmap: ""
-  existingConfigmap: airflow-dags # Abi: way to add DAG files, see README
+  # existingConfigmap: ""
+  existingConfigmap: airflow-dags # Abi: way to add DAG files, see README 
   ## OS Shell + Utility image
   ## ref: https://hub.docker.com/r/bitnami/os-shell/tags/
   ## @param dags.image.registry [default: REGISTRY_NAME] Init container load-dags image registry
@@ -1044,17 +1044,24 @@ git:
     ##     name: my-dags
     ##     path: /
     ##
-    repositories:
-      - repository: ""
+    # Abi: does not work in Emerald
+
+    # repositories:
+      # - repository:  https://github.com/bcgov/nr-airflow/
+        # branch: main
+        # name: airflow-dags
+        # path: /
+
+      # - repository: ""
         ## Branch from repository to checkout
         ##
-        branch: ""
+      #  branch: ""
         ## An unique identifier for repository, must be unique for each repository
         ##
-        name: ""
+      #  name: ""
         ## Path to a folder in the repository containing the dags
         ##
-        path: ""
+      #  path: ""
   ## Get Plugins files from git repositories.
   ## @param git.plugins.enabled Enable in order to download Plugins files from git repositories.
   ## @param git.plugins.repositories [array] Array of repositories from which to download DAG files
@@ -1103,7 +1110,7 @@ git:
   ## @param git.sync.resources Sync sidecar container resource requests and limits
   ##
   sync:
-    interval: 60
+    interval: 30 # Abi: lowered
     command: []
     args: []
     extraVolumeMounts: []
