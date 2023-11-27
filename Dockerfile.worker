@@ -1,3 +1,9 @@
 FROM bitnami/airflow-worker:2.7.3-debian-11-r0 
 
-RUN pip install apache-airflow-providers-oracle apache-airflow-providers-oracle[common.sql] oracledb
+RUN /bin/bash
+
+RUN source /opt/bitnami/airflow/venv/bin/activate
+
+RUN pip install apache-airflow-providers-oracle apache-airflow-providers-oracle[common.sql] oracledb apache-airflow[airflow.providers.oracle]
+
+RUN pip list
