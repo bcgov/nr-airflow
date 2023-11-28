@@ -8,11 +8,9 @@ ods_secrets = Secret("env", None, "ods-database")
 
 def print_secrets():
     print(ods_secrets)
-    secrets = ods_secrets.to_env_from_secret()
-    database_name = ods_secrets.secret()
+    secrets = ods_secrets.secret('DATABASE')
     print(secrets)
-    print(database_name)
-    print(os.getenv('DATABASE'))
+    # print(os.getenv('DATABASE'))
 
 default_args = {
     'owner': 'airflow',
