@@ -44,7 +44,9 @@ extraDeploy: []
 ## @param commonLabels Add labels to all the deployed resources
 ##
 commonLabels: 
-  DataClass: Low
+  DataClass: Low # Abi: Not the same as the DataClass for the jobs
+  # Internet-Ingress: ALLOW
+
 ## @param commonAnnotations Add annotations to all the deployed resources
 ##
 commonAnnotations: {}
@@ -116,6 +118,7 @@ dags:
   ## @param dags.existingConfigmap Name of an existing ConfigMap with all the DAGs files you want to load in Airflow
   ##
   # existingConfigmap: ""
+  # Abi: could leave this out entirely
   existingConfigmap: airflow-dags # Abi: way to add DAG files, see README 
   ## OS Shell + Utility image
   ## ref: https://hub.docker.com/r/bitnami/os-shell/tags/
@@ -142,7 +145,14 @@ dags:
     pullSecrets: []
 ## @param extraEnvVars Add extra environment variables for all the Airflow pods
 ##
-extraEnvVars: []
+extraEnvVars: 
+  - name: http_proxy
+    value: 'http://swpxkam.gov.bc.ca:8080'
+  - name: https_proxy
+    value: 'http://swpxkam.gov.bc.ca:8080'
+  - name: 'no_proxy'
+    value: 'NO_PROXY=.cluster.local,.svc,10.91.0.0/16,172.30.0.0/16,127.0.0.1,localhost,.gov.bc.ca'
+
 ## @param extraEnvVarsCM ConfigMap with extra environment variables for all the Airflow pods
 ##
 extraEnvVarsCM: ""
@@ -176,20 +186,20 @@ sidecars: []
 initContainers: []
 ## @param extraVolumeMounts Optionally specify extra list of additional volumeMounts for all the Airflow pods
 ##
-extraVolumeMounts: []
+# extraVolumeMounts: [] #
 ## @param extraVolumes Optionally specify extra list of additional volumes for the all the Airflow pods
 ##
-extraVolumes: []
+# extraVolumes: []
 
 # Abi: this is what we would use if the pip install worked
 # To create config map, oc create configmap requirements --from-file=requirements.txt 
-# extraVolumes:
-  # - name: requirements
-    # configMap:
-      # name: requirements
-# extraVolumeMounts:
-  # - name: requirements
-    # mountPath: /bitnami/python/
+extraVolumes:
+  - name: requirements
+    configMap:
+      name: airflow-requirements
+extraVolumeMounts:
+  - name: requirements
+    mountPath: /bitnami/python/
 
 
 ## Abi: Does not work due to network policies
@@ -363,10 +373,10 @@ web:
   ##
   ## Abi: Workaround for requirements.txt not working to add new Python libraries
   ## Abi: Moved these to deployment.yaml for web and scheduler and statefulset.yaml for worker and configmap.yaml for k8 pods
-  lifecycleHooks: 
-    postStart:
-      exec:
-        command: ["/bin/bash", "-c", "source /opt/bitnami/airflow/venv/bin/activate && pip install --trusted-host artifacts.developer.gov.bc.ca --index-url=https://default-a1b9b0-sroovq:X7xNMddMIquXKPoYAqes25RX@artifacts.developer.gov.bc.ca/artifactory/api/pypi/pypi-remote/simple apache-airflow-providers-oracle apache-airflow-providers-oracle[common.sql]"]
+  # lifecycleHooks: 
+    # postStart:
+      # exec:
+        # command: ["/bin/bash", "-c", "source /opt/bitnami/airflow/venv/bin/activate && pip install --trusted-host artifacts.developer.gov.bc.ca --index-url=https://default-a1b9b0-sroovq:X7xNMddMIquXKPoYAqes25RX@artifacts.developer.gov.bc.ca/artifactory/api/pypi/pypi-remote/simple apache-airflow-providers-oracle"]
 
   ## @param web.hostAliases Deployment pod host aliases
   ## https://kubernetes.io/docs/concepts/services-networking/add-entries-to-pod-etc-hosts-with-host-aliases/
@@ -588,10 +598,10 @@ scheduler:
   ##
   ## Abi: Workaround for requirements.txt not working to add new Python libraries
   ## Abi: Moved these to deployment.yaml for web and scheduler and statefulset.yaml for worker and configmap.yaml for k8 pods
-  lifecycleHooks: 
-    postStart:
-      exec:
-        command: ["/bin/bash", "-c", "source /opt/bitnami/airflow/venv/bin/activate && pip install --trusted-host artifacts.developer.gov.bc.ca --index-url=https://default-a1b9b0-sroovq:X7xNMddMIquXKPoYAqes25RX@artifacts.developer.gov.bc.ca/artifactory/api/pypi/pypi-remote/simple apache-airflow-providers-oracle apache-airflow-providers-oracle[common.sql]"]
+  # lifecycleHooks: 
+    # postStart:
+      # exec:
+        # command: ["/bin/bash", "-c", "source /opt/bitnami/airflow/venv/bin/activate && pip install --trusted-host artifacts.developer.gov.bc.ca --index-url=https://default-a1b9b0-sroovq:X7xNMddMIquXKPoYAqes25RX@artifacts.developer.gov.bc.ca/artifactory/api/pypi/pypi-remote/simple apache-airflow-providers-oracle"]
 
   ## @param scheduler.hostAliases Deployment pod host aliases
   ## https://kubernetes.io/docs/concepts/services-networking/add-entries-to-pod-etc-hosts-with-host-aliases/
@@ -860,12 +870,12 @@ worker:
   ## @param worker.lifecycleHooks for the Airflow worker container(s) to automate configuration before or after startup
   ##
   ## Abi: Workaround for requirements.txt not working to add new Python libraries
-  ## Abi: Moved these to deployment.yaml for web and scheduler and statefulset.yaml for worker and configmap.yaml for k8 pods
-  ## Does not work. 
-  lifecycleHooks: 
-    postStart:
-      exec:
-        command: ["/bin/bash", "-c", "source /opt/bitnami/airflow/venv/bin/activate && pip install --trusted-host artifacts.developer.gov.bc.ca --index-url=https://default-a1b9b0-sroovq:X7xNMddMIquXKPoYAqes25RX@artifacts.developer.gov.bc.ca/artifactory/api/pypi/pypi-remote/simple apache-airflow-providers-oracle apache-airflow-providers-oracle[common.sql]"]
+  ## Abi: Moved to templates/config/configmap.yaml
+  # lifecycleHooks: 
+    # postStart:
+      # exec:
+        # command: ["/bin/bash", "-c", "source /opt/bitnami/airflow/venv/bin/activate && pip install --trusted-host artifacts.developer.gov.bc.ca --index-url=https://default-a1b9b0-sroovq:X7xNMddMIquXKPoYAqes25RX@artifacts.developer.gov.bc.ca/artifactory/api/pypi/pypi-remote/simple apache-airflow-providers-oracle"]
+  
   ## @param worker.hostAliases Deployment pod host aliases
   ## https://kubernetes.io/docs/concepts/services-networking/add-entries-to-pod-etc-hosts-with-host-aliases/
   ##
@@ -1034,7 +1044,7 @@ git:
   ## @param git.dags.repositories [array] Array of repositories from which to download DAG files
   ##
   dags:
-    enabled: false
+    enabled: true
     ## Name for repositories can be anything unique and must follow same naming conventions as kubernetes.
     ## Kubernetes resources can have names up to 253 characters long. The characters allowed in names are:
     ## digits (0-9), lower case letters (a-z), -, and .
@@ -1044,13 +1054,17 @@ git:
     ##     name: my-dags
     ##     path: /
     ##
-    # Abi: does not work in Emerald
-
-    # repositories:
-      # - repository:  https://github.com/bcgov/nr-airflow/
-        # branch: main
-        # name: airflow-dags
-        # path: /
+    # Abi: this will grab the whole repo but only look under /dags/
+    # Could add this to the _git_helper.tpl file:
+    #  git clone -n --depth=1 --filter=tree:0 https://github.com/bcgov/nr-airflow 
+    #  cd nr-airflow
+    #  git sparse-checkout set --no-cone dags
+    #  git checkout 
+    repositories:
+      - repository: https://github.com/bcgov/nr-airflow
+        branch: main
+        name: nr-airflow-dags
+        path: /dags
 
       # - repository: ""
         ## Branch from repository to checkout
@@ -1092,7 +1106,13 @@ git:
     command: []
     args: []
     extraVolumeMounts: []
-    extraEnvVars: []
+    # extraEnvVars: []
+    # Abi: values found in Emerald documentation here: https://digital.gov.bc.ca/cloud/services/private/internal-resources/emerald/
+    extraEnvVars:
+      - name: http_proxy
+        value: 'http://swpxkam.gov.bc.ca:8080'
+      - name: https_proxy
+        value: 'http://swpxkam.gov.bc.ca:8080'
     extraEnvVarsCM: ""
     extraEnvVarsSecret: ""
     ## Clone init container resource requests and limits
@@ -1114,7 +1134,15 @@ git:
     command: []
     args: []
     extraVolumeMounts: []
-    extraEnvVars: []
+    # extraEnvVars: []
+    # Abi: values found in Emerald documentation here: https://digital.gov.bc.ca/cloud/services/private/internal-resources/emerald/
+    extraEnvVars:
+      - name: http_proxy
+        value: 'http://swpxkam.gov.bc.ca:8080'
+      - name: https_proxy
+        value: 'http://swpxkam.gov.bc.ca:8080'
+      - name: 'no_proxy'
+        value: 'NO_PROXY=.cluster.local,.svc,10.91.0.0/16,172.30.0.0/16,127.0.0.1,localhost,.gov.bc.ca'
     extraEnvVarsCM: ""
     extraEnvVarsSecret: ""
     ## Sync sidecar container resource requests and limits
