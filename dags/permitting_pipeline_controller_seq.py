@@ -5,14 +5,14 @@ from datetime import datetime, timedelta
 # Define default_args dictionary
 default_args = {
     'owner': 'airflow',
-    'start_date': datetime(2023, 11, 27),
+    'start_date': datetime(2023, 11, 28),
     'retries': 1,
     'retry_delay': timedelta(minutes=5),
 }
 
 # Define the controller DAG
 controller_dag = DAG(
-    'permitting_pipeline_controller',
+    'permitting_pipeline_controller_seq',
     default_args=default_args,
     description='Controller DAG to run other DAGs in order',
     schedule_interval=None,  # Set your desired schedule_interval
