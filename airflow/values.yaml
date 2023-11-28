@@ -150,7 +150,7 @@ extraEnvVars:
     value: 'http://swpxkam.gov.bc.ca:8080'
   - name: https_proxy
     value: 'http://swpxkam.gov.bc.ca:8080'
-  - name: 'no_proxy'
+  - name: no_proxy
     value: 'NO_PROXY=.cluster.local,.svc,10.91.0.0/16,172.30.0.0/16,127.0.0.1,localhost,.gov.bc.ca'
 
 ## @param extraEnvVarsCM ConfigMap with extra environment variables for all the Airflow pods
@@ -1113,6 +1113,8 @@ git:
         value: 'http://swpxkam.gov.bc.ca:8080'
       - name: https_proxy
         value: 'http://swpxkam.gov.bc.ca:8080'
+      - name: no_proxy
+        value: 'NO_PROXY=.cluster.local,.svc,10.91.0.0/16,172.30.0.0/16,127.0.0.1,localhost,.gov.bc.ca'
     extraEnvVarsCM: ""
     extraEnvVarsSecret: ""
     ## Clone init container resource requests and limits
@@ -1141,7 +1143,7 @@ git:
         value: 'http://swpxkam.gov.bc.ca:8080'
       - name: https_proxy
         value: 'http://swpxkam.gov.bc.ca:8080'
-      - name: 'no_proxy'
+      - name: no_proxy
         value: 'NO_PROXY=.cluster.local,.svc,10.91.0.0/16,172.30.0.0/16,127.0.0.1,localhost,.gov.bc.ca'
     extraEnvVarsCM: ""
     extraEnvVarsSecret: ""
