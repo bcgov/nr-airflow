@@ -1,11 +1,14 @@
 from datetime import datetime, timedelta
 from airflow import DAG
 from airflow.operators.python_operator import PythonOperator
+from airflow.providers.cncf.kubernetes.secret import Secret
+
+ods_secrets = Secret("env", None, "ods-database")
 
 def print_secrets():
-    from airflow.providers.cncf.kubernetes.secret import Secret
-    ods_secrets = Secret("env", None, "ods-database")
     print(ods_secrets)
+    database = os.environ['DATABASE']
+    print(database)
 
 default_args = {
     'owner': 'airflow',
