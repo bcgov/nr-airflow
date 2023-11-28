@@ -12,7 +12,7 @@ default_args = {
 
 # Define the controller DAG
 controller_dag = DAG(
-    'permitting_pipeline_controller',
+    'permitting_pipeline_controller_seq',
     default_args=default_args,
     description='Controller DAG to run other DAGs in order',
     schedule_interval=None,  # Set your desired schedule_interval
