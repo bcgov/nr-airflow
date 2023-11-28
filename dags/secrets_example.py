@@ -4,13 +4,13 @@ from airflow.operators.python_operator import PythonOperator
 from airflow.providers.cncf.kubernetes.secret import Secret
 import os
 
-ods_secrets = Secret("env", None, "ods-database")
+ods_secrets = Secret(deploy_type= "env", deploy_target="env", secret = "ods-database")
 
 def print_secrets():
-    print(ods_secrets)
+    print("secret object:", ods_secrets)
     secrets = ods_secrets.secret('DATABASE')
-    print(secrets)
-    # print(os.getenv('DATABASE'))
+    print("database name:", secrets)
+    print("env var database name:", os.getenv('DATABASE'))
 
 default_args = {
     'owner': 'airflow',
