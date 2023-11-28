@@ -15,7 +15,7 @@ with DAG(
 ) as dag:
     run_ats_replication = KubernetesPodOperator(
         task_id="run_container",
-        image="image-registry.openshift-image-registry.svc:5000/a1b9b0-dev/data-replication-parametrized-audit@sha256:9191d54bcca1177820efb914db2e7fd33ca36785ca84e9b340f58d6ce8c01b5f",
+        image="image-registry.openshift-image-registry.svc:5000/a1b9b0-dev/github-ping@sha256:305ee6ebbd43b6f576bbcc7fd3855d712b46e76668d1e422f350c4e7a7c9c620",
         in_cluster=True,
         namespace="a1b9b0-dev",
         service_account_name="airflow-admin",
