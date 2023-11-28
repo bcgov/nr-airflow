@@ -15,7 +15,7 @@ dag = DAG(
     'permitting_pipeline_etl_batch_id_update',
     default_args=default_args,
     description='DAG to update etl_batch_id in PostgreSQL',
-    schedule_interval='@daily',  # Set your desired schedule_interval
+    schedule_interval=None,  # Set your desired schedule_interval
     catchup=False,  # Set to False to skip historical runs
 )
 
