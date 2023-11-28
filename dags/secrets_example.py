@@ -2,6 +2,7 @@ from datetime import datetime, timedelta
 from airflow import DAG
 from airflow.operators.python_operator import PythonOperator
 from airflow.providers.cncf.kubernetes.secret import Secret
+import os
 
 ods_secrets = Secret("env", None, "ods-database")
 
