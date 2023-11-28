@@ -14,7 +14,7 @@ with DAG(
     dag_id="kubernetes_example",
 ) as dag:
     run_ats_replication = KubernetesPodOperator(
-        task_id="run_container",,
+        task_id="run_container",
         image="image-registry.openshift-image-registry.svc:5000/a1b9b0-dev/data-replication-parametrized-audit@sha256:9191d54bcca1177820efb914db2e7fd33ca36785ca84e9b340f58d6ce8c01b5f",
         in_cluster=True,
         namespace="a1b9b0-dev",
