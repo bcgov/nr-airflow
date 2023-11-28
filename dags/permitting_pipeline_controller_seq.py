@@ -40,7 +40,9 @@ for sub_dag_id in sub_dags_in_order:
     trigger_operators[sub_dag_id] = trigger_operator
 
 # Set up task dependencies
-trigger_operators['permitting_pipeline_etl_batch_id_creation'] >> trigger_operators['permitting_pipeline_fta']
-trigger_operators['permitting_pipeline_fta'] >> trigger_operators['permitting_pipeline_rrs']
-trigger_operators['permitting_pipeline_rrs'] >> trigger_operators['permitting_pipeline_ats']
-trigger_operators['permitting_pipeline_ats'] >> trigger_operators['permitting_pipeline_etl_batch_id_update']
+trigger_operators['permitting_pipeline_etl_batch_id_creation'] >> trigger_operators['permitting_pipeline_fta'] >> trigger_operators['permitting_pipeline_rrs'] >> trigger_operators['permitting_pipeline_ats'] >> trigger_operators['permitting_pipeline_etl_batch_id_update'] 
+
+##trigger_operators['permitting_pipeline_etl_batch_id_creation'] >> trigger_operators['permitting_pipeline_fta']
+##trigger_operators['permitting_pipeline_fta'] >> trigger_operators['permitting_pipeline_rrs']
+##trigger_operators['permitting_pipeline_rrs'] >> trigger_operators['permitting_pipeline_ats']
+##trigger_operators['permitting_pipeline_ats'] >> trigger_operators['permitting_pipeline_etl_batch_id_update']
