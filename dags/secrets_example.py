@@ -8,8 +8,8 @@ ods_secrets = Secret(deploy_type= "env", deploy_target="env", secret = "ods-data
 
 def print_secrets():
     print("secret object:", ods_secrets)
-    secrets = ods_secrets.secret('DATABASE')
-    print("database name:", secrets)
+    # secrets = ods_secrets.secret('DATABASE')
+    # print("database name:", secrets)
     print("env var database name:", os.getenv('DATABASE'))
 
 default_args = {
