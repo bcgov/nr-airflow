@@ -3,6 +3,8 @@ from pendulum import datetime
 from kubernetes import client
 from airflow.providers.cncf.kubernetes.operators.pod import KubernetesPodOperator
 
+# Work in progress
+
 with DAG(
     start_date=datetime(2023, 11, 23),
     catchup=False,
