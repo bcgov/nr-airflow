@@ -6,7 +6,8 @@ import os
 
 ods_secrets = Secret(deploy_target="env", deploy_type = "env", secret = "ods-database", key = "ODS_DATABASE")
 dict_secrets = ods_secrets.__dict__ 
-# ods_secrets.to_env_secret()
+ods_secrets.to_env_secret()
+
 def print_secrets():
     print("secret object:", ods_secrets)
     print("env var database name:", os.getenv('ODS_DATABASE'))
