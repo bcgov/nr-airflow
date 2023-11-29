@@ -11,7 +11,7 @@ ods_secrets.to_env_secret()
 def print_secrets():
     print("secret object:", ods_secrets)
     print("env var database name:", os.getenv('ODS_DATABASE'))
-    print("index secret:", ods_secrets.secret('ODS_DATABASE'))
+    # print("index secret:", ods_secrets.secret('ODS_DATABASE'))
 
 dag = DAG(
     dag_id='secrets_example',
