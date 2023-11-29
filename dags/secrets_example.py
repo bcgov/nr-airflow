@@ -5,7 +5,7 @@ from airflow.providers.cncf.kubernetes.secret import Secret
 import os
 
 ods_secrets = Secret("env", None, "ods-database")
-ods_secrets.to_env_secret('ODS_DATABASE')
+ods_secrets.to_env_secret()
 # dict_secrets = ods_secrets.__dict__ 
 
 def print_secrets():
@@ -23,5 +23,8 @@ dag = DAG(
 print_task = PythonOperator(
     task_id='secrets_example',
     python_callable=print_secrets,
-    dag=dag,
+    provide_context=True,  
+    op_args=[ods_secrets],  # Pass the Secret object as an argument
+    # env_vars={'ODS_DATABASE': '{{ var.value.ODS_DATABASE }}'},
+    dag=dag
 )
