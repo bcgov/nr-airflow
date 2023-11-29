@@ -1081,18 +1081,12 @@ git:
   ## @param git.plugins.repositories [array] Array of repositories from which to download DAG files
   ##
   plugins:
-    enabled: false
+    enabled: true
     repositories:
-      - repository: ""
-        ## Branch from repository to checkout
-        ##
-        branch: ""
-        ## An unique identifier for repository, must be unique for each repository
-        ##
-        name: ""
-        ## Path to a folder in the repository containing the plugins
-        ##
-        path: ""
+      - repository: https://github.com/bcgov/nr-airflow
+        branch: main
+        name: nr-airflow-dags
+        path: /plugins
   ## Properties for the Clone init container
   ## @param git.clone.command Override cmd
   ## @param git.clone.args Override args
