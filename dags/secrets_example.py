@@ -5,7 +5,7 @@ from airflow.providers.cncf.kubernetes.secret import Secret
 import os
 
 ods_secrets = Secret("env", None, "ods-database")
-ods_secrets.to_env_secret()
+ods_secrets.to_env_secret('ODS_DATABASE')
 # dict_secrets = ods_secrets.__dict__ 
 
 def print_secrets():
@@ -13,18 +13,12 @@ def print_secrets():
     print("env var database name:", os.getenv('ODS_DATABASE'))
     print("index secret:", ods_secrets.secret('ODS_DATABASE'))
 
-default_args = {
-    'owner': 'airflow',
-    'start_date': datetime(2023, 1, 1),
-    'retries': 1,
-    'retry_delay': timedelta(minutes=5),
-}
-
 dag = DAG(
-    'secrets_example',
-    default_args=default_args,
-    description='A simple DAG to print code',
-    schedule=None # adjust as needed
+    dag_id='secrets_example',
+    schedule=None 
+    start_date=datetime(2023, 11, 23),
+    catchup=False,
+    schedule=None
 )
 
 print_task = PythonOperator(
