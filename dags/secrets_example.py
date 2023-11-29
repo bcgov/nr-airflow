@@ -7,7 +7,6 @@ import os
 ods_secrets = Secret("env", None, "ods-database")
 ods_secrets.to_env_secret()
 dict_secrets = ods_secrets.__dict__ 
-secret = ods_secrets.secret
 
 def print_secrets():
     print("secret object:", ods_secrets)
