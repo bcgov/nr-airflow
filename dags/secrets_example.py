@@ -15,7 +15,7 @@ def print_secrets():
 
 dag = DAG(
     dag_id='secrets_example',
-    schedule=None 
+    schedule=None,
     start_date=datetime(2023, 11, 23),
     catchup=False,
     schedule=None
