@@ -18,7 +18,6 @@ dag = DAG(
     schedule=None,
     start_date=datetime(2023, 11, 23),
     catchup=False,
-    schedule=None
 )
 
 print_task = PythonOperator(
