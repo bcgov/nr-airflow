@@ -4,7 +4,7 @@ from airflow.operators.python_operator import PythonOperator
 from airflow.providers.cncf.kubernetes.secret import Secret
 import os
 
-ods_secrets = Secret(deploy_type= "env", None, secret = "ods-database")
+ods_secrets = Secret(deploy_type= "env", deploy_target = None, secret = "ods-database")
 ods_secrets.to_env_secret()
 dict_secrets = ods_secrets.__dict__ 
 secret = ods_secrets.secret
