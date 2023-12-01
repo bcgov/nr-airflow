@@ -1085,7 +1085,7 @@ git:
     repositories:
       - repository: https://github.com/bcgov/nr-airflow
         branch: main
-        name: nr-airflow-dags
+        name: nr-airflow-plugins
         path: /plugins
   ## Properties for the Clone init container
   ## @param git.clone.command Override cmd
