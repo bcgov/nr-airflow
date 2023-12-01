@@ -56,7 +56,7 @@ class data_replication(BaseOperator):
        
     def get_connection_pools(self):       
         orcConn = Connection.get_connection_from_secrets(f'oracle_{self.app_name}_{self.env}_conn')
-        pgresConn = Connection.get_connection_from_secrets(f'postgres_ods_{self.env}_conn')
+        pgresConn = Connection.get_connection_from_secrets(f'postgres_ods_conn')
 
         # In[3]: Retrieve Oracle database configuration
         oracle_username = orcConn.login
