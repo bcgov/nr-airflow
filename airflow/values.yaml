@@ -45,6 +45,7 @@ extraDeploy: []
 ##
 commonLabels: 
   DataClass: Low # Abi: Not the same as the DataClass for the jobs
+  Release: test-release-af
   # Internet-Ingress: ALLOW
 
 ## @param commonAnnotations Add annotations to all the deployed resources
@@ -1001,7 +1002,7 @@ worker:
   ## @param worker.autoscaling.targetMemory Define the memory target to trigger the scaling actions (utilization percentage)
   ##
   autoscaling:
-    enabled: false
+    enabled: true
     minReplicas: 1
     maxReplicas: 3
     targetCPU: 80
