@@ -1,0 +1,14 @@
+kind: NetworkPolicy
+apiVersion: networking.k8s.io/v1
+metadata:
+  name: allow-ingress-airflow
+  namespace: a1b9b0-test
+spec:
+  podSelector:
+    matchLabels:
+      Release: test-release-af
+  ingress:
+    - {}
+  policyTypes:
+    - Ingress
+status: {}
