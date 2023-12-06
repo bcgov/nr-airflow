@@ -15,14 +15,13 @@ with DAG(
 ) as dag:
     run_ats_replication = KubernetesPodOperator(
         task_id="run_ats_replication",
-        ###image="image-registry.openshift-image-registry.svc:5000/a1b9b0-dev/data-replication-parametrized@sha256:8562520bc8ea4ca68f3abc0b45736c3fa0d59b3613aa31da95f60c29214d5abe",
         image="image-registry.openshift-image-registry.svc:5000/a1b9b0-dev/data-replication-parametrized-audit@sha256:9191d54bcca1177820efb914db2e7fd33ca36785ca84e9b340f58d6ce8c01b5f",
         in_cluster=True,
         namespace="a1b9b0-dev",
         service_account_name="airflow-admin",
         name="run_ats_replication",
         random_name_suffix=True,
-        labels={"DataClass": "Medium", "env": "dev"},
+        labels={"DataClass": "Medium", "ConnectionType": "database"},  # network policies
         reattach_on_restart=True,
         is_delete_operator_pod=False,
         get_logs=True,
@@ -30,5 +29,5 @@ with DAG(
         secrets=[ats_secrets, ods_secrets],
         container_resources= client.V1ResourceRequirements(
         requests={"cpu": "50m", "memory": "256Mi"},
-        limits={"cpu": "1", "memory": "1Gi"})
+        limits={"cpu": "500m", "memory": "1Gi"})
     )
