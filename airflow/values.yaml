@@ -486,7 +486,7 @@ web:
   ## @param web.pdb.maxUnavailable Maximum number/percentage of unavailable Airflow web replicas
   ##
   pdb:
-    create: false
+    create: true
     minAvailable: 1
     maxUnavailable: ""
 
@@ -711,7 +711,7 @@ scheduler:
   ## @param scheduler.pdb.maxUnavailable Maximum number/percentage of unavailable Airflow scheduler replicas
   ##
   pdb:
-    create: false
+    create: true
     minAvailable: 1
     maxUnavailable: ""
 
