@@ -15,7 +15,7 @@ controller_dag = DAG(
     'permitting_pipeline_controller',
     default_args=default_args,
     description='Controller DAG to run other DAGs in order',
-    schedule_interval=None,  # Set your desired schedule_interval
+    schedule_interval='0 6 * * *',  # 10pm PST - 6am UTC
     catchup=False,  # Set to False to skip historical runs
 )
 
