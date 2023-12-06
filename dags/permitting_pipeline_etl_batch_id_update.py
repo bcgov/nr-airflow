@@ -21,11 +21,11 @@ dag = DAG(
 
 # Define the SQL query
 update_sql_query = """
-    UPDATE app_rrs1.audit_batch_id
+    UPDATE ods_data_management.audit_batch_id
     SET etl_batch_status='success', etl_batch_end_time=current_timestamp 
     WHERE etl_batch_id=(
         SELECT MAX(etl_batch_id)
-        FROM app_rrs1.audit_batch_id
+        FROM ods_data_management.audit_batch_id
         WHERE etl_batch_status='started' AND etl_batch_name='permitting_data_pipeline'
     );
 """
