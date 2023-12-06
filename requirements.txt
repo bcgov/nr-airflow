@@ -1,3 +1,3 @@
-apache-airflow-providers-oracle
-apache-airflow-providers-airbyte
+apache-airflow-providers-oracle==3.8.0
+apache-airflow-providers-airbyte==3.4.0
 dbt-postgres==1.6.4
