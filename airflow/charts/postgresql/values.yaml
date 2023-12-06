@@ -65,7 +65,7 @@ extraDeploy: []
 ##
 commonLabels:
   DataClass: Medium
-  Release: test-release-af
+  Release: test-release-af # Abi: matches the label for the main Airflow chart
 ## @param commonAnnotations Add annotations to all the deployed resources
 ##
 commonAnnotations: {}
@@ -445,13 +445,13 @@ primary:
   ## @param primary.resources.requests.memory The requested memory for the PostgreSQL Primary containers
   ## @param primary.resources.requests.cpu The requested cpu for the PostgreSQL Primary containers
   ##
-  resources:
+  resources: #Abi: adjusted
     limits:
-      cpu: '2'
-      memory: '2G'
-    requests:
+      cpu: 200m
       memory: 256Mi
-      cpu: 250m
+    requests:
+      memory: 100Mi
+      cpu: 10m
   ## Pod Security Context
   ## ref: https://kubernetes.io/docs/tasks/configure-pod-container/security-context/
   ## @param primary.podSecurityContext.enabled Enable security context
