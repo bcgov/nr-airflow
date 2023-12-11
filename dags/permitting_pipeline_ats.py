@@ -28,6 +28,6 @@ with DAG(
         log_events_on_failure=True,
         secrets=[ats_secrets, ods_secrets],
         container_resources= client.V1ResourceRequirements(
-        requests={"cpu": "50m", "memory": "256Mi"},
-        limits={"cpu": "500m", "memory": "1Gi"})
+        requests={"cpu": "10m", "memory": "256Mi"},
+        limits={"cpu": "50m", "memory": "500Mi"})
     )
