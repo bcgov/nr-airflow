@@ -335,11 +335,7 @@ web:
   ## @param web.resources.limits The resources limits for the Airflow web containers
   ## @param web.resources.requests The requested resources for the Airflow web containers
   ##
-  resources: #Abi: adjusted
-    requests: 
-      memory: 1Gi
-      cpu: 50m
-    limits: {}
+  resources: {} #Abi: leaving to defaults as it crashes otherwise
   ## Configure Airflow web pods Security Context
   ## ref: https://kubernetes.io/docs/tasks/configure-pod-container/security-context/#set-the-security-context-for-a-pod
   ## @param web.podSecurityContext.enabled Enabled Airflow web pods' Security Context

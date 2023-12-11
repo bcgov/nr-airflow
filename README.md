@@ -11,8 +11,6 @@ helm install dev-release-af .
 ```
 
 ## Visit the application here:
-
-DEV: http://nr-airflow-dev.apps.emerald.devops.gov.bc.ca/
 TEST: http://nr-airflow-test.apps.emerald.devops.gov.bc.ca/
 
 ## Upgrade OpenShift Deployment
@@ -20,18 +18,11 @@ TEST: http://nr-airflow-test.apps.emerald.devops.gov.bc.ca/
 helm upgrade -f values.yaml dev-release-af . --version 16.1.2  
 ```
 
-## Create OpenShift ConfigMaps for DAGs and requirements.txt: 
+## Create OpenShift ConfigMap for requirements.txt: 
 ```sh
 oc create configmap airflow-requirements --from-file=requirements.txt
 ```
-```sh
-oc create configmap airflow-dags --from-file=dags
-```
-Delete if already exists: 
-```sh
-oc delete configmap airflow-dags
-```
-
+Delete if already exists
 
 
 More info: https://apps.nrs.gov.bc.ca/int/confluence/x/zQ09Cg
