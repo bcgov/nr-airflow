@@ -5,7 +5,7 @@ from airflow.providers.cncf.kubernetes.operators.pod import KubernetesPodOperato
 from airflow.providers.cncf.kubernetes.secret import Secret
 
 ods_secrets = Secret("env", None, "ods-database")
-rrs_secrets = Secret("env", None, "rrs-database")
+rrs_secrets = Secret("env", None, "rrs-database1") # Temporary
 
 with DAG(
     start_date=datetime(2023, 11, 23),
