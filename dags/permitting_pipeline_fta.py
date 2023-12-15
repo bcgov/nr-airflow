@@ -15,7 +15,7 @@ with DAG(
 ) as dag:
     run_fta_replication = KubernetesPodOperator(
         task_id="run_fta_replication",
-        image="image-registry.openshift-image-registry.svc:5000/a1b9b0-dev/data-replication-parametrized-audit@sha256:9191d54bcca1177820efb914db2e7fd33ca36785ca84e9b340f58d6ce8c01b5f",
+        image="image-registry.openshift-image-registry.svc:5000/a1b9b0-dev/data-replication-parametrized-audit1@sha256:8c51ee820434e4f5d06a91deda645bcd0a943b8c87bc3c8a8e67dead1c18a786",
         in_cluster=True,
         namespace="a1b9b0-dev",
         service_account_name="airflow-admin",
