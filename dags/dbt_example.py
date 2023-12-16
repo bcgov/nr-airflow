@@ -12,7 +12,7 @@ with DAG(
     run_ats_replication = KubernetesPodOperator(
         task_id="init_dbt_container",
         # image="ghcr.io/dbt-labs/dbt-postgres:1.7.2",
-        image="image-registry.openshift-image-registry.svc:5000/a1b9b0-dev/dbt-container-test@sha256:604b856c8b0675f7a59eceecac9455c0caf24b5ff33561390320265173f5cee7 "
+        image="image-registry.openshift-image-registry.svc:5000/a1b9b0-dev/dbt-container-test@sha256:604b856c8b0675f7a59eceecac9455c0caf24b5ff33561390320265173f5cee7",
         in_cluster=True,
         namespace="a1b9b0-dev",
         service_account_name="airflow-admin",
@@ -26,7 +26,7 @@ with DAG(
         container_resources= client.V1ResourceRequirements(
         requests={"cpu": "50m", "memory": "256Mi"},
         limits={"cpu": "1", "memory": "1Gi"}), 
-        # cmds=["dbt"], 
-        arguments=["dbt test"]
+        cmds=["dbt"], 
+        arguments=["test"]
     )
 
