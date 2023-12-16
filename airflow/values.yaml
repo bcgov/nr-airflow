@@ -712,7 +712,7 @@ scheduler:
   ## @param scheduler.pdb.maxUnavailable Maximum number/percentage of unavailable Airflow scheduler replicas
   ##
   pdb:
-    create: true
+    create: false
     minAvailable: 1
     maxUnavailable: ""
 
