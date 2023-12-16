@@ -11,7 +11,7 @@ helm install dev-release-af .
 ```
 
 ## Visit the application here:
-TEST: http://nr-airflow-test.apps.emerald.devops.gov.bc.ca/
+http://nr-airflow-dev.apps.emerald.devops.gov.bc.ca/
 
 ## Upgrade OpenShift Deployment
 ```sh 
