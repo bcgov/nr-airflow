@@ -12,7 +12,7 @@ with DAG(
 ) as dag:
     run_rrs_snapshot = KubernetesPodOperator(
         task_id="run_rrs_snapshot",
-        image="image-registry.openshift-image-registry.svc:5000/a1b9b0-dev/dbt-container-snapshot@sha256:19062274fffe9840ca695f455964709ea1a4cca23e688d7ea14ffe3a0a36aa87",
+        image="image-registry.openshift-image-registry.svc:5000/a1b9b0-dev/dbt-container-snapshot@sha256:c1a7a01e2908cc1b12ec47923cbe12ed4b46a99b2ac15ff43955e53e152d8498",
         in_cluster=True,
         namespace="a1b9b0-dev",
         service_account_name="airflow-admin",
