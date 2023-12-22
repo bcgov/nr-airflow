@@ -23,7 +23,7 @@ with DAG(
         random_name_suffix=True,
         labels={"DataClass": "Medium", "ConnectionType": "database"},  # network policies
         reattach_on_restart=True,
-        is_delete_operator_pod=False,
+        is_delete_operator_pod=True,
         get_logs=True,
         log_events_on_failure=True,
         secrets=[fta_secrets, ods_secrets],
@@ -31,3 +31,5 @@ with DAG(
         requests={"cpu": "10m", "memory": "256Mi"},
         limits={"cpu": "50m", "memory": "500Mi"})
     )
+
+    KubernetesPodOperator()
