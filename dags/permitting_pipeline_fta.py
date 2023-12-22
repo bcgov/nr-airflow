@@ -31,5 +31,3 @@ with DAG(
         requests={"cpu": "10m", "memory": "256Mi"},
         limits={"cpu": "50m", "memory": "500Mi"})
     )
-
-    KubernetesPodOperator()
