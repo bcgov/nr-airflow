@@ -7,13 +7,13 @@
 global:
   ## @param global.imageRegistry Global Docker image registry
   ##
-  imageRegistry: ""
+  imageRegistry: artifacts.developer.gov.bc.ca/docker-remote # Abi: Redirects to Artifactory Docker Hub proxy. Needed to not hit Docker Hub pull limit
   ## @param global.imagePullSecrets Global Docker registry secret names as an array
   ## e.g.
   ## imagePullSecrets:
   ##   - myRegistryKeySecretName
   ##
-  imagePullSecrets: []
+  imagePullSecrets: [] # Abi: would be artifactory-pull 
   ## @param global.storageClass Global StorageClass for Persistent Volume(s)
   ##
   storageClass: ""
@@ -64,8 +64,8 @@ extraDeploy: []
 ## @param commonLabels Add labels to all the deployed resources
 ##
 commonLabels:
-  DataClass: Medium
-  Release: test-release-af
+  DataClass: Medium # Abi: 'Medium' for now, need to look deeper into the metadata being stored
+  Release: test-release-af # Abi: Release label is attached to nwp
 ## @param commonAnnotations Add annotations to all the deployed resources
 ##
 commonAnnotations: {}
@@ -453,7 +453,7 @@ primary:
   ## @param primary.podSecurityContext.enabled Enable security context
   ## @param primary.podSecurityContext.fsGroup Group ID for the pod
   ##
-  podSecurityContext:
+  podSecurityContext: # Abi: modified for OpenShift restricted scc
     enabled: false
     fsGroup: 1001
   ## Container Security Context
@@ -467,7 +467,7 @@ primary:
   ## @param primary.containerSecurityContext.capabilities.drop List of capabilities to be dropped
   ## @param primary.containerSecurityContext.seccompProfile.type Set container's Security Context seccomp profile
   ##
-  containerSecurityContext:
+  containerSecurityContext: # Abi: modified for OpenShift restricted scc
     enabled: false
     runAsUser: 1001
     runAsNonRoot: true
@@ -683,7 +683,7 @@ primary:
       - ReadWriteOnce
     ## @param primary.persistence.size PVC Storage Request for PostgreSQL volume
     ##
-    size: 4Gi
+    size: 4Gi # Abi: lowered for dev and test environments
     ## @param primary.persistence.annotations Annotations for the PVC
     ##
     annotations: {}
@@ -817,7 +817,7 @@ readReplicas:
   ## @param readReplicas.podSecurityContext.enabled Enable security context
   ## @param readReplicas.podSecurityContext.fsGroup Group ID for the pod
   ##
-  podSecurityContext:
+  podSecurityContext: # Abi: modified for OpenShift restricted scc
     enabled: false
     fsGroup: 1001
   ## Container Security Context
@@ -831,7 +831,7 @@ readReplicas:
   ## @param readReplicas.containerSecurityContext.capabilities.drop List of capabilities to be dropped
   ## @param readReplicas.containerSecurityContext.seccompProfile.type Set container's Security Context seccomp profile
   ##
-  containerSecurityContext:
+  containerSecurityContext: # Abi: modified for OpenShift restricted scc
     enabled: false
     runAsUser: 1001
     runAsNonRoot: true
@@ -1105,7 +1105,7 @@ backup:
     restartPolicy: OnFailure
     ## @param backup.cronjob.podSecurityContext.enabled Enable PodSecurityContext for CronJob/Backup
     ## @param backup.cronjob.podSecurityContext.fsGroup Group ID for the CronJob
-    podSecurityContext:
+    podSecurityContext: # Abi: would need to modify for OpenShift restricted scc if enabled
       enabled: true
       fsGroup: 1001
     ## backup container's Security Context
@@ -1118,7 +1118,7 @@ backup:
     ## @param backup.cronjob.containerSecurityContext.allowPrivilegeEscalation Set container's Security Context allowPrivilegeEscalation
     ## @param backup.cronjob.containerSecurityContext.capabilities.drop List of capabilities to be dropped
     ## @param backup.cronjob.containerSecurityContext.seccompProfile.type Set container's Security Context seccomp profile
-    containerSecurityContext:
+    containerSecurityContext: # Abi: modified for OpenShift restricted scc
       enabled: false
       runAsUser: 1001
       runAsNonRoot: true
@@ -1327,7 +1327,7 @@ volumePermissions:
   ## @param volumePermissions.containerSecurityContext.runAsNonRoot runAsNonRoot for the init container
   ## @param volumePermissions.containerSecurityContext.seccompProfile.type seccompProfile.type for the init container
   ##
-  containerSecurityContext:
+  containerSecurityContext: # Abi: may need to be modified for OpenShift restricted scc
     runAsUser: 0
     runAsGroup: 0
     runAsNonRoot: false
@@ -1445,7 +1445,7 @@ metrics:
   ## @param metrics.containerSecurityContext.capabilities.drop List of capabilities to be dropped
   ## @param metrics.containerSecurityContext.seccompProfile.type Set container's Security Context seccomp profile
   ##
-  containerSecurityContext:
+  containerSecurityContext: # Abi: modified for OpenShift restricted scc
     enabled: false
     runAsUser: 1001
     runAsNonRoot: true

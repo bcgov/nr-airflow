@@ -10,11 +10,8 @@
 ## @param global.imagePullSecrets Global Docker registry secret names as an array
 ## @param global.storageClass Global StorageClass for Persistent Volume(s)
 
-
-# Abi: all podSecurityContext and containerSecurityContext have been disabled so this can run in OpenShift (even in redis and postgres charts)
-
 global:
-  imageRegistry: artifacts.developer.gov.bc.ca/docker-remote # Abi: needed to not hit Docker Hub pull limit
+  imageRegistry: artifacts.developer.gov.bc.ca/docker-remote # Abi: Redirects to Artifactory Docker Hub proxy. Needed to not hit Docker Hub pull limit
   ## E.g.
   ## imagePullSecrets:
   ##   - myRegistryKeySecretName
@@ -44,8 +41,8 @@ extraDeploy: []
 ## @param commonLabels Add labels to all the deployed resources
 ##
 commonLabels: 
-  DataClass: Low # Abi: Not the same as the DataClass for the jobs
-  Release: test-release-af
+  DataClass: Low # Abi: Not the same as the DataClass for the jobs. 'Low' for app pods, usually 'Medium' or 'High' for jobs.
+  Release: test-release-af # Abi: Release label is attached to nwp
   # Internet-Ingress: ALLOW
 
 ## @param commonAnnotations Add annotations to all the deployed resources
@@ -74,7 +71,7 @@ diagnosticMode:
 auth:
   ## @param auth.username Username to access web UI
   ##
-  username: datafoundationsteam
+  username: datafoundationsteam # Abi: need to add users
   ## @param auth.password Password to access web UI
   ##
   password: testing
@@ -96,8 +93,7 @@ auth:
 ## @param executor Airflow executor. Allowed values: `SequentialExecutor`, `LocalExecutor`, `CeleryExecutor`, `KubernetesExecutor`, `CeleryKubernetesExecutor` and `LocalKubernetesExecutor`
 ## ref: http://airflow.apache.org/docs/stable/executor/index.html
 ##
-executor: KubernetesExecutor # Abi: needed to fix worker/scheduler issue and run each job as a pod
-# CeleryExecutor
+executor: KubernetesExecutor # Abi: needed to run each job as a single worker pod
 ## @param loadExamples Switch to load some Airflow examples
 ##
 loadExamples: false
@@ -119,8 +115,8 @@ dags:
   ## @param dags.existingConfigmap Name of an existing ConfigMap with all the DAGs files you want to load in Airflow
   ##
   existingConfigmap: ""
-  # Abi: could leave this out entirely
-  # existingConfigmap: airflow-dags # Abi: way to add DAG files, see README 
+  # Abi: way to add DAG files at deployment
+  # existingConfigmap: airflow-dags 
   ## OS Shell + Utility image
   ## ref: https://hub.docker.com/r/bitnami/os-shell/tags/
   ## @param dags.image.registry [default: REGISTRY_NAME] Init container load-dags image registry
@@ -146,6 +142,7 @@ dags:
     pullSecrets: []
 ## @param extraEnvVars Add extra environment variables for all the Airflow pods
 ##
+# Abi: values found in Emerald documentation here: https://digital.gov.bc.ca/cloud/services/private/internal-resources/emerald/
 extraEnvVars: 
   - name: http_proxy
     value: 'http://swpxkam.gov.bc.ca:8080'
@@ -192,7 +189,7 @@ initContainers: []
 ##
 # extraVolumes: []
 
-# Abi: this is what we would use if the pip install worked
+# Abi: this runs pip install commands for each requirement when any Airflow pod starts
 # To create config map, oc create configmap requirements --from-file=requirements.txt 
 extraVolumes:
   - name: requirements
@@ -202,15 +199,6 @@ extraVolumeMounts:
   - name: requirements
     mountPath: /bitnami/python/
 
-
-## Abi: Does not work due to network policies
-# extraVolumes:
-  # - name: requirements
-    # configMap:
-      # name: requirements
-# extraVolumeMounts:
-  # - name: requirements
-    # mountPath: /bitnami/python/
 
 ## @section Airflow web parameters
 
@@ -336,7 +324,7 @@ web:
   ## @param web.resources.limits The resources limits for the Airflow web containers
   ## @param web.resources.requests The requested resources for the Airflow web containers
   ##
-  resources: #Abi: leaving to defaults as it crashes otherwise
+  resources: #Abi: keep requests low but be careful with limits as it crashes when memory limit is hit
     requests: 
       memory: 600Mi
       cpu: 10m
@@ -348,7 +336,7 @@ web:
   ## @param web.podSecurityContext.enabled Enabled Airflow web pods' Security Context
   ## @param web.podSecurityContext.fsGroup Set Airflow web pod's Security Context fsGroup
   ##
-  podSecurityContext:
+  podSecurityContext: # Abi: modified for OpenShift restricted scc
     enabled: false
     fsGroup: 1001
   ## Configure Airflow web containers (only main one) Security Context
@@ -361,7 +349,7 @@ web:
   ## @param web.containerSecurityContext.capabilities.drop List of capabilities to be dropped
   ## @param web.containerSecurityContext.seccompProfile.type Set container's Security Context seccomp profile
   ##
-  containerSecurityContext:
+  containerSecurityContext: # Abi: modified for OpenShift restricted scc
     enabled: false
     runAsUser: 1001
     runAsNonRoot: true
@@ -487,7 +475,7 @@ web:
   ## @param web.pdb.maxUnavailable Maximum number/percentage of unavailable Airflow web replicas
   ##
   pdb:
-    create: false # Disable until there is more than 1 scheduler pod
+    create: false # Abi: disable until there is more than 1 scheduler pod
     minAvailable: 1
     maxUnavailable: ""
 
@@ -561,7 +549,7 @@ scheduler:
   ## @param scheduler.resources.limits The resources limits for the Airflow scheduler containers
   ## @param scheduler.resources.requests The requested resources for the Airflow scheduler containers
   ##
-  resources: #Abi: adjusted
+  resources: #Abi: keep requests low but be careful with limits as it crashes when memory limit is hit
     requests: 
       memory: 600Mi
       cpu: 10m
@@ -573,7 +561,7 @@ scheduler:
   ## @param scheduler.podSecurityContext.enabled Enabled Airflow scheduler pods' Security Context
   ## @param scheduler.podSecurityContext.fsGroup Set Airflow scheduler pod's Security Context fsGroup
   ##
-  podSecurityContext:
+  podSecurityContext: # Abi: modified for OpenShift restricted scc
     enabled: false
     fsGroup: 1001
   ## Configure Airflow scheduler containers (only main one) Security Context
@@ -586,7 +574,7 @@ scheduler:
   ## @param scheduler.containerSecurityContext.capabilities.drop List of capabilities to be dropped
   ## @param scheduler.containerSecurityContext.seccompProfile.type Set container's Security Context seccomp profile
   ##
-  containerSecurityContext:
+  containerSecurityContext: # Abi: modified for OpenShift restricted scc
     enabled: false
     runAsUser: 1001
     runAsNonRoot: true
@@ -834,7 +822,7 @@ worker:
   ## @param worker.resources.limits The resources limits for the Airflow worker containers
   ## @param worker.resources.requests The requested resources for the Airflow worker containers
   ##
-  resources: #Abi: adjusted
+  resources: #Abi: keep requests low but be careful with limits as it crashes when memory limit is hit
     requests: 
       memory: 200Mi
       cpu: 10m
@@ -846,7 +834,7 @@ worker:
   ## @param worker.podSecurityContext.enabled Enabled Airflow worker pods' Security Context
   ## @param worker.podSecurityContext.fsGroup Set Airflow worker pod's Security Context fsGroup
   ##
-  podSecurityContext:
+  podSecurityContext: # Abi: modified for OpenShift restricted scc
     enabled: false
     fsGroup: 1001
   ## Configure Airflow worker containers (only main one) Security Context
@@ -859,7 +847,7 @@ worker:
   ## @param worker.containerSecurityContext.capabilities.drop List of capabilities to be dropped
   ## @param worker.containerSecurityContext.seccompProfile.type Set container's Security Context seccomp profile
   ##
-  containerSecurityContext:
+  containerSecurityContext: # Abi: modified for OpenShift restricted scc
     enabled: false
     runAsUser: 1001
     runAsNonRoot: true
@@ -1003,7 +991,7 @@ worker:
   ## @param worker.autoscaling.targetMemory Define the memory target to trigger the scaling actions (utilization percentage)
   ##
   autoscaling:
-    enabled: true
+    enabled: true # Abi: these are created manually for scheduler and webapp, but controlled here for the worker
     minReplicas: 1
     maxReplicas: 3
     targetCPU: 80
@@ -1056,8 +1044,8 @@ git:
     ##     name: my-dags
     ##     path: /
     ##
-    # Abi: this will grab the whole repo but only look under /dags/
-    # Could add this to the _git_helper.tpl file:
+    # Abi: everything under /dags/
+    # Abi: Could add this to the _git_helper.tpl file:
     #  git clone -n --depth=1 --filter=tree:0 https://github.com/bcgov/nr-airflow 
     #  cd nr-airflow
     #  git sparse-checkout set --no-cone dags
@@ -1081,7 +1069,7 @@ git:
   ## Get Plugins files from git repositories.
   ## @param git.plugins.enabled Enable in order to download Plugins files from git repositories.
   ## @param git.plugins.repositories [array] Array of repositories from which to download DAG files
-  ##
+  # Abi: everything under /plugins/
   plugins:
     enabled: true
     repositories:
@@ -1134,7 +1122,7 @@ git:
   ## @param git.sync.resources Sync sidecar container resource requests and limits
   ##
   sync:
-    interval: 90 # Abi: lowered
+    interval: 90 # Abi: can increase in prod 
     command: []
     args: []
     extraVolumeMounts: []
@@ -1461,7 +1449,7 @@ metrics:
   ## @param metrics.podSecurityContext.enabled Enable security context for the pods
   ## @param metrics.podSecurityContext.fsGroup Set Airflow exporter pod's Security Context fsGroup
   ##
-  podSecurityContext:
+  podSecurityContext: # Abi: modified for OpenShift restricted scc
     enabled: false
     fsGroup: 1001
   ## Airflow exporter containers' Security Context
@@ -1480,7 +1468,7 @@ metrics:
   ##       drop: ["NET_RAW"]
   ##     readOnlyRootFilesystem: true
   ##
-  containerSecurityContext:
+  containerSecurityContext: # Abi: modified for OpenShift restricted scc
     enabled: false
     runAsUser: 1001
     runAsNonRoot: true
