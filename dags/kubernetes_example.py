@@ -13,7 +13,9 @@ with DAG(
 ) as dag:
     run_ats_replication = KubernetesPodOperator(
         task_id="run_container",
-        image="image-registry.openshift-image-registry.svc:5000/a1b9b0-dev/python@sha256:b94af75d4ff65c50bf1b2119bca6d0ba707037bacd0cb75314801a6953c03241",
+        image="artifacts.developer.gov.bc.ca/docker-remote/python",
+        image_pull_policy="IfNotPresent",
+        image_pull_secrets="artifactory-pull",
         in_cluster=True,
         namespace="a1b9b0-dev",
         service_account_name="airflow-admin",
