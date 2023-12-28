@@ -6,7 +6,6 @@ from airflow.providers.cncf.kubernetes.operators.pod import KubernetesPodOperato
 # Work in progress
 
 with DAG(
-    start_date=datetime(2023, 11, 23),
     catchup=False,
     schedule=None,
     dag_id="kubernetes_example",
