@@ -18,7 +18,7 @@ with DAG(
         image="ghcr.io/bcgov/nr-permitting-pipelines:main",
         # image="image-registry.openshift-image-registry.svc:5000/a1b9b0-dev/data-replication-parametrized-audit1@sha256:8c51ee820434e4f5d06a91deda645bcd0a943b8c87bc3c8a8e67dead1c18a786",
         in_cluster=True,
-        namespace="a1b9b0-dev",
+        namespace="a1b9b0-test",
         service_account_name="airflow-admin",
         name="run_rrs_replication",
         random_name_suffix=True,

@@ -7,15 +7,15 @@ helm pull oci://registry-1.docker.io/bitnamicharts/airflow
 
 ## Deploying to OpenShift
 ```sh
-helm install dev-release-af .
+helm install test-release-af .
 ```
 
 ## Visit the application here:
-http://nr-airflow-dev.apps.emerald.devops.gov.bc.ca/
+http://nr-airflow-test.apps.emerald.devops.gov.bc.ca/
 
 ## Upgrade OpenShift Deployment
 ```sh 
-helm upgrade -f values.yaml dev-release-af . --version 16.1.2  
+helm upgrade -f values.yaml test-release-af . --version 16.1.2  
 ```
 
 ## Create OpenShift ConfigMap for requirements.txt: 
