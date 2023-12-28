@@ -8,7 +8,7 @@ from airflow.providers.cncf.kubernetes.operators.pod import KubernetesPodOperato
 with DAG(
     catchup=False,
     schedule=None,
-    dag_id="kubernetes_example",
+    dag_id="kubernetes_example"
 ) as dag:
     run_ats_replication = KubernetesPodOperator(
         task_id="run_container",
