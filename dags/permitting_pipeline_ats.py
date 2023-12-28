@@ -22,7 +22,7 @@ with DAG(
         service_account_name="airflow-admin",
         name="run_ats_replication",
         random_name_suffix=True,
-        labels={"DataClass": "Medium", "ConnectionType": "database"},  # network policies
+        labels={"DataClass": "Medium", "ConnectionType": "database", "Release": "test-release-af"},  # network policies
         reattach_on_restart=True,
         is_delete_operator_pod=False,
         get_logs=True,
