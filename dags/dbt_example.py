@@ -2,6 +2,9 @@ from airflow import DAG
 from pendulum import datetime
 from kubernetes import client
 from airflow.providers.cncf.kubernetes.operators.pod import KubernetesPodOperator
+from airflow.providers.cncf.kubernetes.secret import Secret
+
+ods_secrets = Secret("env", None, "ods-database")
 
 with DAG(
     start_date=datetime(2023, 11, 23),
@@ -23,6 +26,7 @@ with DAG(
         is_delete_operator_pod=False,
         get_logs=True,
         log_events_on_failure=True,
+        secrets=[ods_secrets],
         container_resources= client.V1ResourceRequirements(
         requests={"cpu": "50m", "memory": "256Mi"},
         limits={"cpu": "1", "memory": "1Gi"}), 
