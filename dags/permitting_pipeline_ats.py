@@ -24,7 +24,7 @@ with DAG(
         random_name_suffix=True,
         labels={"DataClass": "Medium", "ConnectionType": "database", "Release": "test-release-af"},  # network policies
         reattach_on_restart=True,
-        is_delete_operator_pod=False,
+        is_delete_operator_pod=True,
         get_logs=True,
         log_events_on_failure=True,
         secrets=[ats_secrets, ods_secrets],
