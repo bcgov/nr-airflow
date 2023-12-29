@@ -1052,7 +1052,7 @@ git:
     #  git checkout 
     repositories:
       - repository: https://github.com/bcgov/nr-airflow
-        branch: main
+        branch: a1b9b0-dev
         name: nr-airflow-dags
         path: /dags
 

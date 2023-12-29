@@ -11,9 +11,8 @@ with DAG(
 ) as dag:
     run_ats_replication = KubernetesPodOperator(
         task_id="init_dbt_container",
-        # image="ghcr.io/dbt-labs/dbt-postgres:1.7.2",
-        # Abi: need to push image to TEST namespace or pull via GHCR
-        image="image-registry.openshift-image-registry.svc:5000/a1b9b0-dev/dbt-container-test@sha256:e166fc9e58837aaee1ed791914e844a206e75e610d856e53614022121b9c8cac",
+        image="ghcr.io/bcgov/nr-dbt-project:oc-adjustments",
+        # image="image-registry.openshift-image-registry.svc:5000/a1b9b0-dev/dbt-container-test@sha256:e166fc9e58837aaee1ed791914e844a206e75e610d856e53614022121b9c8cac",
         in_cluster=True,
         namespace="a1b9b0-dev",
         service_account_name="airflow-admin",
