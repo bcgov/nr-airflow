@@ -4,8 +4,6 @@ from kubernetes import client
 from airflow.providers.cncf.kubernetes.operators.pod import KubernetesPodOperator
 from airflow.providers.cncf.kubernetes.secret import Secret
 
-ods_secrets = Secret("env", None, "ods-database")
-
 with DAG(
     start_date=datetime(2023, 11, 23),
     catchup=False,
@@ -14,19 +12,19 @@ with DAG(
 ) as dag:
     run_ats_replication = KubernetesPodOperator(
         task_id="init_dbt_container",
-        image="ghcr.io/bcgov/nr-dbt-project:oc-adjustments",
-        # image="image-registry.openshift-image-registry.svc:5000/a1b9b0-dev/dbt-container-test@sha256:e166fc9e58837aaee1ed791914e844a206e75e610d856e53614022121b9c8cac",
+        image="image-registry.apps.emerald.devops.gov.bc.ca/a1b9b0-dev/nr-dbt-project:latest"
+        # Abi: the GHCR container below is a WIP - need to find a way to inject secrets into the profiles.yml
+        # image="ghcr.io/bcgov/nr-dbt-project:oc-adjustments",
         in_cluster=True,
         namespace="a1b9b0-dev",
         service_account_name="airflow-admin",
         name="run_dbt_container",
         random_name_suffix=True,
-        labels={"DataClass": "Low", "env": "dev"},
+        labels={"DataClass": "Low", "env": "dev", "ConnectionType": "database"},
         reattach_on_restart=True,
         is_delete_operator_pod=False,
         get_logs=True,
         log_events_on_failure=True,
-        secrets=[ods_secrets],
         container_resources= client.V1ResourceRequirements(
         requests={"cpu": "50m", "memory": "256Mi"},
         limits={"cpu": "1", "memory": "1Gi"}), 
