@@ -2,7 +2,7 @@ kind: NetworkPolicy
 apiVersion: networking.k8s.io/v1
 metadata:
   name: allow-egress-airflow
-  namespace: a1b9b0-test
+  namespace: a1b9b0-dev
 spec:
   podSelector:
     matchLabels:

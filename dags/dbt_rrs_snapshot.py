@@ -13,9 +13,9 @@ with DAG(
     run_rrs_snapshot = KubernetesPodOperator(
         task_id="run_rrs_snapshot",
         # Abi: need to push image to TEST namespace or pull via GHCR
-        image="image-registry.openshift-image-registry.svc:5000/a1b9b0-test/dbt-container-snapshot@sha256:c1a7a01e2908cc1b12ec47923cbe12ed4b46a99b2ac15ff43955e53e152d8498",
+        image="image-registry.openshift-image-registry.svc:5000/a1b9b0-dev/dbt-container-snapshot@sha256:c1a7a01e2908cc1b12ec47923cbe12ed4b46a99b2ac15ff43955e53e152d8498",
         in_cluster=True,
-        namespace="a1b9b0-test",
+        namespace="a1b9b0-dev",
         service_account_name="airflow-admin",
         name="run_rrs_snapshot",
         random_name_suffix=True,

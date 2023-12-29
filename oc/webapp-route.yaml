@@ -2,7 +2,7 @@ kind: Route
 apiVersion: route.openshift.io/v1
 metadata:
   name: route-for-airflow-web
-  namespace: a1b9b0-test
+  namespace: a1b9b0-dev
   labels:
     DataClass: Public
 spec:

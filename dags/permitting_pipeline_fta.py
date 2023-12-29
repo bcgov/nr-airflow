@@ -16,9 +16,9 @@ with DAG(
     run_fta_replication = KubernetesPodOperator(
         task_id="run_fta_replication",
         image="ghcr.io/bcgov/nr-permitting-pipelines:main",
-        # image="image-registry.openshift-image-registry.svc:5000/a1b9b0-test/data-replication-parametrized-audit1@sha256:8c51ee820434e4f5d06a91deda645bcd0a943b8c87bc3c8a8e67dead1c18a786",
+        # image="image-registry.openshift-image-registry.svc:5000/a1b9b0-dev/data-replication-parametrized-audit1@sha256:8c51ee820434e4f5d06a91deda645bcd0a943b8c87bc3c8a8e67dead1c18a786",
         in_cluster=True,
-        namespace="a1b9b0-test",
+        namespace="a1b9b0-dev",
         service_account_name="airflow-admin",
         name="run_fta_replication",
         random_name_suffix=True,

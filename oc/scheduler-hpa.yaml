@@ -2,7 +2,7 @@ apiVersion: autoscaling/v2
 kind: HorizontalPodAutoscaler
 metadata:
   name: airflow-scheduler
-  namespace: a1b9b0-test
+  namespace: a1b9b0-dev
 spec:
   scaleTargetRef:
     kind: Deployment

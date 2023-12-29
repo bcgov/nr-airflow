@@ -17,7 +17,7 @@ with DAG(
         image_pull_policy="IfNotPresent",
         image_pull_secrets="artifactory-pull",
         in_cluster=True,
-        namespace="a1b9b0-test",
+        namespace="a1b9b0-dev",
         service_account_name="airflow-admin",
         name="run_container",
         random_name_suffix=True,
