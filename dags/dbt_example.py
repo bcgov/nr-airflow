@@ -12,7 +12,7 @@ with DAG(
 ) as dag:
     run_ats_replication = KubernetesPodOperator(
         task_id="init_dbt_container",
-        image="image-registry.apps.emerald.devops.gov.bc.ca/a1b9b0-dev/nr-dbt-project:latest"
+        image="image-registry.apps.emerald.devops.gov.bc.ca/a1b9b0-dev/nr-dbt-project:latest",
         # Abi: the GHCR container below is a WIP - need to find a way to inject secrets into the profiles.yml
         # image="ghcr.io/bcgov/nr-dbt-project:oc-adjustments",
         in_cluster=True,
@@ -27,7 +27,7 @@ with DAG(
         log_events_on_failure=True,
         container_resources= client.V1ResourceRequirements(
         requests={"cpu": "50m", "memory": "256Mi"},
-        limits={"cpu": "1", "memory": "1Gi"}), 
+        limits={"cpu": "1", "memory": "1Gi"})
         # cmds=["dbt"], 
         # arguments=["snapshot"]
     )
