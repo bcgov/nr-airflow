@@ -27,9 +27,9 @@ with DAG(
         log_events_on_failure=True,
         container_resources= client.V1ResourceRequirements(
         requests={"cpu": "50m", "memory": "256Mi"},
-        limits={"cpu": "1", "memory": "1Gi"})
-        cmds=["snapshot", "--profiles-dir", "/usr/app/dbt/.dbt"], 
-        # arguments=["snapshot"], 
+        limits={"cpu": "1", "memory": "1Gi"}),
+        cmds=["snapshot"], 
+        arguments=["--profiles-dir", "/usr/app/dbt/.dbt"]
         # configmap
     )
 
