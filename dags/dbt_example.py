@@ -28,7 +28,8 @@ with DAG(
         container_resources= client.V1ResourceRequirements(
         requests={"cpu": "50m", "memory": "256Mi"},
         limits={"cpu": "1", "memory": "1Gi"})
-        # cmds=["dbt"], 
-        # arguments=["snapshot"]
+        cmds=["snapshot", "--profiles-dir", "/usr/app/dbt/.dbt"], 
+        # arguments=["snapshot"], 
+        # configmap
     )
 
