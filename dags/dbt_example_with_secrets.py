@@ -10,10 +10,10 @@ with DAG(
     start_date=datetime(2023, 11, 23),
     catchup=False,
     schedule=None,
-    dag_id="dbt_example",
+    dag_id="dbt_example_with_secrets",
 ) as dag:
     run_ats_replication = KubernetesPodOperator(
-        task_id="init_dbt_container",
+        task_id="dbt_snapshot",
         image="ghcr.io/bcgov/nr-dbt-project:main",
         secrets=[ods_secrets],
         in_cluster=True,
