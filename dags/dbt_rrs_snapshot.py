@@ -12,8 +12,8 @@ with DAG(
 ) as dag:
     run_rrs_snapshot = KubernetesPodOperator(
         task_id="run_rrs_snapshot",
-        # Abi: need to push image to TEST namespace or pull via GHCR
-        #image="image-registry.openshift-image-registry.svc:5000/a1b9b0-test/dbt-container-snapshot@sha256:c1a7a01e2908cc1b12ec47923cbe12ed4b46a99b2ac15ff43955e53e152d8498",
+        # Abi: the GHCR container below is a WIP - need to set up containers for each folder
+        # image="ghcr.io/bcgov/nr-dbt-project:main",
         image="image-registry.openshift-image-registry.svc:5000/a1b9b0-dev/dbt-container-snapshot-test@sha256:235ba0140c551ff912d353e51891724db4308316d08736d8c219a49a622ef85a",
         in_cluster=True,
         namespace="a1b9b0-test",
