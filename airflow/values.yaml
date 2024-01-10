@@ -77,7 +77,7 @@ auth:
   username: datafoundationsteam
   ## @param auth.password Password to access web UI
   ##
-  password: testing
+  password: ${AIRFLOW_PASSWORD}
   ## @param auth.fernetKey Fernet key to secure connections
   ## ref: https://airflow.readthedocs.io/en/stable/howto/secure-connections.html
   ## ref: https://bcb.github.io/airflow/fernet-key
