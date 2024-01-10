@@ -12,7 +12,7 @@ with DAG(
 ) as dag:
     run_ats_replication = KubernetesPodOperator(
         task_id="init_dbt_container",
-        image="image-registry.apps.emerald.devops.gov.bc.ca/a1b9b0-dev/dbt-project-dlh:v1",
+        image="image-registry.openshift-image-registry.svc:5000/a1b9b0-dev/dbt-project-ods-dlh@sha256:2a36918cb6ac8ffe233c63a714709a78c587b95bfca6c47cd9539344be8be372",
         # Abi: the GHCR container below is a WIP - need to find a way to inject secrets into the profiles.yml
         # image="ghcr.io/bcgov/nr-dbt-project:oc-adjustments",
         in_cluster=True,
@@ -29,8 +29,8 @@ with DAG(
         requests={"cpu": "50m", "memory": "256Mi"},
         limits={"cpu": "1", "memory": "1Gi"}),
         cmds=["dbt"], 
-        arguments=["run","--select","my_first_dbt_model","--profiles-dir","/usr/app/dbt/.dbt"]
-        # arguments=["snapshot", "--profiles-dir", "/usr/app/dbt/.dbt"]
+        #arguments=["run","--select","road_tenure_type_code_agg","--profiles-dir","/usr/app/dbt/.dbt"]
+        arguments=["test"]
         # Next step: configmap for profile.yml
     )
 
