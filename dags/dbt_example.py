@@ -4,6 +4,9 @@ from kubernetes import client
 from airflow.providers.cncf.kubernetes.operators.pod import KubernetesPodOperator
 from airflow.providers.cncf.kubernetes.secret import Secret
 
+ods_secrets = Secret("env", None, "ods-database")
+lh_secrets = Secret("env", None, "lh-database")
+
 with DAG(
     start_date=datetime(2023, 11, 23),
     catchup=False,
@@ -12,9 +15,9 @@ with DAG(
 ) as dag:
     run_ats_replication = KubernetesPodOperator(
         task_id="init_dbt_container",
-        image="image-registry.apps.emerald.devops.gov.bc.ca/a1b9b0-dev/nr-dbt-project:latest",
-        # Abi: the GHCR container below is a WIP - need to find a way to inject secrets into the profiles.yml
-        # image="ghcr.io/bcgov/nr-dbt-project:oc-adjustments",
+        # Abi: the GHCR container below is from the main Dockerfile
+        image="ghcr.io/bcgov/nr-dbt-project:main",
+        secrets=[ods_secrets, lh_secrets],
         in_cluster=True,
         namespace="a1b9b0-dev",
         service_account_name="airflow-admin",
@@ -29,8 +32,6 @@ with DAG(
         requests={"cpu": "50m", "memory": "256Mi"},
         limits={"cpu": "1", "memory": "1Gi"}),
         cmds=["dbt"], 
-        arguments=["run", "--select","my_first_dbt_model","--profiles-dir", "/usr/app/dbt/.dbt"]
-        # arguments=["snapshot", "--profiles-dir", "/usr/app/dbt/.dbt"]
-        # Next step: configmap for profile.yml
+        arguments=["snapshot", "--profiles-dir", "/usr/app/dbt/.dbt"]
     )
 

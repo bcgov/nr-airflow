@@ -4,6 +4,9 @@ from kubernetes import client
 from airflow.providers.cncf.kubernetes.operators.pod import KubernetesPodOperator
 from airflow.providers.cncf.kubernetes.secret import Secret
 
+ods_secrets = Secret("env", None, "ods-database")
+lh_secrets = Secret("env", None, "lh-database")
+
 with DAG(
     start_date=datetime(2023, 11, 23),
     catchup=False,
@@ -13,8 +16,9 @@ with DAG(
     run_ats_replication = KubernetesPodOperator(
         task_id="init_dbt_container",
         image="image-registry.openshift-image-registry.svc:5000/a1b9b0-dev/dbt-project-ods-dlh@sha256:2a36918cb6ac8ffe233c63a714709a78c587b95bfca6c47cd9539344be8be372",
-        # Abi: the GHCR container below is a WIP - need to find a way to inject secrets into the profiles.yml
-        # image="ghcr.io/bcgov/nr-dbt-project:oc-adjustments",
+        secrets=[ods_secrets, lh_secrets],
+        # Abi: the GHCR container below is a WIP - need to set up containers for each folder
+        # image="ghcr.io/bcgov/nr-dbt-project:main",
         in_cluster=True,
         namespace="a1b9b0-dev",
         service_account_name="airflow-admin",
