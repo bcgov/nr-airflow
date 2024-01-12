@@ -19,6 +19,7 @@ with DAG(
         # Abi: the GHCR container below is a WIP - need to set up containers for each folder
         # image="image-registry.openshift-image-registry.svc:5000/a1b9b0-dev/dbt-project-ods-dlh@sha256:2a36918cb6ac8ffe233c63a714709a78c587b95bfca6c47cd9539344be8be372",
         image="ghcr.io/bcgov/nr-dbt-project:main",
+        image_pull_policy="Always"
         in_cluster=True,
         namespace="a1b9b0-dev",
         service_account_name="airflow-admin",
