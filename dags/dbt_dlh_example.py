@@ -32,7 +32,7 @@ with DAG(
         requests={"cpu": "50m", "memory": "256Mi"},
         limits={"cpu": "1", "memory": "1Gi"}),
         cmds=["dbt"], 
-        #arguments=["run","--select","road_tenure_type_code_agg","--profiles-dir","/usr/app/dbt/.dbt"]
-        arguments=["test","--profiles-dir","/usr/app/dbt/.dbt"]
+        arguments=["run","--select","road_tenure_type_code_agg","--profiles-dir","/usr/app/dbt/.dbt"]
+        # arguments=["test","--profiles-dir","/usr/app/dbt/.dbt"]
     )
 
