@@ -21,7 +21,7 @@ with DAG(
     schedule=None,
     dag_id="connection_secrets_example",
 ) as dag:
-    my_python_task = PythonOperator(
+    python_task = PythonOperator(
         task_id='print_connection_details',
         python_callable=print_connection_details,
         provide_context=True,

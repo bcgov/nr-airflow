@@ -3,15 +3,13 @@ from pendulum import datetime
 from kubernetes import client
 from airflow.providers.cncf.kubernetes.operators.pod import KubernetesPodOperator
 
-# Work in progress
-
 with DAG(
     start_date=datetime(2023, 12, 28),
     catchup=False,
     schedule=None,
     dag_id="kubernetes_example"
 ) as dag:
-    run_ats_replication = KubernetesPodOperator(
+    python_container = KubernetesPodOperator(
         task_id="run_container",
         image="artifacts.developer.gov.bc.ca/docker-remote/python",
         image_pull_policy="IfNotPresent",
