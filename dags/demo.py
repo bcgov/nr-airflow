@@ -27,5 +27,5 @@ with DAG(
         container_resources= client.V1ResourceRequirements(
         requests={"cpu": "50m", "memory": "256Mi"}, # resource allocation
         limits={"cpu": "1", "memory": "1Gi"}), 
-        cmds=["python3"] # commands to run
+        cmds=["python3"] # commands 
     )
