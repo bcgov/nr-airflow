@@ -7,7 +7,7 @@ with DAG(
     start_date=datetime(2023, 12, 28),
     catchup=False,
     schedule='0 6 * * *',  # schedule 10pm PST
-    dag_id="emli_demo"
+    dag_id="emli_demo" 
 ) as dag:
     python_container = KubernetesPodOperator(
         task_id="emli_container",
