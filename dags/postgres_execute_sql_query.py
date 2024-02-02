@@ -22,19 +22,21 @@ default_args = {
     max_active_runs=3,
     schedule="@daily",
     default_args=default_args,
-    template_searchpath="/dags/nr-airflow-dags/include/",
+    #template_searchpath="/dags/nr-airflow-dags/include/",
     catchup=False,
 )
 def call_snowflake_sprocs():
-    opr_call_sproc1 = SQLExecuteQueryOperator(
-        task_id="execute_sql", conn_id="postgres_ods_conn", sql="pmt_tenure_app_state_code_test.sql"
-    )
+    #opr_call_sproc1 = SQLExecuteQueryOperator(
+    #    task_id="execute_sql", conn_id="postgres_ods_conn", sql="pmt_tenure_app_state_code_test.sql"
+    #)
+    
+    opr_call_sproc1 = PostgresOperator(
+        task_id='execute_sql',
+        sql="INSERT INTO public.tenure_application_state_code SELECT tenure_application_state_code, description,effective_date,expiry_date,update_timestamp FROM fta_replication.tenure_application_state_code",
+        postgres_conn_id="postgres_ods_conn",  # Update connection ID
+        autocommit=True,
 
-    opr_call_sproc2 = SQLExecuteQueryOperator(
-        task_id="execute_sql2", conn_id="postgres_ods_conn", sql="pmt_tenure_app_state_code_test.sql"
-    )
-
-    opr_call_sproc1 >> opr_call_sproc2
+    opr_call_sproc1 
 
 
 call_snowflake_sprocs()
