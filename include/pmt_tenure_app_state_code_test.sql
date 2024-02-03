@@ -1,3 +1,1 @@
-INSERT INTO public.tenure_application_state_code 
-SELECT tenure_application_state_code, description,effective_date,expiry_date,update_timestamp 
-FROM fta_replication.tenure_application_state_code;
+INSERT INTO public.tenure_application_state_code SELECT tenure_application_state_code, description,effective_date,expiry_date,update_timestamp FROM fta_replication.tenure_application_state_code;
