@@ -22,7 +22,7 @@ default_args = {
     max_active_runs=3,
     schedule="@daily",
     default_args=default_args,
-    template_searchpath="/dags/nr-airflow-dags/dags/include/",
+    template_searchpath="/opt/bitnami/airflow/dags/git_nr-airflow-dags/include/",
     catchup=False,
 )
 def call_snowflake_sprocs():
