@@ -1,7 +1,7 @@
 from airflow import DAG
 from airflow.providers.oracle.operators.oracle import OracleOperator
-from airflow.operators.postgres_operator import PostgresOperator
 from airflow.operators.python_operator import PythonOperator
+from airflow.operators.postgres_operator import PostgresOperator
 from airflow.utils.dates import datetime, timedelta
 import pandas as pd
 
@@ -17,7 +17,7 @@ default_args = {
 oracle_query = "SELECT * FROM the.tenure_application_state_code;"
 
 # Postgres SQL query to load data
-postgres_query = "INSERT INTO public.tenure_application_state_code VALUES (%s, %s,%s,%s,%s);"  # Replace with actual query
+postgres_query = "INSERT INTO public.tenure_application_state_code VALUES (%s, %s,%s,%s,%s);"
 
 # Create the DAG
 dag = DAG(
@@ -33,7 +33,6 @@ oracle_task = OracleOperator(
     sql=oracle_query,
     oracle_conn_id='oracle_fta_conn',  # Connection ID for Oracle (defined in Airflow Connections)
     autocommit=True,
-    fetchall=True,
     dag=dag,
 )
 
@@ -41,7 +40,9 @@ oracle_task = OracleOperator(
 def transform_to_dataframe(**kwargs):
     ti = kwargs['ti']
     query_result = ti.xcom_pull(task_ids='extract_from_oracle')
-    df = pd.DataFrame(query_result, columns=["tenure_application_state_code", "description","effective_date","expiry_date","update_timestamp"])  # Replace with actual column names
+
+    # Assuming query_result is a list of tuples
+    df = pd.DataFrame(query_result, columns=["tenure_application_state_code", "description", "effective_date", "expiry_date", "update_timestamp"])  # Replace with actual column names
     ti.xcom_push(key='oracle_data', value=df)
 
 transform_task = PythonOperator(
