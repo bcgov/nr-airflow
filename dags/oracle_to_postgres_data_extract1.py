@@ -1,5 +1,5 @@
 from airflow import DAG
-from airflow.operators.oracle import OracleOperator
+from airflow.providers.oracle.operators.oracle import OracleOperator
 from airflow.operators.postgres_operator import PostgresOperator
 from airflow.operators.python_operator import PythonOperator
 from airflow.utils.dates import datetime, timedelta
