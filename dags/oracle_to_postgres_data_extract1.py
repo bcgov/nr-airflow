@@ -17,7 +17,7 @@ default_args = {
 oracle_query = "SELECT * FROM the.tenure_application_state_code;"
 
 # Postgres SQL query to load data
-postgres_query = "INSERT INTO public.tenure_application_state_code VALUES (%s, %s,%s,%s,%s);"
+postgres_query = "INSERT INTO public.tenure_application_state_code VALUES (%s, %s, %s, %s, %s);"
 
 # Create the DAG
 dag = DAG(
