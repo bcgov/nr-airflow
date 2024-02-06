@@ -37,7 +37,7 @@ with dag:
     extract_from_oracle_task = PythonOperator(
         task_id='extract_from_oracle_task',
         python_callable=extract_from_oracle,
-        start_date=datetime(2024, 2, 05),
+        start_date=datetime(2024, 2, 5),
         provide_context=True,
         op_kwargs={'oracle_conn_id': 'oracle_fta_conn'},
     )
