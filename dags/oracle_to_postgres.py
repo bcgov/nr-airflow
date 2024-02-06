@@ -16,6 +16,7 @@ default_args = {
 dag = DAG(
     'oracle_to_postgres',
     default_args=default_args,
+    start_date=datetime(2024, 2, 5),
     description='DAG to extract data from Oracle and load it into PostgreSQL',
     schedule_interval='@daily',
 )
@@ -37,7 +38,6 @@ with dag:
     extract_from_oracle_task = PythonOperator(
         task_id='extract_from_oracle_task',
         python_callable=extract_from_oracle,
-        start_date=datetime(2024, 2, 5),
         provide_context=True,
         op_kwargs={'oracle_conn_id': 'oracle_fta_conn'},
     )
