@@ -9,7 +9,7 @@ from airflow.providers.postgres.hooks.postgres import PostgresHook
 @task
 def get_data_from_oracle():
     oracle_hook = OracleHook(oracle_conn_id='oracle_fta_conn')
-    data = oracle_hook.get_pandas_df(sql="SELECT tenure_application_state_code,description,effective_date,expiry_date,null FROM the.tenure_application_state_code")
+    data = oracle_hook.get_pandas_df(sql="SELECT tenure_application_state_code,description FROM the.tenure_application_state_code")
     return data.to_dict()
 
 @task
