@@ -22,7 +22,7 @@ dag = DAG(
 )
 
 def extract_from_oracle(**kwargs):
-    oracle_conn_id = kwargs.get('oracle_conn_id', 'oracle_default')
+    oracle_conn_id = kwargs.get('oracle_conn_id', 'oracle_fta_conn')
     oracle_hook = OracleHook(oracle_conn_id)
     result = oracle_hook.get_pandas_df("SELECT * FROM the.tenure_application_state_code")
     return result
