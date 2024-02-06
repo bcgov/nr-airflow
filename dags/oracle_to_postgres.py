@@ -28,7 +28,7 @@ def extract_from_oracle(**kwargs):
     return result
 
 def load_to_postgres(**kwargs):
-    postgres_conn_id = kwargs.get('postgres_conn_id', 'postgres_default')
+    postgres_conn_id = kwargs.get('postgres_conn_id', 'postgres_ods_conn')
     pg_hook = PostgresHook(postgres_conn_id)
     ti = kwargs.get('ti')
     df = ti.xcom_pull(task_ids='extract_from_oracle_task')
