@@ -1,0 +1,22 @@
+name: Get Vault Secrets
+
+on: 
+  push:
+    branches: [ "main" ]
+  pull_request:
+    branches: [ "main" ]
+
+jobs:    
+  pull:
+    name: Import Vault Secrets
+    runs-on: ubuntu-22.04
+    steps:
+      - uses: actions/checkout@v4
+      - name: NR Vault Pattern 
+        id: nr-vault-patterns
+        uses: bcgov/nr-vault-patterns@main
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          BROKER_JWT: ${{ secrets.BROKER_JWT }}
+          VAULT_ENV: dev
+          SECRET_NAME: ods-dev
