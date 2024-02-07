@@ -12,7 +12,7 @@ with DAG(
     schedule=None,
     dag_id="vault_example",
 ) as dag:
-    run_ats_replication = KubernetesPodOperator(
+    vault_action = KubernetesPodOperator(
         task_id="get_ods_host",
         image="ghcr.io/bcgov/nr-vault-patterns:main",
         in_cluster=True,
