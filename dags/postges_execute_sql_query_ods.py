@@ -17,7 +17,7 @@ default_args = {
 
 
 @dag(
-    "call_snowflake_sprocs",
+    "postges_execute_sql_query_ods",
     start_date=datetime(2023, 8, 23),
     max_active_runs=3,
     schedule="@daily",
@@ -25,7 +25,7 @@ default_args = {
     template_searchpath="/opt/bitnami/airflow/dags/git_nr-airflow-dags/include/",
     catchup=False,
 )
-def call_snowflake_sprocs():
+def exe_ods_qry():
     #opr_call_sproc1 = SQLExecuteQueryOperator(
     #    task_id="execute_sql", conn_id="postgres_ods_conn", sql="pmt_tenure_app_state_code_test.sql"
     #)
@@ -40,4 +40,4 @@ def call_snowflake_sprocs():
     opr_call_sproc1 
 
 
-call_snowflake_sprocs()
+exe_ods_qry()
