@@ -32,11 +32,11 @@ def load_to_postgres(data):
 default_args = {
     'owner': 'airflow',
     'depends_on_past': False,
-    'start_date': datetime(2024, 2, 5),
+    'start_date': datetime(2024, 2, 7),
     'email_on_failure': False,
     'email_on_retry': False,
     'retries': 1,
-    'retry_delay': timedelta(minutes=5),
+    'retry_delay': timedelta(minutes=1),
 }
 
 with DAG('oracle_to_postgres_load_sqlalch', default_args=default_args, schedule_interval=None) as dag:
