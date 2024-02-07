@@ -2,9 +2,9 @@ name: Get Vault Secrets
 
 on: 
   push:
-    branches: [ "main" ]
+    branches: [ "vault" ]
   pull_request:
-    branches: [ "main" ]
+    branches: [ "vault" ]
 
 jobs:    
   pull:
