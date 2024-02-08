@@ -33,13 +33,12 @@ with DAG(
         limits={"cpu": "50m", "memory": "500Mi"})
     )
 
-    xcom_value = task_instance.xcom_pull(task_ids='get_ods_host')
+#    xcom_value = task_instance.xcom_pull(task_ids='get_ods_host')
 
-    print(xcom_value)
+#    print(xcom_value)
     
-#    pod_task_xcom_result = BashOperator(
-#        bash_command="echo \"{{ task_instance.xcom_pull('get_ods_host') [request_id] }}\"",
-#        task_id="pod_task_xcom_result",
-#    )
-
-#    vault_action >> pod_task_xcom_result
+pod_task_xcom_result = BashOperator(
+    bash_command="echo \"{{ task_instance.xcom_pull('get_ods_host') [request_id] }}\"",
+    task_id="pod_task_xcom_result",
+)
+    vault_action >> pod_task_xcom_result
