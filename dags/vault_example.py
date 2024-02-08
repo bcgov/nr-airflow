@@ -26,7 +26,15 @@ with DAG(
         log_events_on_failure=True,
         secrets=[vault_jwt],
         env_vars={"VAULT_ENV": "dev", "SECRET_NAME": "ods-dev"}, 
+        do_xcom_push=True, # allows pushing the secrets to return.json
         container_resources= client.V1ResourceRequirements(
         requests={"cpu": "10m", "memory": "256Mi"},
         limits={"cpu": "50m", "memory": "500Mi"})
     )
+
+    pod_task_xcom_result = BashOperator(
+        bash_command="echo \"{{ task_instance.xcom_pull('get_ods_host')[0] }}\"",
+        task_id="pod_task_xcom_result",
+    )
+
+    vault_action >> pod_task_xcom_result
