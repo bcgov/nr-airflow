@@ -8,7 +8,7 @@ ods_secrets = Secret("env", None, "ods-database")
 lh_secrets = Secret("env", None, "foriegn-data-wrapper-ods-dlh-dev")
 
 with DAG(
-    start_date=datetime(2024, 02, 07),
+    start_date=datetime(2024, 2, 7),
     catchup=False,
     schedule=None,
     dag_id="dbt_dlh_pmt_example",
