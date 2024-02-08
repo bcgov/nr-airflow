@@ -22,7 +22,7 @@ with DAG(
         random_name_suffix=True,
         labels={"DataClass": "High", "Release": "test-release-af"},  # network policies
         reattach_on_restart=True,
-        is_delete_operator_pod=True,
+        is_delete_operator_pod=False,
         get_logs=True,
         log_events_on_failure=True,
         secrets=[vault_jwt],
