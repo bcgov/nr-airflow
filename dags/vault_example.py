@@ -3,6 +3,7 @@ from pendulum import datetime
 from kubernetes import client
 from airflow.providers.cncf.kubernetes.operators.pod import KubernetesPodOperator
 from airflow.providers.cncf.kubernetes.secret import Secret
+from airflow.operators.bash import BashOperator
 
 vault_jwt = Secret("env", None, "nr-vault-jwt")
 
