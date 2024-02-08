@@ -34,7 +34,7 @@ with DAG(
     )
 
     pod_task_xcom_result = BashOperator(
-        bash_command="echo \"{{ task_instance.xcom_pull('get_ods_host')[0] }}\"",
+        bash_command="echo \"{{ task_instance.xcom_pull('vault_action')[0] }}\"",
         task_id="pod_task_xcom_result",
     )
 
