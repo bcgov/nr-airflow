@@ -25,6 +25,7 @@ with DAG(
         get_logs=True,
         log_events_on_failure=True,
         secrets=[vault_jwt],
+        env_vars={"VAULT_ENV": "dev", "SECRET_NAME": "ods-dev"}, 
         container_resources= client.V1ResourceRequirements(
         requests={"cpu": "10m", "memory": "256Mi"},
         limits={"cpu": "50m", "memory": "500Mi"})
