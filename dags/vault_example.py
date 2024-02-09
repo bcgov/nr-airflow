@@ -16,6 +16,7 @@ with DAG(
     vault_action = KubernetesPodOperator(
         task_id="get_ods_host",
         image="ghcr.io/bcgov/nr-vault-patterns:main",
+        image_pull_policy="Always"
         in_cluster=True,
         namespace="a1b9b0-dev",
         name="get_ods_host",
