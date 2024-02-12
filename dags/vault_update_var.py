@@ -47,7 +47,7 @@ def update_ods_host_variables(task_instance, **kwargs):
     result = task_instance.xcom_pull(task_ids='get_ods_host')
     # Assuming result is a dictionary containing keys: 'ods_port', 'ods_database', 'ods_password'
     for key, value in result.items():
-        Variable.set(key, value)
+        Variable.set("pmt_" + key, value)
 
 update_variables = PythonOperator(
     task_id='update_variables',
