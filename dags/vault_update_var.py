@@ -5,6 +5,7 @@ from airflow.providers.cncf.kubernetes.operators.pod import KubernetesPodOperato
 from airflow.providers.cncf.kubernetes.secret import Secret
 from airflow.operators.bash import BashOperator
 from airflow.models import Variable
+from airflow.operators.python_operator import PythonOperator
 
 vault_jwt = Secret("env", None, "nr-vault-jwt")
 
