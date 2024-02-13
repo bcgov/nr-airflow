@@ -13,18 +13,6 @@ def remove_pmt_variables():
         except:
             print(f"Failed to delete the {v} variable.")
     Variable.delete('pmt_all_creds')
-    
-    #variable_list = ['pmt_DB_HOST','pmt_DB_PASSWORD']
-    #for v in variable_list:
-    #    try:
-    #        Variable.delete(v)
-    #    except:
-    #        pass
-
-    #all_variables = Variable.get(xcom=False)
-    #for key in all_variables:
-    #    if key.startswith('pmt_'):
-    #        Variable.delete(key)
 
 with DAG(
     start_date=datetime(2023, 11, 23),
