@@ -57,14 +57,14 @@ with DAG(
         limits={"cpu": "50m", "memory": "500Mi"})
     )
 
-def update_ods_host_variables(task_instance,task_ids, **kwargs):
-    results = {}
-    for task_id in task_ids:
-        result = task_instance.xcom_pull(task_ids=task_id)
-        results.update(result)
+    def update_ods_host_variables(task_instance,task_ids, **kwargs):
+        results = {}
+        for task_id in task_ids:
+            result = task_instance.xcom_pull(task_ids=task_id)
+            results.update(result)
 
-    for key, value in results.items():
-        Variable.set(key, value)    
+        for key, value in results.items():
+            Variable.set(key, value)    
 
     update_variables_ods = PythonOperator(
         task_id='update_variables_ods',
@@ -80,4 +80,4 @@ def update_ods_host_variables(task_instance,task_ids, **kwargs):
         provide_context=True,
     )    
 
-get_admin_ods_dev >> get_admin_dlh_dev >> update_variables_ods >> update_variables_dlh
+admin_ods_dev_vault_action >> admin_dlh_dev_vault_action >> update_variables_ods >> update_variables_dlh
