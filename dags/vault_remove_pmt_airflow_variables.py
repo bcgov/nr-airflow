@@ -4,7 +4,7 @@ from airflow.operators.python_operator import PythonOperator
 from pendulum import datetime
 
 def remove_pmt_variables():
-    all_variables = Variable.get_variable('all', deserialize_json=True)
+    all_variables = Variable.get()
     for key in all_variables.keys():
         if key.startswith('pmt_'):
             Variable.delete(key)
