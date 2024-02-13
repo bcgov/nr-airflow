@@ -4,8 +4,9 @@ from airflow.operators.python_operator import PythonOperator
 from pendulum import datetime
 
 def remove_pmt_variables():
-    variable_list = Variable.get('pmt_all_creds')
+    variable_list = list(Variable.get('pmt_all_creds'))
     print(type(variable_list))
+    print(variable_list)
     #for v in variable_list:
     #    try:
     #        Variable.delete(v)
