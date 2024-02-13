@@ -5,14 +5,13 @@ from pendulum import datetime
 
 def remove_pmt_variables():
     variable = Variable.get('pmt_all_creds')
-    #print(type(variable_list))
-    #print(variable_list)
+    # Convert string to list
     variable_list = eval(variable)
     for v in variable_list:
         try:
             Variable.delete(v)
         except:
-            pass
+            print(f"Failed to delete the {v} variable.")
     Variable.delete('pmt_all_creds')
     
     #variable_list = ['pmt_DB_HOST','pmt_DB_PASSWORD']
