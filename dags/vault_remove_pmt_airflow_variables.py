@@ -5,7 +5,7 @@ from pendulum import datetime
 
 def remove_pmt_variables():
     all_variables = Variable.get()
-    for key in all_variables.keys():
+    for key in all_variables:
         if key.startswith('pmt_'):
             Variable.delete(key)
 
