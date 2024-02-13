@@ -4,12 +4,19 @@ from airflow.operators.python_operator import PythonOperator
 from pendulum import datetime
 
 def remove_pmt_variables():
-    variable_list = ['pmt_DB_HOST','pmt_DB_PASSWORD']
+    variable_list = Variable.get('pmt_all_creds')
     for v in variable_list:
         try:
             Variable.delete(v)
         except:
             pass
+    Variable.delete('pmt_all_creds')
+    #variable_list = ['pmt_DB_HOST','pmt_DB_PASSWORD']
+    #for v in variable_list:
+    #    try:
+    #        Variable.delete(v)
+    #    except:
+    #        pass
     #all_variables = Variable.get(xcom=False)
     #for key in all_variables:
     #    if key.startswith('pmt_'):
