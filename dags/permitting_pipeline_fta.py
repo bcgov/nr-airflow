@@ -5,7 +5,7 @@ from airflow.providers.cncf.kubernetes.operators.pod import KubernetesPodOperato
 from airflow.providers.cncf.kubernetes.secret import Secret
 
 ods_secrets = Secret("env", None, "ods-database")
-fta_secrets = Secret("env", None, "fta-database")
+fta_secrets = Secret("env", None, "fta-database1")
 
 with DAG(
     start_date=datetime(2023, 11, 23),
@@ -30,6 +30,6 @@ with DAG(
         log_events_on_failure=True,
         secrets=[fta_secrets, ods_secrets],
         container_resources= client.V1ResourceRequirements(
-        requests={"cpu": "10m", "memory": "256Mi"},
-        limits={"cpu": "50m", "memory": "500Mi"})
+        requests={"cpu": "50m", "memory": "512Mi"},
+        limits={"cpu": "100m", "memory": "1024Mi"})
     )
