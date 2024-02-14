@@ -8,8 +8,8 @@ from airflow.models import Variable
 #ods_password = Variable.get("ods_password",deserialize_json=True)
 #dlh_password = Variable.get("dlh_password",deserialize_json=True)
 
-ods_password = Variable.get("ods_password",deserialize_json=True)
-dlh_password = Variable.get("dlh_password",deserialize_json=True)
+ods_password = Variable.get("ods_password")
+dlh_password = Variable.get("dlh_password")
 
 with DAG(
     start_date=datetime(2024, 2, 13),
