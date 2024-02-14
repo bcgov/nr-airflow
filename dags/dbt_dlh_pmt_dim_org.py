@@ -27,7 +27,7 @@ with DAG(
         name="run_dbt_container",
         random_name_suffix=True,
         labels={"DataClass": "Low", "env": "dev", "ConnectionType": "database"},
-        env_from=[ods_password, dlh_password],
+        env_vars=[ods_password, dlh_password],
         reattach_on_restart=True,
         is_delete_operator_pod=False,
         get_logs=True,
