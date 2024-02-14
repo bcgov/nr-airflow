@@ -5,8 +5,8 @@ from airflow.providers.cncf.kubernetes.operators.pod import KubernetesPodOperato
 from airflow.providers.cncf.kubernetes.secret import Secret
 from airflow.models import Variable
 
-ods_secrets = Variable.get("ODS_PASSWORD")
-lh_secrets = Variable.get("DLH_PASSWORD")
+ods_password = Variable.get("ODS_PASSWORD")
+dlh_password = Variable.get("DLH_PASSWORD")
 
 with DAG(
     start_date=datetime(2024, 2, 13),
@@ -16,7 +16,7 @@ with DAG(
 ) as dag:
     run_ats_replication = KubernetesPodOperator(
         task_id="init_dbt_container",
-        secrets=[ods_secrets, lh_secrets],      
+        secrets=[ods_password, dlh_password],      
         image="ghcr.io/bcgov/nr-dap-dlh-pmt:main",
         image_pull_policy="Always",
         in_cluster=True,
