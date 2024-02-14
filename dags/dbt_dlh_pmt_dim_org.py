@@ -5,6 +5,9 @@ from airflow.providers.cncf.kubernetes.operators.pod import KubernetesPodOperato
 from airflow.providers.cncf.kubernetes.secret import Secret
 from airflow.models import Variable
 
+#ods_password = Variable.get("ods_password",deserialize_json=True)
+#dlh_password = Variable.get("dlh_password",deserialize_json=True)
+
 ods_password = Variable.get("ods_password",deserialize_json=True)
 dlh_password = Variable.get("dlh_password",deserialize_json=True)
 
@@ -25,6 +28,7 @@ with DAG(
         name="run_dbt_container",
         random_name_suffix=True,
         labels={"DataClass": "Low", "env": "dev", "ConnectionType": "database"},
+        env_from=[ods_password, dlh_password],
         reattach_on_restart=True,
         is_delete_operator_pod=False,
         get_logs=True,
