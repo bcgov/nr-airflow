@@ -18,8 +18,7 @@ with DAG(
     dag_id="dbt_dlh_pmt_dim_org",
 ) as dag:
     run_ats_replication = KubernetesPodOperator(
-        task_id="init_dbt_container",
-        secrets=[ods_password, dlh_password],      
+        task_id="init_dbt_container",      
         image="ghcr.io/bcgov/nr-dap-dlh-pmt:main",
         image_pull_policy="Always",
         in_cluster=True,
