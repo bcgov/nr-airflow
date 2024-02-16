@@ -1123,7 +1123,7 @@ git:
   ## @param git.sync.resources Sync sidecar container resource requests and limits
   ##
   sync:
-    interval: 90 # Abi: can increase in prod 
+    interval: 30 # Abi: increased
     command: []
     args: []
     extraVolumeMounts: []
