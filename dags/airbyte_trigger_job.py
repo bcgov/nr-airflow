@@ -3,13 +3,14 @@ from airflow.providers.http.operators.http import SimpleHttpOperator
 import pendulum
 import json
 
-# API is located at http://dev-release-ab-airbyte-api-server-svc 
-# Job is called "Airbyte Tests as JSON"
-# job trigger sometimes does not working due to competing resources when running airflow/airbyte at the same time
+# For Oracle -> S3 replication of ORG_UNIT table
+# API service: http://dev-release-ab-airbyte-api-server-svc 
+# API route: https://nr-airbyte-api.apps.emerald.devops.gov.bc.ca
+# Beware of competing resources when running airflow/airbyte at the same time
 
 airbyte_job_type = "sync"
-airbyte_connection_id = "92c71303-a1f8-4ab6-a6be-28a47f000319"
-airbyte_workspace_id = "ea2db1ec-0357-4868-b216-4ca7333f5df4"
+airbyte_connection_id = "46f2508b-0759-41c6-8f8b-33dd2910dd37"
+airbyte_workspace_id = "c7528958-f674-4c2c-b91b-95030f0c4513"
 
 with DAG(dag_id='airbyte_trigger_job',
          schedule=None,
