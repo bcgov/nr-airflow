@@ -12,7 +12,7 @@ with DAG(
     start_date=datetime(2024, 2, 13),
     catchup=False,
     schedule=None,
-    dag_id="dbt_dlh_pmt_dim_org",
+    dag_id="demo3_dbt_dlh_pmt_dim_org",
 ) as dag:
     run_ats_replication = KubernetesPodOperator(
         task_id="init_dbt_container",      
