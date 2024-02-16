@@ -2,11 +2,7 @@ from airflow import DAG
 from airflow.providers.http.operators.http import SimpleHttpOperator
 import pendulum
 
-# API is located at http://dev-release-ab-airbyte-api-server-svc 
-
-airbyte_job_type = "sync"
-airbyte_connection_id = "2b9f5022-51d3-4fdf-ba83-82d1b5d80ce8"
-airbyte_workspace_id = "ea2db1ec-0357-4868-b216-4ca7333f5df4"
+airbyte_workspace_id = "c7528958-f674-4c2c-b91b-95030f0c4513"
 
 with DAG(dag_id='airbyte_list_connections',
          schedule=None,
