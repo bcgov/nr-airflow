@@ -17,7 +17,7 @@ default_args = {
 
 
 @dag(
-    "demo1_postgis_refresh_mview",
+    "demo2_postgis_refresh",
     start_date=datetime(2024, 2, 16),
     max_active_runs=3,
     schedule="@daily",
