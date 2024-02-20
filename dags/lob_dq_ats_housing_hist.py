@@ -17,7 +17,7 @@ default_args = {
 
 
 @dag(
-    "postges_execute_sql_query_ods",
+    "lob_dq_ats_housing_hist",
     start_date=datetime(2024, 2, 20),
     max_active_runs=3,
     schedule="@daily",
