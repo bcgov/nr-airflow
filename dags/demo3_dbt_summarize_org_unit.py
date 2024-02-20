@@ -34,6 +34,6 @@ with DAG(
         limits={"cpu": "1", "memory": "1Gi"}),
         cmds=["dbt"], 
         arguments=["snapshot","--select","dim_org","--profiles-dir","/usr/app/dbt/.dbt"]
-        # arguments=["test","--profiles-dir","/usr/app/dbt/.dbt"]
+
     )
 
