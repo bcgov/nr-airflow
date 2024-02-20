@@ -12,9 +12,9 @@ with DAG(
     start_date=datetime(2024, 2, 13),
     catchup=False,
     schedule=None,
-    dag_id="demo3_dbt_dlh_pmt_dim_org",
+    dag_id="demo2_dbt_summarize_org_unit",
 ) as dag:
-    run_ats_replication = KubernetesPodOperator(
+   dbt_summarize_org_unit = KubernetesPodOperator(
         task_id="init_dbt_container",      
         image="ghcr.io/bcgov/nr-dap-dlh-pmt:main",
         image_pull_policy="Always",
@@ -34,6 +34,6 @@ with DAG(
         limits={"cpu": "1", "memory": "1Gi"}),
         cmds=["dbt"], 
         arguments=["snapshot","--select","dim_org","--profiles-dir","/usr/app/dbt/.dbt"]
-        # arguments=["test","--profiles-dir","/usr/app/dbt/.dbt"]
+
     )
 

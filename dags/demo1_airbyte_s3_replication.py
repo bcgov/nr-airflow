@@ -12,7 +12,7 @@ airbyte_job_type = "sync"
 airbyte_connection_id = "46f2508b-0759-41c6-8f8b-33dd2910dd37"
 airbyte_workspace_id = "c7528958-f674-4c2c-b91b-95030f0c4513"
 
-with DAG(dag_id='demo2_airbyte_s3_replication',
+with DAG(dag_id='demo1_airbyte_s3_replication',
          schedule=None,
          start_date=pendulum.today('UTC')
          ) as dag:
