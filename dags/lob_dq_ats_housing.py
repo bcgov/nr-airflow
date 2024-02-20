@@ -8,7 +8,7 @@ ods_secrets = Secret("env", None, "ods-database")
 ats_housing_secrets = Secret("env", None, "ats-database-housing")
 
 with DAG(
-    start_date=datetime(2023, 11, 23),
+    start_date=datetime(2024, 2, 20),
     catchup=False,
     schedule=None,
     dag_id="lob_dq_ats_housing",
