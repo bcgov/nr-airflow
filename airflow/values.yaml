@@ -1056,6 +1056,11 @@ git:
         branch: a1b9b0-dev
         name: nr-airflow-dags
         path: /dags
+        
+      - repository: https://github.com/bcgov/nr-dap-dlh
+        branch: main
+        name: nr-dap-dlh-dags
+        path: /pmt/af/DAG/
 
       # - repository: ""
         ## Branch from repository to checkout
