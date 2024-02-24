@@ -29,7 +29,7 @@ with DAG(
         is_delete_operator_pod=False,
         get_logs=True,
         log_events_on_failure=True,
-        secrets=[LOB_secrets, ods_secrets], # Replace "LOB" with source system name (e.g. 'lexis')
+        secrets=[lexis_secrets, ods_secrets], # Replace "LOB" with source system name (e.g. 'lexis')
         container_resources= client.V1ResourceRequirements(
         requests={"cpu": "50m", "memory": "512Mi"},
         limits={"cpu": "100m", "memory": "1024Mi"})
