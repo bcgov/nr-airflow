@@ -1072,7 +1072,7 @@ git:
   ## @param git.plugins.repositories [array] Array of repositories from which to download DAG files
   # Abi: everything under /plugins/
   plugins:
-  enabled: false
+    enabled: false
     # enabled: true
     # repositories:
       # - repository: https://github.com/bcgov/nr-airflow
