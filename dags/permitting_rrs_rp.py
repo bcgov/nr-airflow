@@ -13,7 +13,7 @@ lob_secrets = Secret("env", None, f"{LOB}-database")
 with DAG(
     start_date=datetime(2023, 11, 23),
     catchup=False,
-        schedule='0 6 15 * *',
+        schedule='15 6 * * *',
     dag_id=f"permitting_pipeline_{LOB}",
 ) as dag:
     run_lexis_replication = KubernetesPodOperator(
