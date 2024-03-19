@@ -12,23 +12,15 @@ oc apply -f .
 ```
 Navigate to the 'airflow' folder then:
 ```sh
-helm install test-release-af .
+helm install airflow .
 ```
 
 ## Visit the application here:
-http://nr-airflow-test.apps.emerald.devops.gov.bc.ca/
+http://nr-airflow.apps.emerald.devops.gov.bc.ca/
 
 ## Upgrade OpenShift Deployment
 ```sh 
-helm upgrade -f values.yaml test-release-af . --version 16.1.2  
+helm upgrade -f values.yaml airflow .
 ```
-
-## Create OpenShift ConfigMap for requirements.txt: 
-```sh
-oc create configmap airflow-requirements --from-file=requirements.txt
-```
-Delete if already exists
-
 
 More info: https://apps.nrs.gov.bc.ca/int/confluence/x/zQ09Cg
-
