@@ -1,10 +1,11 @@
+
 from airflow import DAG
 from pendulum import datetime
 from kubernetes import client
 from airflow.providers.cncf.kubernetes.operators.pod import KubernetesPodOperator
 from airflow.providers.cncf.kubernetes.secret import Secret
 
-LOB = 'lexis' # ats, fta, rrs, or lexis
+LOB = 'fta' # ats, fta, rrs, or lexis
 
 ods_secrets = Secret("env", None, "ods-database")
 lob_secrets = Secret("env", None, f"{LOB}-database")
