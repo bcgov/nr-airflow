@@ -6,6 +6,11 @@ helm pull oci://registry-1.docker.io/bitnamicharts/airflow
 ```
 
 ## Deploying to OpenShift
+Navigate to the 'oc' folder then:
+```sh
+oc apply -f .
+```
+Navigate to the 'airflow' folder then:
 ```sh
 helm install test-release-af .
 ```

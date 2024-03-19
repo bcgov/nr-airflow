@@ -2,14 +2,13 @@ kind: Route
 apiVersion: route.openshift.io/v1
 metadata:
   name: route-for-airflow-web
-  namespace: a1b9b0-dev
   labels:
     DataClass: Public
 spec:
-  host: nr-airflow-test.apps.emerald.devops.gov.bc.ca
+  host: nr-airflow.apps.emerald.devops.gov.bc.ca
   to:
     kind: Service
-    name: test-release-af-airflow
+    name: airflow
     weight: 100
   port:
     targetPort: http

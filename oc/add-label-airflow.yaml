@@ -1,0 +1,23 @@
+apiVersion: kyverno.io/v1
+kind: Policy
+metadata:
+  name: add-airflow-labels
+spec:
+  background: false
+  failurePolicy: Ignore
+  rules:
+    - match:
+        any:
+          - resources:
+              kinds:
+                - Pod
+              selector:
+                matchLabels:
+                  app: airflow
+      mutate:
+        patchStrategicMerge:
+          metadata:
+            labels:
+              DataClass: Medium
+      name: add-data-class-label
+  validationFailureAction: audit
