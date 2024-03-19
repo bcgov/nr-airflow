@@ -12,7 +12,7 @@ lob_secrets = Secret("env", None, f"{LOB}-database")
 with DAG(
     start_date=datetime(2023, 11, 23),
     catchup=False,
-    schedule=None,
+    schedule='0 6 10 * *',,
     dag_id=f"permitting_pipeline_{LOB}",
 ) as dag:
     run_lexis_replication = KubernetesPodOperator(
@@ -21,7 +21,7 @@ with DAG(
         image_pull_policy="Always",
         in_cluster=True,
         service_account_name="airflow-admin",
-        name="run_replication",
+        name=f"run_{LOB}replication",
         labels={"DataClass": "Medium", "ConnectionType": "database",  "Release": "airflow"},
         is_delete_operator_pod=False,
         secrets=[lob_secrets, ods_secrets],
