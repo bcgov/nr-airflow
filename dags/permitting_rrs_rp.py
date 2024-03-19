@@ -14,7 +14,7 @@ with DAG(
     start_date=datetime(2023, 11, 23),
     catchup=False,
         schedule='15 6 * * *',
-    dag_id=f"permitting_pipeline_{LOB}",
+    dag_id=f"permitting-pipeline-{LOB}",
 ) as dag:
     run_lexis_replication = KubernetesPodOperator(
         task_id="run_replication",
