@@ -3,7 +3,7 @@ apiVersion: route.openshift.io/v1
 metadata:
   name: route-for-airflow-web
   labels:
-    DataClass: Public
+    DataClass: Low
 spec:
   host: nr-airflow.apps.emerald.devops.gov.bc.ca
   to:
