@@ -1004,47 +1004,15 @@ worker:
 ##
 git:
   ## Bitnami Git image version
-  ## ref: https://hub.docker.com/r/bitnami/git/tags/
-  ## @param git.image.registry [default: REGISTRY_NAME] Git image registry
-  ## @param git.image.repository [default: REPOSITORY_NAME/git] Git image repository
-  ## @skip git.image.tag Git image tag (immutable tags are recommended)
-  ## @param git.image.digest Git image digest in the way sha256:aa.... Please note this parameter, if set, will override the tag
-  ## @param git.image.pullPolicy Git image pull policy
-  ## @param git.image.pullSecrets Git image pull secrets
-  ##
   image:
     registry: docker.io
     repository: bitnami/git
     tag: 2.42.1-debian-11-r0
     digest: ""
-    ## Specify a imagePullPolicy
-    ## Defaults to 'Always' if image tag is 'latest', else set to 'IfNotPresent'
-    ## ref: https://kubernetes.io/docs/user-guide/images/#pre-pulling-images
-    ##
     pullPolicy: IfNotPresent
-    ## Optionally specify an array of imagePullSecrets.
-    ## Secrets must be manually created in the namespace.
-    ## ref: https://kubernetes.io/docs/tasks/configure-pod-container/pull-image-private-registry/
-    ## e.g:
-    ## pullSecrets:
-    ##   - myRegistryKeySecretName
-    ##
     pullSecrets: []
-  ## Get DAG files from git repositories
-  ## @param git.dags.enabled Enable in order to download DAG files from git repositories.
-  ## @param git.dags.repositories [array] Array of repositories from which to download DAG files
-  ##
   dags:
     enabled: true
-    ## Name for repositories can be anything unique and must follow same naming conventions as kubernetes.
-    ## Kubernetes resources can have names up to 253 characters long. The characters allowed in names are:
-    ## digits (0-9), lower case letters (a-z), -, and .
-    ## Example:
-    ##   - repository: https://github.com/myuser/myrepo
-    ##     branch: main
-    ##     name: my-dags
-    ##     path: /
-    ##
     # Abi: everything under /dags/
     # Abi: Could add this to the _git_helper.tpl file:
     #  git clone -n --depth=1 --filter=tree:0 https://github.com/bcgov/nr-airflow 
@@ -1056,20 +1024,6 @@ git:
         branch: a1b9b0-prod
         name: nr-airflow-dags
         path: /dags
-
-      # - repository: ""
-        ## Branch from repository to checkout
-        ##
-      #  branch: ""
-        ## An unique identifier for repository, must be unique for each repository
-        ##
-      #  name: ""
-        ## Path to a folder in the repository containing the dags
-        ##
-      #  path: ""
-  ## Get Plugins files from git repositories.
-  ## @param git.plugins.enabled Enable in order to download Plugins files from git repositories.
-  ## @param git.plugins.repositories [array] Array of repositories from which to download DAG files
   # Abi: everything under /plugins/
   plugins:
     enabled: false
@@ -1079,20 +1033,10 @@ git:
         # branch: main
         # name: nr-airflow-plugins
         # path: /plugins
-  ## Properties for the Clone init container
-  ## @param git.clone.command Override cmd
-  ## @param git.clone.args Override args
-  ## @param git.clone.extraVolumeMounts Add extra volume mounts
-  ## @param git.clone.extraEnvVars Add extra environment variables
-  ## @param git.clone.extraEnvVarsCM ConfigMap with extra environment variables
-  ## @param git.clone.extraEnvVarsSecret Secret with extra environment variables
-  ## @param git.clone.resources Clone init container resource requests and limits
-  ##
   clone:
     command: []
     args: []
     extraVolumeMounts: []
-    # extraEnvVars: []
     # Abi: values found in Emerald documentation here: https://digital.gov.bc.ca/cloud/services/private/internal-resources/emerald/
     extraEnvVars:
       - name: http_proxy
@@ -1113,22 +1057,11 @@ git:
       limits: 
         cpu: 250m
         memory: 600Mi
-  ## Properties for the Sync sidecar container
-  ## @param git.sync.interval Interval in seconds to pull the git repository containing the plugins and/or DAG files
-  ## @param git.sync.command Override cmd
-  ## @param git.sync.args Override args
-  ## @param git.sync.extraVolumeMounts Add extra volume mounts
-  ## @param git.sync.extraEnvVars Add extra environment variables
-  ## @param git.sync.extraEnvVarsCM ConfigMap with extra environment variables
-  ## @param git.sync.extraEnvVarsSecret Secret with extra environment variables
-  ## @param git.sync.resources Sync sidecar container resource requests and limits
-  ##
   sync:
     interval: 90 # Abi: can increase in prod 
     command: []
     args: []
     extraVolumeMounts: []
-    # extraEnvVars: []
     # Abi: values found in Emerald documentation here: https://digital.gov.bc.ca/cloud/services/private/internal-resources/emerald/
     extraEnvVars:
       - name: http_proxy
