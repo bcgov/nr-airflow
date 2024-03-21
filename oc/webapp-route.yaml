@@ -5,7 +5,7 @@ metadata:
   labels:
     DataClass: Low
 spec:
-  host: nr-airflow.apps.emerald.devops.gov.bc.ca
+  host: nr-airflow-test.apps.emerald.devops.gov.bc.ca
   to:
     kind: Service
     name: airflow

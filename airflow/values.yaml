@@ -1021,7 +1021,7 @@ git:
     #  git checkout 
     repositories:
       - repository: https://github.com/bcgov/nr-airflow
-        branch: a1b9b0-prod
+        branch: a1b9b0-test
         name: nr-airflow-dags
         path: /dags
   # Abi: everything under /plugins/
