@@ -22,5 +22,3 @@ with DAG(
             requests={"cpu": "50m", "memory": "256Mi"},                   # Resource requests for the container
             limits={"cpu": "1", "memory": "1Gi"}),                         # Resource limits for the container
         cmds=["python3"])                                                 # Command to be executed in the container
-
-    )
