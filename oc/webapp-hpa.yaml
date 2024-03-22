@@ -2,11 +2,10 @@ apiVersion: autoscaling/v2
 kind: HorizontalPodAutoscaler
 metadata:
   name: airflow-web
-  namespace: a1b9b0-dev
 spec:
   scaleTargetRef:
     kind: Deployment
-    name: dev-release-af-airflow-web
+    name: airflow-web
     apiVersion: apps/v1
   minReplicas: 1
   maxReplicas: 2
@@ -17,4 +16,3 @@ spec:
         target:
           type: Utilization
           averageUtilization: 80
-
