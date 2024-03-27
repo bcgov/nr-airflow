@@ -26,5 +26,3 @@ http://nr-airflow.apps.emerald.devops.gov.bc.ca/
 ```sh 
 helm upgrade -f values.yaml airflow .
 ```
-
-More info: https://apps.nrs.gov.bc.ca/int/confluence/x/zQ09Cg
