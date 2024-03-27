@@ -16,7 +16,7 @@ with DAG(
     schedule='0 6 * * *',
     dag_id=f"permitting-pipeline-{LOB}",
 ) as dag:
-    run_lexis_replication = KubernetesPodOperator(
+    run_replication = KubernetesPodOperator(
         task_id="run_replication",
         image="ghcr.io/bcgov/nr-permitting-pipelines:main",
         image_pull_policy="Always",
