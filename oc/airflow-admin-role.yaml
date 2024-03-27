@@ -2,7 +2,6 @@ kind: Role
 apiVersion: rbac.authorization.k8s.io/v1
 metadata:
   name: airflow-and-airbyte-admin
-  namespace: a1b9b0-test
 rules:
   - verbs:
       - get
