@@ -1,0 +1,17 @@
+apiVersion: ops.gov.bc.ca/v1alpha1
+kind: SysdigTeam
+metadata:
+  name: a1b9b0-prod-sysdigteam
+  namespace: a1b9b0-tools 
+spec:
+  team:
+    description: The Sysdig Team for the NRM Data Analytics Platform
+    users:
+    - name: nrm.datafoundations@gov.bc.ca
+      role: ROLE_TEAM_EDIT
+    - name: abigail.michel@gov.bc.ca
+      role: ROLE_TEAM_STANDARD
+    - name: vish.reddy@gov.bc.ca
+      role: ROLE_TEAM_STANDARD
+    - name: richard.pardo-figueroa@gov.bc.ca
+      role: ROLE_TEAM_READ
