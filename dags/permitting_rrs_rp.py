@@ -5,7 +5,7 @@ from kubernetes import client
 from airflow.providers.cncf.kubernetes.operators.pod import KubernetesPodOperator
 from airflow.providers.cncf.kubernetes.secret import Secret
 
-LOB = 'rrs-rp' # ats, fta, rrs, or lexis
+LOB = 'rrs' # ats, fta, rrs, or lexis
 
 ods_secrets = Secret("env", None, "ods-database")
 lob_secrets = Secret("env", None, f"{LOB}-database")
@@ -16,7 +16,7 @@ with DAG(
         schedule='15 6 * * *',
     dag_id=f"permitting-pipeline-{LOB}",
 ) as dag:
-    run_lexis_replication = KubernetesPodOperator(
+    run_rrs_replication = KubernetesPodOperator(
         task_id="run_replication",
         image="ghcr.io/bcgov/nr-permitting-pipelines:main",
         image_pull_policy="Always",
