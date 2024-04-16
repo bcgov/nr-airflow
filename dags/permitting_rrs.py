@@ -8,7 +8,7 @@ from airflow.providers.cncf.kubernetes.secret import Secret
 LOB = 'rrs' # ats, fta, rrs, or lexis
 
 ods_secrets = Secret("env", None, "ods-database")
-lob_secrets = Secret("env", None, f"{LOB}-database")
+lob_secrets = Secret("env", None, f"{LOB}-database1")
 
 default_args = {
     "email": ["NRM.DataFoundations@gov.bc.ca"],
