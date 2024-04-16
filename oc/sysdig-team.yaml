@@ -10,7 +10,7 @@ spec:
     - name: nrm.datafoundations@gov.bc.ca
       role: ROLE_TEAM_EDIT
     - name: abigail.michel@gov.bc.ca
-      role: ROLE_TEAM_STANDARD
+      role: ROLE_TEAM_EDIT
     - name: vish.reddy@gov.bc.ca
       role: ROLE_TEAM_STANDARD
     - name: richard.pardo-figueroa@gov.bc.ca
