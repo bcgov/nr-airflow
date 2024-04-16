@@ -3,11 +3,18 @@ from pendulum import datetime
 from kubernetes import client
 from airflow.providers.cncf.kubernetes.operators.pod import KubernetesPodOperator
 
+default_args = {
+    "email": ["NRM.DataFoundations@gov.bc.ca"],
+    "email_on_failure": True,
+    "email_on_retry": True,
+}
+
 with DAG(
     start_date=datetime(2024, 3, 20),
     catchup=False,
     schedule=None,
-    dag_id="demo-dag"
+    dag_id="demo-dag",
+    default_args=default_args,
 ) as dag:
     python_container = KubernetesPodOperator(
         task_id="run_container",

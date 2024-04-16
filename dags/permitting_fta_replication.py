@@ -10,11 +10,18 @@ LOB = 'fta'
 ods_secrets = Secret("env", None, "ods-database")
 lob_secrets = Secret("env", None, f"{LOB}-replication-database")
 
+default_args = {
+    "email": ["NRM.DataFoundations@gov.bc.ca"],
+    "email_on_failure": True,
+    "email_on_retry": True,
+}
+
 with DAG(
     start_date=datetime(2023, 11, 23),
     catchup=False,
     schedule='25 6 * * *',
     dag_id=f"permitting-pipeline-{LOB}-replication",
+    default_args=default_args,
 ) as dag:
     run_replication = KubernetesPodOperator(
         task_id="run_replication",
