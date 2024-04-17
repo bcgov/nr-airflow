@@ -17,7 +17,7 @@ with DAG(
 ) as dag:
     run_replication = KubernetesPodOperator(
         task_id="run_replication",
-        image="ghcr.io/bcgov/nr-permitting-pipelines:main",
+        image="ghcr.io/bcgov/nr-dap-ods:main",
         image_pull_policy="Always",
         in_cluster=True,
         service_account_name="airflow-admin",
