@@ -4,8 +4,8 @@ from kubernetes import client
 from airflow.providers.cncf.kubernetes.operators.pod import KubernetesPodOperator
 from airflow.providers.cncf.kubernetes.secret import Secret
 
-ods_secrets = Secret("env", None, "ods-database")
-dlh_secrets = Secret("env", None, "dlh-database")
+ods_secrets = Secret("env", None, "ods-database-src")
+dlh_secrets = Secret("env", None, "dlh-database-tgt")
 
 default_args = {
     "email": ["NRM.DataFoundations@gov.bc.ca"],
