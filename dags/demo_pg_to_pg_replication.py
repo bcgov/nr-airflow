@@ -4,8 +4,8 @@ from kubernetes import client
 from airflow.providers.cncf.kubernetes.operators.pod import KubernetesPodOperator
 from airflow.providers.cncf.kubernetes.secret import Secret
 
-ods_secrets = Secret("env", None, "ods-database-src")
-dlh_secrets = Secret("env", None, "dlh-database-tgt")
+ods_secrets = Secret("env", None, "ods-database")
+dlh_secrets = Secret("env", None, "dlh-database")
 
 default_args = {
     "email": ["NRM.DataFoundations@gov.bc.ca"],
@@ -35,7 +35,7 @@ with DAG(
         is_delete_operator_pod=False,
         get_logs=True,
         log_events_on_failure=True,
-        secrets=[ods_secrets, dlh_secrets],
+        secrets=[dlh_secrets,ods_secrets],
         container_resources= client.V1ResourceRequirements(
         requests={"cpu": "10m", "memory": "256Mi"},
         limits={"cpu": "50m", "memory": "500Mi"})
