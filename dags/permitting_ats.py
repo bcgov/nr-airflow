@@ -4,6 +4,7 @@ from pendulum import datetime
 from kubernetes import client
 from airflow.providers.cncf.kubernetes.operators.pod import KubernetesPodOperator
 from airflow.providers.cncf.kubernetes.secret import Secret
+from datetime import timedelta
 
 LOB = 'ats'
 
@@ -12,6 +13,8 @@ lob_secrets = Secret("env", None, f"{LOB}-database")
 
 default_args = {
     "email": ["NRM.DataFoundations@gov.bc.ca"],
+    'retries': 1,
+    'retry_delay': timedelta(minutes=5),
     "email_on_failure": True,
     "email_on_retry": True,
 }
@@ -19,7 +22,7 @@ default_args = {
 with DAG(
     start_date=datetime(2023, 11, 23),
     catchup=False,
-    schedule='0 6 * * *',
+    schedule='0 12 * * *',
     dag_id=f"permitting-pipeline-{LOB}",
     default_args=default_args,
 ) as dag:
