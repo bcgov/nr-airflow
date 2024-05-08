@@ -4,17 +4,29 @@ from pendulum import datetime
 from kubernetes import client
 from airflow.providers.cncf.kubernetes.operators.pod import KubernetesPodOperator
 from airflow.providers.cncf.kubernetes.secret import Secret
+from datetime import timedelta
 
 LOB = 'rrs-rp' # ats, fta, rrs, or lexis
 
 ods_secrets = Secret("env", None, "ods-database")
 lob_secrets = Secret("env", None, f"{LOB}-database")
 
+default_args = {
+    'owner': 'PMT',
+    "email": ["NRM.DataFoundations@gov.bc.ca"],
+    'retries': 1,
+    'retry_delay': timedelta(minutes=5),
+    "email_on_failure": True,
+    "email_on_retry": True,
+}
+
 with DAG(
     start_date=datetime(2023, 11, 23),
     catchup=False,
-        schedule='15 6 * * *',
+    schedule='15 12 * * *',
     dag_id=f"permitting-pipeline-{LOB}",
+    default_args=default_args,
+    description='DAG to replicate RRS query to ODS for X-NRS Permitting Dashboard'
 ) as dag:
     run_replication = KubernetesPodOperator(
         task_id="run_replication",
