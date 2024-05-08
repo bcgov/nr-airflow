@@ -25,6 +25,7 @@ with DAG(
     schedule='25 12 * * *',
     dag_id=f"permitting-pipeline-{LOB}-replication",
     default_args=default_args,
+    description='DAG to replicate FTA data to ODS for Permitting Modernization Initiative'
 ) as dag:
     run_replication = KubernetesPodOperator(
         task_id="run_replication",

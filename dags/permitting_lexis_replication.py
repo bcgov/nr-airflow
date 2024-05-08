@@ -22,8 +22,9 @@ with DAG(
     start_date=datetime(2023, 11, 23),
     catchup=False,
     schedule='10 12 * * *',
-    dag_id=f"permitting-pipeline-{LOB}-prod",
+    dag_id=f"permitting-pipeline-{LOB}-replication",
     default_args=default_args,
+    description='DAG to replicate LEXIS data to ODS for Permitting Modernization Initiative'
 ) as dag:
     run_replication = KubernetesPodOperator(
         task_id="run_replication",
