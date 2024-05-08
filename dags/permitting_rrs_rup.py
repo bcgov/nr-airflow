@@ -12,6 +12,7 @@ ods_secrets = Secret("env", None, "ods-database")
 lob_secrets = Secret("env", None, f"{LOB}-database")
 
 default_args = {
+    'owner': 'PMT',
     "email": ["NRM.DataFoundations@gov.bc.ca"],
     'retries': 1,
     'retry_delay': timedelta(minutes=5),

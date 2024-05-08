@@ -4,6 +4,7 @@ from kubernetes import client
 from airflow.providers.cncf.kubernetes.operators.pod import KubernetesPodOperator
 
 default_args = {
+    'owner': 'Data Foundations',
     "email": ["NRM.DataFoundations@gov.bc.ca"],
     "email_on_failure": True,
     "email_on_retry": True,
