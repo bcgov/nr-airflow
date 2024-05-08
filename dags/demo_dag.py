@@ -4,6 +4,7 @@ from kubernetes import client
 from airflow.providers.cncf.kubernetes.operators.pod import KubernetesPodOperator
 
 default_args = {
+    'owner': 'Data Foundations',
     "email": ["NRM.DataFoundations@gov.bc.ca"],
     "email_on_failure": True,
     "email_on_retry": True,
@@ -15,10 +16,11 @@ with DAG(
     schedule=None,
     dag_id="demo-dag",
     default_args=default_args,
+    description='DAG to demo Kubernetes pod operator'
 ) as dag:
     python_container = KubernetesPodOperator(
         task_id="run_container",
-        image="artifacts.developer.gov.bc.ca/docker-remote/notarealimage",       # Container image to be used
+        image="artifacts.developer.gov.bc.ca/docker-remote/python",       # Container image to be used
         image_pull_policy="IfNotPresent",                                 # Policy for pulling the Docker image
         image_pull_secrets="artifactory-pull",                            # Image pull secret (only required when using Artifactory)
         service_account_name="airflow-admin",                             # Service account to be used for running the pod

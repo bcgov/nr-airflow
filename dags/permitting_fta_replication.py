@@ -12,6 +12,7 @@ ods_secrets = Secret("env", None, "ods-database")
 lob_secrets = Secret("env", None, f"{LOB}-replication-database")
 
 default_args = {
+    'owner': 'PMT',
     "email": ["NRM.DataFoundations@gov.bc.ca"],
     'retries': 1,
     'retry_delay': timedelta(minutes=5),
@@ -25,6 +26,7 @@ with DAG(
     schedule='25 12 * * *',
     dag_id=f"permitting-pipeline-{LOB}-replication",
     default_args=default_args,
+    description='DAG to replicate FTA tables to ODS for Permitting Modernization Initiative'
 ) as dag:
     run_replication = KubernetesPodOperator(
         task_id="run_replication",

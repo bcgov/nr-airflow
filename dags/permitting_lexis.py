@@ -11,6 +11,7 @@ ods_secrets = Secret("env", None, "ods-database")
 lob_secrets = Secret("env", None, f"{LOB}-database")
 
 default_args = {
+    'owner': 'PMT',
     "email": ["NRM.DataFoundations@gov.bc.ca"],
     'retries': 1,
     'retry_delay': timedelta(minutes=5),
@@ -24,6 +25,7 @@ with DAG(
     schedule='10 12 * * *',
     dag_id=f"permitting-pipeline-{LOB}",
     default_args=default_args,
+    description='DAG to replicate LEXIS query to ODS for X-NRS Permitting Dashboard'
 ) as dag:
     run_replication = KubernetesPodOperator(
         task_id="run_replication",
