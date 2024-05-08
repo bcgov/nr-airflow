@@ -52,3 +52,25 @@ spec:
   policyTypes:
     - Ingress
     - Egress
+---
+kind: NetworkPolicy
+apiVersion: networking.k8s.io/v1
+metadata:
+  name: allow-from-a9cb09-namespace
+spec:
+  podSelector: {}
+  ingress:
+    - from:
+        - podSelector: {}
+          namespaceSelector:
+            matchLabels:
+              name: a9cb09
+  egress:
+    - to:
+        - podSelector: {}
+          namespaceSelector:
+            matchLabels:
+              name: a9cb09
+  policyTypes:
+    - Ingress
+    - Egress
