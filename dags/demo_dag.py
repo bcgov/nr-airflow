@@ -15,7 +15,7 @@ with DAG(
     schedule=None,
     dag_id="demo-dag",
     default_args=default_args,
-    description='DAG to demo Kubernetes pod operator',
+    description='DAG to demo Kubernetes pod operator'
 ) as dag:
     python_container = KubernetesPodOperator(
         task_id="run_container",
