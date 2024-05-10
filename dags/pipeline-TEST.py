@@ -6,6 +6,7 @@ from airflow.providers.cncf.kubernetes.secret import Secret
 from datetime import timedelta
 
 LOB = TEST
+LOB = LOB.lower()
 
 default_args = {
     "email": ["NRM.DataFoundations@gov.bc.ca"],
