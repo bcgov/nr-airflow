@@ -5,7 +5,7 @@ from airflow.providers.cncf.kubernetes.operators.pod import KubernetesPodOperato
 from airflow.providers.cncf.kubernetes.secret import Secret
 from datetime import timedelta
 
-LOB = TEST
+LOB = 'TEST'
 LOB = LOB.lower()
 
 default_args = {
