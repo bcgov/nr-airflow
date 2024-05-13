@@ -15,7 +15,7 @@ with DAG(
 ) as dag:
     run_LOB_replication = KubernetesPodOperator( # Replace "LOB" with source system name (e.g. 'lexis')
         task_id="run_LOB_replication", # Replace "LOB" with source system name (e.g. 'lexis')
-        image="ghcr.io/bcgov/nr-permitting-pipelines:main",
+        image="ghcr.io/bcgov/nr-dap-ods:main",
         image_pull_policy="Always",
         in_cluster=True,
         namespace="a1b9b0-dev",

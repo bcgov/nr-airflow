@@ -24,14 +24,14 @@ with DAG(
 ) as dag:
     run_lexis_replication = KubernetesPodOperator( # Replace "LOB" with source system name (e.g. 'lexis')
         task_id=f"run_{LOB}_replication", # Replace "LOB" with source system name (e.g. 'lexis')
-        image="ghcr.io/bcgov/nr-permitting-pipelines:main",
+        image="ghcr.io/bcgov/nr-dap-ods:main",
         image_pull_policy="Always",
         in_cluster=True,
         namespace="a1b9b0-dev",
         service_account_name="airflow-admin",
         name=f"run_{LOB}_replication", # Replace "LOB" with source system name (e.g. 'lexis')
         random_name_suffix=True,
-        labels={"DataClass": "Medium", "ConnectionType": "database",  "Release": "test-release-af"}, 
+        labels={"DataClass": "Medium", "ConnectionType": "database",  "Release": "test-release-af"},
         reattach_on_restart=True,
         is_delete_operator_pod=False,
         get_logs=True,
