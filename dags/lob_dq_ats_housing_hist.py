@@ -46,12 +46,19 @@ def exe_ods_ats_hist_process():
     
     update_flag_closed_records = PostgresOperator(
         task_id='execute_sql_update_flag_closed_records',
-        sql="ats_hosuing_update_flag_closed_records.sql",
+        sql="ats_housing_update_flag_closed_records.sql",
         postgres_conn_id="postgres_ods_conn",  # Update connection ID
         autocommit=True,
     )
+
+    archive_hist_records = PostgresOperator(
+        task_id='execute_sql_archive_history_records',
+        sql="ats_housing_archive_history_records.sql",
+        postgres_conn_id="postgres_ods_conn",  # Update connection ID
+        autocommit=True,
+    )    
     
-    expire_old_records >> insert_new_changed_records >> update_flag_closed_records
+    expire_old_records >> insert_new_changed_records >> update_flag_closed_records >> archive_hist_records
 
 
 exe_ods_ats_hist_process()
