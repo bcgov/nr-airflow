@@ -100,10 +100,10 @@ def execute_python_script():
         g = Github(github_secret)
         repo = g.get_repo('bcgov/nr-airflow')
 
-        repo.create_file(f'dags/{dag_id}.py', 'upload dags', DAG, branch='a1b9b0-dev')
+        repo.create_file(f'dags/{dag_id}.py', 'upload dags', DAG, branch='ui-testing')
         
         repo = g.get_repo("bcgov/nr-airflow")
-        contents = repo.get_contents("/dags", ref="a1b9b0-dev")
+        contents = repo.get_contents("/dags", ref="ui-testing")
         print([c for c in contents])
         for content_file in contents:
             print(content_file)
@@ -124,7 +124,7 @@ def execute_python_script():
     def main():
         g = Github(github_secret)
         repo = g.get_repo("bcgov/nr-airflow")
-        contents = repo.get_contents("/dags", ref="a1b9b0-dev")
+        contents = repo.get_contents("/dags", ref="ui-testing")
         existing_dags= [c.path for c in contents]
         existing_dag_list = extract_names(existing_dags)
         print(existing_dag_list)
