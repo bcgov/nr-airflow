@@ -74,7 +74,7 @@ def execute_python_script():
         )"""
         DAG = str(DAG)
 
-        g = Github('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')
+        g = Github(github_secret)
         repo = g.get_repo('bcgov/nr-airflow')
 
         repo.create_file(f'dags/{dag_id}.py', 'upload dags', DAG, branch='ui-testing')
@@ -84,7 +84,7 @@ def execute_python_script():
 
     # Main function to orchestrate the process
     def main():
-        g = Github('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')
+        g = Github(github_secret)
         dag_content = create_dag_definition()
         print(dag_content)
 
