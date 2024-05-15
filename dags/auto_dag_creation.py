@@ -52,6 +52,7 @@ def execute_python_script():
 
     if __name__ == "__main__":
         main()
+    print(new_applications = scan_table_for_new_apps())
 
 with DAG(
     dag_id='auto_dag_creation',
