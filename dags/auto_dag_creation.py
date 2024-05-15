@@ -4,7 +4,6 @@ from airflow.operators.python_operator import PythonOperator
 from datetime import datetime, timedelta
 import psycopg2
 import os
-import git
 from github import Github
 import re
 
