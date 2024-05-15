@@ -118,7 +118,7 @@ with DAG(
     dag_id='auto_dag_creation',
     default_args=default_args,
     description='Execute Python script',
-    schedule_interval='0 * * * *',
+    schedule_interval=timedelta(days=1),
     start_date=datetime(2024, 5, 14),
     tags=['ui-automation'],
 ) as dag:
