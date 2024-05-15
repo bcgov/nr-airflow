@@ -97,4 +97,4 @@ with DAG(
         python_callable=execute_python_script
     )
     
-    start_task >> save_date_task
+    start_task >> execute_script_task
