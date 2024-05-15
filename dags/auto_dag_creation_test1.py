@@ -5,7 +5,6 @@ from airflow.operators.empty import EmptyOperator
 from datetime import datetime, timedelta
 import psycopg2
 import os
-import git
 from github import Github
 import re
 
@@ -116,7 +115,7 @@ with DAG(
 
 
 with DAG(
-    dag_id='auto_dag_creation_test2',
+    dag_id='auto_dag_creation_test1',
     default_args=default_args,
     description='Execute Python script',
     schedule_interval=timedelta(days=1),
