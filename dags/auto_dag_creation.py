@@ -120,7 +120,7 @@ with DAG(
     description='Execute Python script',
     schedule_interval='*/5 * * * *',
     start_date=datetime(2024, 5, 14),
-    tags=['example'],
+    tags=['ui-automation'],
 ) as dag:
 
     start_task = EmptyOperator(
