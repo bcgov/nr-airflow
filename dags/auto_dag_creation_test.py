@@ -79,7 +79,7 @@ with DAG(
     
 
 with DAG(
-    dag_id='auto_dag_creation',
+    dag_id='auto_dag_creation_test',
     default_args=default_args,
     description='Execute Python script',
     schedule_interval=timedelta(days=1),
