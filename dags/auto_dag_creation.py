@@ -101,11 +101,11 @@ def execute_python_script():
 
         repo.create_file(f'dags/{dag_id}.py', 'upload dags', DAG, branch='ui-testing')
         
-        repo = g.get_repo("bcgov/nr-airflow")
-        contents = repo.get_contents("/dags", ref="ui-testing")
-        print([c for c in contents])
-        for content_file in contents:
-            print(content_file)
+        #repo = g.get_repo("bcgov/nr-airflow")
+        #contents = repo.get_contents("/dags", ref="ui-testing")
+        #print([c for c in contents])
+        #for content_file in contents:
+            #print(content_file)
         return DAG
 
 
@@ -121,12 +121,13 @@ def execute_python_script():
 
     # Main function to orchestrate the process
     def main():
+        existing_dag_list=[]
         g = Github(github_secret)
-        repo = g.get_repo("bcgov/nr-airflow")
-        contents = repo.get_contents("/dags", ref="ui-testing")
-        existing_dags= [c.path for c in contents]
-        existing_dag_list = extract_names(existing_dags)
-        print(existing_dag_list)
+        #repo = g.get_repo("bcgov/nr-airflow")
+        #contents = repo.get_contents("/dags", ref="ui-testing")
+        #existing_dags= [c.path for c in contents]
+        #existing_dag_list = extract_names(existing_dags)
+        #print(existing_dag_list)
     
         new_applications = scan_table_for_new_apps()
 
