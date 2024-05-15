@@ -19,34 +19,12 @@ default_args = {
 def execute_python_script():
 
     # Retrieve PostgreSQL connection parameters from Airflow variables
-    postgres_host = Variable.get('ODS_HOST')
-    postgres_port = Variable.get('ODS_PORT')
-    postgres_dbname = Variable.get('ODS_DATABASE')
-    postgres_user = Variable.get('ODS_USERNAME')
-    postgres_password = Variable.get('ODS_PASSWORD')
     github_secret = Variable.get('GITHUB_SECRET')
 
-    # Function to connect to PostgreSQL and scan for new applications
-    def scan_table_for_new_apps():
-        conn = psycopg2.connect(
-            host=postgres_host,
-            port=postgres_port,
-            dbname=postgres_dbname,
-            user=postgres_user,
-            password=postgres_password
-        )
-        cursor = conn.cursor()
-
-        cursor.execute("SELECT DISTINCT application_name FROM ods_data_management.cdc_master_table_list")
-        applications = cursor.fetchall()
-
-        cursor.close()
-        conn.close()
-
-        return applications
 
     # Function to create a DAG definition
-    def create_dag_definition(application):
+    def create_dag_definition():
+        application = 'ATS'
         dag_id = f"pipeline-{application}"
         app = application
         #LOB = application
@@ -101,44 +79,15 @@ def execute_python_script():
 
         repo.create_file(f'dags/{dag_id}.py', 'upload dags', DAG, branch='ui-testing')
         
-        #repo = g.get_repo("bcgov/nr-airflow")
-        #contents = repo.get_contents("/dags", ref="ui-testing")
-        #print([c for c in contents])
-        #for content_file in contents:
-            #print(content_file)
         return DAG
 
 
-    def extract_names(input_list):
-        output_list = []
-        prefix = "dags/pipeline-"
-        suffix = ".py"
-        for item in input_list:
-            # Remove the prefix and suffix
-            name = item[len(prefix):-len(suffix)]
-            output_list.append(name)
-        return output_list
-
     # Main function to orchestrate the process
     def main():
-        existing_dag_list=[]
         g = Github(github_secret)
-        #repo = g.get_repo("bcgov/nr-airflow")
-        #contents = repo.get_contents("/dags", ref="ui-testing")
-        #existing_dags= [c.path for c in contents]
-        #existing_dag_list = extract_names(existing_dags)
-        #print(existing_dag_list)
-    
-        new_applications = scan_table_for_new_apps()
+        dag_content = create_dag_definition()
+        print(dag_content)
 
-        for application in new_applications:
-            application = application[0]  # Extract application name
-            if application not in existing_dag_list:
-                dag_content = create_dag_definition(application)
-                print(dag_content)
-                existing_dag_list.append(application)
-                #push_to_github(dag_content, application)
-                #existing_dags.add(application)
 
     if __name__ == "__main__":
         main()
