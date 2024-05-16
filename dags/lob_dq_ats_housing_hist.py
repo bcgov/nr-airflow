@@ -23,7 +23,7 @@ default_args = {
     "lob_dq_ats_housing_hist",
     start_date=datetime(2024, 2, 20),
     max_active_runs=3,
-    schedule="@daily",
+    schedule=None,
     default_args=default_args,
     template_searchpath="/opt/bitnami/airflow/dags/git_nr-airflow-dags/include/",
     catchup=False,
