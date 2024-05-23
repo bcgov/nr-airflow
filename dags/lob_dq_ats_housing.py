@@ -38,5 +38,5 @@ with DAG(
         secrets=[ats_housing_secrets, ods_secrets],
         container_resources= client.V1ResourceRequirements(
         requests={"cpu": "10m", "memory": "256Mi"},
-        limits={"cpu": "50m", "memory": "500Mi"})
+        limits={"cpu": "100m", "memory": "1Gi"})
     )
