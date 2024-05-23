@@ -4,8 +4,8 @@ from datetime import datetime, timedelta
 
 # Define default_args dictionary
 default_args = {
-    'owner': 'airflow',
-    'start_date': datetime(2023, 11, 28),
+    'owner': 'Data Foundations',
+    'start_date': datetime(2024, 5, 1),
     'retries': 1,
     'retry_delay': timedelta(minutes=5),
 }
@@ -14,9 +14,9 @@ default_args = {
 controller_dag = DAG(
     'lob_dq_ats_controller',
     default_args=default_args,
-    description='ATS Controller DAG to run other DAGs in order',
-    schedule_interval=None,  # Set your desired schedule_interval
-    catchup=False,  # Set to False to skip historical runs
+    description='Controller DAG to trigger jobs for ATS housing and connectivity',
+    schedule_interval='@monthly' 
+    catchup=False,
 )
 
 # Define the list of sub-DAGs in the desired order
