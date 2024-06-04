@@ -8,6 +8,7 @@ ods_secrets = Secret("env", None, "ods-database")
 ats_connectivity_secrets = Secret("env", None, "ats-database-connectivity")
 
 default_args = {
+    'owner': 'Data Foundations',
     "email": ["NRM.DataFoundations@gov.bc.ca"],
     "email_on_failure": True,
     "email_on_retry": True,
@@ -19,6 +20,7 @@ with DAG(
     schedule=None,
     dag_id="lob_dq_ats_connectivity",
     default_args=default_args,
+    description='DAG to create table of monthly ATS connectivity licenses'
 ) as dag:
     run_ats_replication = KubernetesPodOperator(
         task_id="run_ats_connectivity_replication",
@@ -26,6 +28,7 @@ with DAG(
         image_pull_policy="Always",
         # image="image-registry.openshift-image-registry.svc:5000/a1b9b0-dev/data-replication-parametrized-audit1@sha256:8c51ee820434e4f5d06a91deda645bcd0a943b8c87bc3c8a8e67dead1c18a786",
         in_cluster=True,
+        namespace="a1b9b0-prod",
         service_account_name="airflow-admin",
         name="run_ats_connectivity_replication",
         random_name_suffix=True,
