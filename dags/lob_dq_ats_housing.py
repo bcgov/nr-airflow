@@ -19,6 +19,7 @@ with DAG(
     schedule=None,
     dag_id="lob_dq_ats_housing",
     default_args=default_args,
+    description='DAG to create table of monthly ATS connectivity licenses'
 ) as dag:
     run_ats_replication = KubernetesPodOperator(
         task_id="run_ats_housing_replication",
