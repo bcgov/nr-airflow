@@ -7,7 +7,7 @@ from airflow.operators.python_operator import PythonOperator
 
 
 default_args = {
-    "owner": "airflow",
+    'owner': 'Data Foundations',
     "depends_on_past": False,
     "email_on_failure": False,
     "email_on_retry": False,
@@ -27,34 +27,35 @@ default_args = {
     default_args=default_args,
     template_searchpath="/opt/bitnami/airflow/dags/git_nr-airflow-dags/include/",
     catchup=False,
+    description='DAG to create monthly ATS housing history table',
 )
 def exe_ods_ats_hist_process():
     
     expire_old_records = PostgresOperator(
         task_id='execute_sql_expire_old_records',
         sql="ats_housing_expire_old_records.sql",
-        postgres_conn_id="postgres_ods_conn",  # Update connection ID
+        postgres_conn_id="postgres_ods_conn",
         autocommit=True,
     )
     
     insert_new_changed_records = PostgresOperator(
         task_id='execute_sql_insert_new_changed_records',
         sql="ats_housing_insert_new_changed_records.sql",
-        postgres_conn_id="postgres_ods_conn",  # Update connection ID
+        postgres_conn_id="postgres_ods_conn",
         autocommit=True,
     )
     
     update_flag_closed_records = PostgresOperator(
         task_id='execute_sql_update_flag_closed_records',
         sql="ats_housing_update_flag_closed_records.sql",
-        postgres_conn_id="postgres_ods_conn",  # Update connection ID
+        postgres_conn_id="postgres_ods_conn",
         autocommit=True,
     )
 
     archive_hist_records = PostgresOperator(
         task_id='execute_sql_archive_history_records',
         sql="ats_housing_archive_history_records.sql",
-        postgres_conn_id="postgres_ods_conn",  # Update connection ID
+        postgres_conn_id="postgres_ods_conn",
         autocommit=True,
     )    
     
