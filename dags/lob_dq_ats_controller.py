@@ -15,7 +15,7 @@ controller_dag = DAG(
     'lob_dq_ats_controller',
     default_args=default_args,
     description='Controller DAG to trigger jobs for ATS housing and connectivity',
-    schedule_interval='@monthly' 
+    schedule_interval='@monthly',
     catchup=False,
 )
 
