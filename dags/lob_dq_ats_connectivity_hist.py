@@ -45,7 +45,7 @@ def exe_ods_ats_hist_process():
         autocommit=True,
     )
 
-     update_flag_expired_records = PostgresOperator(
+    update_flag_expired_records = PostgresOperator(
         task_id='execute_sql_update_flag_expired_records',
         sql="ats_connectivity_update_flag_expired_records.sql",
         postgres_conn_id="postgres_ods_conn",
