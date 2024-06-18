@@ -7,11 +7,15 @@ spec:
   team:
     description: The Sysdig Team for the NRM Data Analytics Platform
     users:
-    - name: nrm.datafoundations@gov.bc.ca
-      role: ROLE_TEAM_EDIT
-    - name: abigail.michel@gov.bc.ca
-      role: ROLE_TEAM_STANDARD
-    - name: vish.reddy@gov.bc.ca
-      role: ROLE_TEAM_STANDARD
-    - name: richard.pardo-figueroa@gov.bc.ca
-      role: ROLE_TEAM_READ
+      - name: abigail.michel@gov.bc.ca
+        role: ROLE_TEAM_EDIT
+      - name: dana.diotte@gov.bc.ca
+        role: ROLE_TEAM_STANDARD
+      - name: richard.pardo-figueroa@gov.bc.ca
+        role: ROLE_TEAM_READ
+      - name: jakia.sultana@gov.bc.ca
+        role: ROLE_TEAM_READ
+      - name: wei.1.zhang@gov.bc.ca
+        role: ROLE_TEAM_READ
+      - name: jastinder.athwal@gov.bc.ca
+        role: ROLE_TEAM_READ
