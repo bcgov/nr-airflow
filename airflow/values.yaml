@@ -71,10 +71,10 @@ diagnosticMode:
 auth:
   ## @param auth.username Username to access web UI
   ##
-  username: amichel # Abi: can't use datafoundationsteam anymore because it needs to be a valid IDIR
+  username: datafoundationsteam # Abi: need to add users
   ## @param auth.password Password to access web UI
   ##
-  password: ""
+  password: ${AIRFLOW_PASSWORD}
 
   ## @param auth.fernetKey Fernet key to secure connections
   ## ref: https://airflow.readthedocs.io/en/stable/howto/secure-connections.html
@@ -1169,15 +1169,15 @@ git:
 ## @param ldap.rolesSyncAtLogin replace ALL the user's roles each login, or only on registration
 ##
 ldap:
-  enabled: true # Abi: previously false
-  uri: 'ldap://idir.bcgov:389' # Abi: previously "ldap://ldap_server:389"
-  basedn: 'ou=BCGOV,dc=idir,dc=BCGOV' # Abi: previously "dc=example,dc=org"
-  searchAttribute: 'sAMAccountName' # Abi: previously "cn"
-  binddn: '${LDAP_SERVICE_ACCOUNT}@idir' # Abi: previously "cn=admin,dc=example,dc=org"
-  bindpw: '${LDAP_PASSWORD}'
+  enabled: false
+  uri: "ldap://ldap_server:389"
+  basedn: "dc=example,dc=org"
+  searchAttribute: "cn"
+  binddn: "cn=admin,dc=example,dc=org"
+  bindpw: ""
   userRegistration: 'True'
-  userRegistrationRole: 'Public'
-  rolesMapping: '{"cn=WLRS_DL_NRIDS_CSNRIMBARC,ou=Distribution Lists,ou=Exchange Objects,ou=Water Land and Resource Stewardship,ou=BCGOV,dc=idir,dc=BCGOV": ["User"], "*": ["Public"]}' # Abi: custom role mapping
+  userRegistrationRole: "Public"
+  rolesMapping: '{ "cn=All,ou=Groups,dc=example,dc=org": ["User"], "cn=Admins,ou=Groups,dc=example,dc=org": ["Admin"], }'
   rolesSyncAtLogin: 'True'
 
   ## SSL/TLS parameters for LDAP
