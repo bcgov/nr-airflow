@@ -1,3 +1,5 @@
+# Abi: helm install airflow bitnami/airflow --version 18.3.8 -f values.yaml
+
 ## @section Global parameters
 ## Global Docker image parameters
 ## Please, note that this will override the image parameters, including dependencies, configured to use the global value
@@ -68,10 +70,10 @@ diagnosticMode:
 auth:
   ## @param auth.username Username to access web UI
   ##
-  username: amichel # Abi: can't use datafoundationsteam anymore because it needs to be a valid IDIR
+  username: datafoundationsteam # Abi: can't use datafoundationsteam anymore because it needs to be a valid IDIR
   ## @param auth.password Password to access web UI
   ##
-  password: ""
+  password: Testing1!
 
   ## @param auth.fernetKey Fernet key to secure connections
   ## ref: https://airflow.readthedocs.io/en/stable/howto/secure-connections.html
@@ -1050,14 +1052,9 @@ git:
     #  git checkout 
     repositories:
       - repository: https://github.com/bcgov/nr-airflow
-        branch: a1b9b0-prod
+        branch: a1b9b0-dev
         name: nr-airflow-dags
         path: /dags
-
-      - repository: https://github.com/bcgov/nr-dap-dlh
-        branch: main
-        name: nr-dap-dlh-dags
-        path: /pmt/af/DAG/
 
       # - repository: ""
         ## Branch from repository to checkout
@@ -1165,6 +1162,9 @@ git:
 ## @param ldap.rolesMapping mapping from LDAP DN to a list of roles
 ## @param ldap.rolesSyncAtLogin replace ALL the user's roles each login, or only on registration
 ##
+
+# airflow create_user -r Admin -u datafoundationsteam -p Testing1! -e  -f Data Foundations -l Team
+
 ldap:
   enabled: true # Abi: previously false
   uri: 'ldap://idir.bcgov:389' # Abi: previously "ldap://ldap_server:389"
@@ -1173,8 +1173,8 @@ ldap:
   binddn: '${LDAP_SERVICE_ACCOUNT}@idir' # Abi: previously "cn=admin,dc=example,dc=org"
   bindpw: '${LDAP_PASSWORD}'
   userRegistration: 'True'
-  userRegistrationRole: 'Public'
-  rolesMapping: '{"cn=WLRS_DL_NRIDS_CSNRIMBARC,ou=Distribution Lists,ou=Exchange Objects,ou=Water Land and Resource Stewardship,ou=BCGOV,dc=idir,dc=BCGOV": ["User"], "*": ["Public"]}' # Abi: custom role mapping
+  userRegistrationRole: 'User'
+  rolesMapping: '{"cn=NRIDS Architecture,ou=Distribution Lists,ou=Exchange Objects,ou=Water Land and Resource Stewardship,ou=BCGOV,dc=idir,dc=BCGOV":["User"],"*":["Public"]}' # Abi: custom role mapping "*": ["Public"]
   rolesSyncAtLogin: 'True'
 
   ## SSL/TLS parameters for LDAP
