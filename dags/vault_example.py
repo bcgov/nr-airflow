@@ -18,10 +18,9 @@ with DAG(
         image="ghcr.io/bcgov/nr-vault-patterns:main",
         image_pull_policy="Always",
         in_cluster=True,
-        namespace="a1b9b0-dev",
         name="get_ods_host",
         random_name_suffix=True,
-        labels={"DataClass": "High", "Release": "test-release-af"},  # network policies
+        labels={"DataClass": "High", "Release": "airflow"},  # network policies
         reattach_on_restart=True,
         is_delete_operator_pod=False,
         get_logs=True,
