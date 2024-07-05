@@ -27,7 +27,7 @@ with DAG(
         get_logs=True,
         log_events_on_failure=True,
         secrets=[vault_jwt],
-        env_vars={"VAULT_ENV": "dev", "SECRET_NAME": "ods-dev"}, 
+        env_vars={"VAULT_ENV": "dev", "SECRET_NAME": "admin-ods-dev"},
         do_xcom_push=True, # allows pushing the secrets to return.json
         container_resources= client.V1ResourceRequirements(
         requests={"cpu": "10m", "memory": "256Mi"},
