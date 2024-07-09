@@ -1,3 +1,5 @@
+# IMPORTANT: Delete this DAG once X-NRS Dashboard is being refreshed from like-to-like replicated tables
+
 from airflow import DAG
 from pendulum import datetime
 from kubernetes import client
@@ -5,7 +7,7 @@ from airflow.providers.cncf.kubernetes.operators.pod import KubernetesPodOperato
 from airflow.providers.cncf.kubernetes.secret import Secret
 from datetime import timedelta
 
-LOB = 'lexis' # ats, fta, rrs, or lexis
+LOB = 'rrs-rp' # ats, fta, rrs, or lexis
 
 ods_secrets = Secret("env", None, "ods-database")
 lob_secrets = Secret("env", None, f"{LOB}-database")
@@ -22,10 +24,10 @@ default_args = {
 with DAG(
     start_date=datetime(2023, 11, 23),
     catchup=False,
-    schedule='10 12 * * *',
-    dag_id=f"permitting-pipeline-{LOB}",
+    schedule='15 12 * * *',
+    dag_id=f"permitting-pipeline-{LOB}-temporary",
     default_args=default_args,
-    description='DAG to replicate LEXIS query to ODS for X-NRS Permitting Dashboard'
+    description='DAG to replicate RRS query to ODS for X-NRS Permitting Dashboard'
 ) as dag:
     run_replication = KubernetesPodOperator(
         task_id="run_replication",
