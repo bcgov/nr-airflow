@@ -1,4 +1,3 @@
-
 from airflow import DAG
 from pendulum import datetime
 from kubernetes import client
@@ -6,9 +5,9 @@ from airflow.providers.cncf.kubernetes.operators.pod import KubernetesPodOperato
 from airflow.providers.cncf.kubernetes.secret import Secret
 from datetime import timedelta
 
-LOB = 'fta' # ats, fta, rrs, or lexis
+LOB = 'fta'
 
-ods_secrets = Secret("env", None, "ods-database")
+ods_secrets = Secret("env", None, f"{LOB}-ods-database")
 lob_secrets = Secret("env", None, f"{LOB}-database")
 
 default_args = {
@@ -26,7 +25,7 @@ with DAG(
     schedule='5 12 * * *',
     dag_id=f"permitting-pipeline-{LOB}",
     default_args=default_args,
-    description='DAG to replicate FTA query to ODS for X-NRS Permitting Dashboard'
+    description='DAG to replicate FTA data to ODS for X-NRS Permitting Dashboard'
 ) as dag:
     run_replication = KubernetesPodOperator(
         task_id="run_replication",
@@ -36,7 +35,7 @@ with DAG(
         service_account_name="airflow-admin",
         name=f"run_{LOB}_replication",
         labels={"DataClass": "Medium", "ConnectionType": "database",  "Release": "airflow"},
-        is_delete_operator_pod=False,
+        is_delete_operator_pod=True,
         secrets=[lob_secrets, ods_secrets],
         container_resources= client.V1ResourceRequirements(
         requests={"cpu": "50m", "memory": "512Mi"},
