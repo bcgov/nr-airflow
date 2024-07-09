@@ -26,7 +26,6 @@ with DAG(
         image="ghcr.io/bcgov/nr-dap-ods:main",
         image_pull_policy="Always",
         in_cluster=True,
-        namespace="a1b9b0-prod",
         service_account_name="airflow-admin",
         name="run_ats_housing_replication",
         random_name_suffix=True,
