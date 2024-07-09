@@ -1,3 +1,4 @@
+# IMPORTANT: Delete this DAG once X-NRS Dashboard is being refreshed from like-to-like replicated tables
 
 from airflow import DAG
 from pendulum import datetime
@@ -9,7 +10,7 @@ from datetime import timedelta
 LOB = 'ats'
 
 ods_secrets = Secret("env", None, "ods-database")
-lob_secrets = Secret("env", None, f"{LOB}-database")
+lob_secrets = Secret("env", None, f"{LOB}-database-temporary")
 
 default_args = {
     'owner': 'PMT',

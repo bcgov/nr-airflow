@@ -10,7 +10,7 @@ from datetime import timedelta
 LOB = 'rrs-rup'
 
 ods_secrets = Secret("env", None, "ods-database")
-lob_secrets = Secret("env", None, f"{LOB}-database")
+lob_secrets = Secret("env", None, f"{LOB}-database-temporary")
 
 default_args = {
     'owner': 'PMT',
