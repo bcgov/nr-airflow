@@ -150,6 +150,8 @@ extraEnvVars:
     value: 'http://swpxkam.gov.bc.ca:8080'
   - name: no_proxy
     value: 'NO_PROXY=.cluster.local,.svc,10.91.0.0/16,172.30.0.0/16,127.0.0.1,localhost,.gov.bc.ca'
+  - name: AIRFLOW__API__AUTH_BACKEND
+    value: airflow.api.auth.backend.basic_auth
 
 ## @param extraEnvVarsCM ConfigMap with extra environment variables for all the Airflow pods
 ##
