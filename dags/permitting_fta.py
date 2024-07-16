@@ -39,5 +39,5 @@ with DAG(
         secrets=[lob_secrets, ods_secrets],
         container_resources= client.V1ResourceRequirements(
         requests={"cpu": "50m", "memory": "512Mi"},
-        limits={"cpu": "100m", "memory": "2Gi"})
+        limits={"cpu": "100m", "memory": "1500Mi"})
     )
