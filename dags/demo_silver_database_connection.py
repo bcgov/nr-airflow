@@ -1,9 +1,7 @@
 from airflow.decorators import dag
 from airflow.providers.common.sql.operators.sql import SQLExecuteQueryOperator
-from datetime import datetime, timedelta
 from airflow.operators.postgres_operator import PostgresOperator
 from airflow.utils.dates import datetime
-from airflow.operators.python_operator import PythonOperator
 
 @dag(
     "demo_silver_database_connection",
