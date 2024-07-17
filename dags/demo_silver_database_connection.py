@@ -7,7 +7,7 @@ from airflow.utils.dates import datetime
     "demo_silver_database_connection",
     start_date=datetime(2024, 1, 16),
     max_active_runs=3,
-    schedule="None",
+    schedule=None,
     template_searchpath="/opt/bitnami/airflow/dags/git_nr-airflow-dags/include/",
     catchup=False
 )
