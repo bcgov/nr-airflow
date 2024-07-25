@@ -5,7 +5,7 @@ from airflow.providers.cncf.kubernetes.operators.pod import KubernetesPodOperato
 from airflow.providers.cncf.kubernetes.secret import Secret
 from datetime import timedelta
 
-rar_secrets = Secret("env", None, "rar_data_extract")
+rar_secrets = Secret("env", None, "rar-data-extract")
 
 default_args = {
     'owner': 'Data Foundations',
@@ -20,7 +20,7 @@ with DAG(
     start_date=datetime(2024, 7, 23),
     catchup=False,
     schedule='0 4 * * *',
-    dag_id="rar_s3_replication",
+    dag_id="housing-pipeline-rar",
     default_args=default_args,
     description='DAG to replicate RAR data extract to S3 bucket so that it can be accessed via BCBox',
 ) as dag:
