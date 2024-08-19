@@ -73,7 +73,6 @@ auth:
   username: datafoundationsteam # Abi: can't use datafoundationsteam anymore because it needs to be a valid IDIR
   ## @param auth.password Password to access web UI
   ##
-  password: Testing1!
 
   ## @param auth.fernetKey Fernet key to secure connections
   ## ref: https://airflow.readthedocs.io/en/stable/howto/secure-connections.html
@@ -1168,7 +1167,7 @@ git:
 # airflow create_user -r Admin -u datafoundationsteam -p Testing1! -e  -f Data Foundations -l Team
 
 ldap:
-  enabled: true # Abi: previously false
+  enabled: false # Abi: previously false
   uri: 'ldap://idir.bcgov:389' # Abi: previously "ldap://ldap_server:389"
   basedn: 'ou=BCGOV,dc=idir,dc=BCGOV' # Abi: previously "dc=example,dc=org"
   searchAttribute: 'sAMAccountName' # Abi: previously "cn"
