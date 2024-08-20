@@ -81,9 +81,9 @@ default_args = {{
 }}
 
 with DAG(
-    start_date=datetime(2023, 11, 23),
-    catchup=False,
-    schedule='5 12 * * *',
+    start_date=datetime(2024, 8, 20),
+    catchup=True,
+    schedule='0 12 * * *',
     dag_id=f"pipeline-{{LOB}}",
     default_args=default_args,
 ) as dag:
