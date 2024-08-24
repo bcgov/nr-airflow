@@ -9,6 +9,8 @@ spec:
     users:
       - name: abigail.michel@gov.bc.ca
         role: ROLE_TEAM_EDIT
+      - name: krishna.rajendharan@gov.bc.ca
+        role: ROLE_TEAM_EDIT
       - name: dana.diotte@gov.bc.ca
         role: ROLE_TEAM_STANDARD
       - name: richard.pardo-figueroa@gov.bc.ca
