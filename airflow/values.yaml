@@ -1053,7 +1053,7 @@ git:
     #  git checkout 
     repositories:
       - repository: https://github.com/bcgov/nr-airflow
-        branch: a1b9b0-dev
+        branch: main
         name: nr-airflow-dags
         path: /dags
 
@@ -1122,7 +1122,7 @@ git:
   ## @param git.sync.resources Sync sidecar container resource requests and limits
   ##
   sync:
-    interval: 30 # Abi: increased
+    interval: 5 # Abi: increased
     command: []
     args: []
     extraVolumeMounts: []
