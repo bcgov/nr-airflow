@@ -1,6 +1,6 @@
 --Step1:Update end date and flag for changed records
 Update lob_dq_replication_hist.ats_connectivity_hist a 
-SET record_active_ind='',effective_end_dttm=current_timestamp(0)- interval '1 minute'
+SET record_active_ind='E',effective_end_dttm=current_timestamp(0)- interval '1 minute'
 from (
 select 
 		a.ministry_code					ministry_code,
