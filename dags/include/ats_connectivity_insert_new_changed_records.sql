@@ -78,22 +78,5 @@ select
 		a.record_created_by record_created_by,
 		a.record_created_dttm record_created_dttm
 FROM	lob_dq_replication.ats_connectivity  a
-left 	join  ( select * from lob_dq_replication_hist.ats_connectivity_hist where effective_end_dttm=CAST('9999-12-31 00:00:00' as timestamp(0)))d on 
-        a.application_id = d.application_id and
-		md5(coalesce(cast(a.ministry_code					 		as varchar),'~') || '|'|| 
-			coalesce(cast(a.business_area 				  	as varchar),'~') || '|'|| 
-			coalesce(cast(a.permit_type		             		as varchar),'~') || '|'|| 
-			coalesce(cast(a.project_id 	                  	as varchar),'~') || '|'|| 
-			coalesce(cast(a.application_id		         		as varchar),'~') || '|'|| 
-			coalesce(cast(a.project_name					 		as varchar),'~') || '|'|| 
-			coalesce(cast(a.project_description			 		as varchar),'~') || '|'|| 
-			coalesce(cast(a.project_location				 		as varchar),'~') || '|'|| 
-			coalesce(cast(a.received_date					 		as varchar),'~') || '|'||  
-			coalesce(cast(a.adjudication_date				 		as varchar),'~') || '|'||   
-			coalesce(cast(a.region_name 					 		as varchar),'~') || '|'||  
-			coalesce(cast(a.estimated_houses_connected	    		 		as varchar),'~') || '|'|| 
-			coalesce(cast(a.application_status			 		as varchar),'~') || '|'||
-			coalesce(cast(a.business_area_file_number			 		as varchar),'~') 
-			)=d.hash_key 
- where d.hash_key is null and
-  a.application_id in (select application_id from lob_dq_replication_hist.ats_connectivity_hist where effective_end_dttm=CAST('9999-12-31 00:00:00' as timestamp(0)))
+inner 	join  ( select * from lob_dq_replication_hist.ats_connectivity_hist where record_active_ind='E')d on 
+        a.application_id = d.application_id;
