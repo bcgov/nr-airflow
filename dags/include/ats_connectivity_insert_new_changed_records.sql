@@ -28,13 +28,19 @@ select
 			coalesce(cast(a.region_name 					 		as varchar),'~') || '|'||  
 			coalesce(cast(a.estimated_houses_connected	    		 		as varchar),'~') || '|'|| 
 			coalesce(cast(a.application_status			 		as varchar),'~') || '|'||
-			coalesce(cast(a.business_area_file_number			 		as varchar),'~') 
+			coalesce(cast(a.business_area_file_number as varchar), '~') || '|' ||
+        	coalesce(cast(a.status_code as varchar), '~') || '|' ||
+       	 	coalesce(cast(a.close_code as varchar), '~') || '|' ||
+       	 	coalesce(cast(a.close_reason as varchar), '~')
 			) as key_hash,
 		'A' as record_active_ind,
 		CAST('1900-01-01 00:00:00' as timestamp(0))			effective_start_dttm, 
 		CAST('9999-12-31 00:00:00' as timestamp(0))			effective_end_dttm,
 		a.record_created_by record_created_by,
-		a.record_created_dttm record_created_dttm
+		a.record_created_dttm record_created_dttm,
+		a.status_code,
+		a.close_code,
+		a.close_reason
 FROM	lob_dq_replication.ats_connectivity  a
 left 	join  lob_dq_replication_hist.ats_connectivity_hist d on 
 		a.application_id=d.application_id			  
@@ -70,13 +76,19 @@ select
 			coalesce(cast(a.region_name 					 		as varchar),'~') || '|'||  
 			coalesce(cast(a.estimated_houses_connected	    		 		as varchar),'~') || '|'|| 
 			coalesce(cast(a.application_status			 		as varchar),'~') || '|'||
-			coalesce(cast(a.business_area_file_number			 		as varchar),'~') 
+			coalesce(cast(a.business_area_file_number as varchar), '~') || '|' ||
+        	coalesce(cast(a.status_code as varchar), '~') || '|' ||
+       	 	coalesce(cast(a.close_code as varchar), '~') || '|' ||
+       	 	coalesce(cast(a.close_reason as varchar), '~')
 			) as key_hash,
 		'A' as record_active_ind,
 		current_timestamp(0)			effective_start_dttm, 
 		CAST('9999-12-31 00:00:00' as timestamp(0)) effective_end_dttm,
 		a.record_created_by record_created_by,
-		a.record_created_dttm record_created_dttm
+		a.record_created_dttm record_created_dttm,
+		a.status_code,
+		a.close_code,
+		a.close_reason
 FROM	lob_dq_replication.ats_connectivity  a
 inner 	join  ( select * from lob_dq_replication_hist.ats_connectivity_hist where record_active_ind='E')d on 
         a.application_id = d.application_id;
