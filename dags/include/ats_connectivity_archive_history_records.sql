@@ -22,7 +22,7 @@ select
     a.record_created_by,
     a.record_created_dttm,
     current_timestamp(0) archive_dttm,
-    a.close_code,
     a.status_code,
+    a.close_code,
     a.close_reason
   FROM	lob_dq_replication_hist.ats_connectivity_hist  a
