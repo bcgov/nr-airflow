@@ -64,7 +64,7 @@ with DAG(
     description='DAG to collect PostgreSQL schema sizes monthly',
 
    # schedule_interval='0 0 1 * *',  # At 00:00 on day-of-month 1
-    schedule_interval='*/1 * * * *',  # Every minute for testing
+    schedule_interval='0 1 * * *'  # Every day at 01:00
     start_date=datetime(2023, 10, 1),
     catchup=False,
     tags=['schema-sizes'],
