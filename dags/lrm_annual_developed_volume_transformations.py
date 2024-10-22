@@ -24,7 +24,7 @@ if ENV == 'LOCAL':
     }
 else:
     default_args = {
-        'owner': 'PMT',
+        'owner': 'BCTS',
         "email": ["sreejith.munthikodu@gov.bc.ca"],
         'retries': 2,
         'retry_delay': timedelta(minutes=5),
@@ -33,9 +33,9 @@ else:
     }
 
 with DAG(
-    start_date=datetime(2023, 11, 23),
+    start_date=datetime(2024, 11, 22),
     catchup=False,
-    schedule='0 1 * * *',
+    schedule='0 5 * * MON-FRI',
     dag_id=f"transformations-{LOB}",
     default_args=default_args,
     description='DAG to run the transformations in ODS for BCTS Annual Developed Volume Dashboard',

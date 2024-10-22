@@ -24,7 +24,7 @@ if ENV == 'LOCAL':
     }
 else:
     default_args = {
-        'owner': 'PMT',
+        'owner': 'BCTS',
         "email": ["NRM.DataFoundations@gov.bc.ca"],
         'retries': 1,
         'retry_delay': timedelta(minutes=5),
@@ -33,9 +33,9 @@ else:
     }
 
 with DAG(
-    start_date=datetime(2023, 11, 23),
+    start_date=datetime(2024, 11, 22),
     catchup=False,
-    schedule='0 12 * * *',
+    schedule='0 4 * * MON-FRI',
     dag_id=f"replication-pipeline-{LOB}",
     default_args=default_args,
     description='DAG to replicate LRM data to ODS for BCTS Annual Developed Volume Dashboard',
