@@ -15,7 +15,7 @@ ods_secrets = Secret("env", None, f"{LOB}-ods-database")
 
 if ENV == 'LOCAL':
     default_args = {
-        'owner': 'PMT',
+        'owner': 'BCTS',
         "email": ["sreejith.munthikodu@gov.bc.ca"],
         'retries': 2,
         'retry_delay': timedelta(minutes=5),
