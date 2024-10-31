@@ -7,17 +7,16 @@ from datetime import timedelta
 import os
 
 LOB = 'lrm'
-# For local development environment.
+# For local development environment only.
 ENV = os.getenv("AIRFLOW_ENV")
 
 ods_secrets = Secret("env", None, f"{LOB}-ods-database")
-lob_secrets = Secret("env", None, f"{LOB}-database")
 
 if ENV == 'LOCAL':
     default_args = {
         'owner': 'BCTS',
-        "email": ["NRM.DataFoundations@gov.bc.ca"],
-        'retries': 1,
+        "email": ["sreejith.munthikodu@gov.bc.ca"],
+        'retries': 2,
         'retry_delay': timedelta(minutes=5),
         "email_on_failure": False, # No alerts in local environment
         "email_on_retry": False,
@@ -25,31 +24,36 @@ if ENV == 'LOCAL':
 else:
     default_args = {
         'owner': 'BCTS',
-        "email": ["NRM.DataFoundations@gov.bc.ca"],
-        'retries': 1,
+        "email": ["sreejith.munthikodu@gov.bc.ca"],
+        'retries': 2,
         'retry_delay': timedelta(minutes=5),
         "email_on_failure": True,
         "email_on_retry": False,
     }
 
 with DAG(
-    start_date=datetime(2024, 11, 22),
+    start_date=datetime(2024, 11, 23),
     catchup=False,
-    schedule='0 4 * * MON-FRI',
-    dag_id=f"replication-pipeline-{LOB}",
+    schedule='0 5 * * MON-FRI',
+    dag_id=f"apply-grants-{LOB}",
     default_args=default_args,
-    description='DAG to replicate LRM data to ODS for BCTS Annual Developed Volume Dashboard',
+    description='DAG to apply grants to BCTS data in ODS',
 ) as dag:
     
     if ENV == 'LOCAL':
 
         run_replication = KubernetesPodOperator(
-            task_id="run_replication",
-            image="nrids-bcts-data-ora2pg:main",
-            name=f"run_{LOB}_replication",
+            task_id=f"apply_{LOB}_grants",
+            image="nrids-bcts-data-pg-access:main",
+            cmds=["python3", "./bcts_acces_apply_grants.py"],
+            # Following configs are different in the local development environment
+            # image_pull_policy="Always",
+            # in_cluster=True,
+            # service_account_name="airflow-admin",
+            name=f"apply_{LOB}_access_grants",
             labels={"DataClass": "Medium", "ConnectionType": "database",  "Release": "airflow"},
             is_delete_operator_pod=True,
-            secrets=[lob_secrets, ods_secrets],
+            secrets=[ods_secrets],
             container_resources= client.V1ResourceRequirements(
             requests={"cpu": "50m", "memory": "512Mi"},
             limits={"cpu": "100m", "memory": "1024Mi"})
@@ -57,15 +61,16 @@ with DAG(
     else:
         # In Dev, Test, and Prod Environments
         run_replication = KubernetesPodOperator(
-            task_id="run_replication",
-            image="ghcr.io/bcgov/nr-dap-ods-ora2pg:main",
+            task_id=f"export_{LOB}_grants",
+            image="ghcr.io/bcgov/nr-dap-ods-bcts-pg-access:main",
+            cmds=["python3", "./bcts_acces_apply_grants.py"],
             image_pull_policy="Always",
             in_cluster=True,
             service_account_name="airflow-admin",
-            name=f"run_{LOB}_replication",
+            name=f"apply_{LOB}_access_grants",
             labels={"DataClass": "Medium", "ConnectionType": "database",  "Release": "airflow"},
             is_delete_operator_pod=True,
-            secrets=[lob_secrets, ods_secrets],
+            secrets=[ods_secrets],
             container_resources= client.V1ResourceRequirements(
             requests={"cpu": "50m", "memory": "512Mi"},
             limits={"cpu": "100m", "memory": "1024Mi"})
