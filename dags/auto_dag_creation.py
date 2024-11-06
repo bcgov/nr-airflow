@@ -61,7 +61,7 @@ def execute_python_script():
                 dag_id = f"pipeline-{application}"
                 app = application
                 #LOB = application
-                DAG = f""" 
+                DAG = f"""
 from airflow import DAG
 from pendulum import datetime
 from kubernetes import client
@@ -92,7 +92,7 @@ with DAG(
 
     run_replication = KubernetesPodOperator(
         task_id="run_replication",
-        image="ghcr.io/bcgov/nr-dap-ods:main",
+        image="ghcr.io/bcgov/nr-dap-ods-ora2pg:main",
         image_pull_policy="Always",
         in_cluster=True,
         service_account_name="airflow-admin",
@@ -132,5 +132,5 @@ with DAG(
         task_id='execute_script',
         python_callable=execute_python_script
     )
-    
+
     start_task >> execute_script_task
