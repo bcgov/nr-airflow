@@ -32,10 +32,10 @@ else:
     }
 
 with DAG(
-    start_date=datetime(2024, 11, 23),
+    start_date=datetime(2024, 10, 23),
     catchup=False,
     schedule=None,
-    dag_id=f"export-grants-{LOB}",
+    dag_id=f"bcts_export-grants-{LOB}",
     default_args=default_args,
     description='DAG to export the grants master file to ODS',
 ) as dag:
