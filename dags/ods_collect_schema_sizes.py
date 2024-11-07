@@ -40,7 +40,7 @@ def exe_ods_collect_schema_stats():
        task_id='execute_schema_totals_function',
        sql="'SELECT ods_data_management.ods_collect_schema_totals();'",
        postgres_conn_id="postgres_ods_conn",
-       autocommit=True, autocommit=True,
+       autocommit=True, 
     )    
     
   gather_monthly_sizes >> gather_monthly_totals
