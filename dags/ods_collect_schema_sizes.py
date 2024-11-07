@@ -18,21 +18,27 @@ default_args = {
 }
 
 with DAG(
-    dag_id='collect_schema_sizes_dag',
+    dag_id='collect_schema_stats_dag',
     start_date=datetime(2024, 11, 1),
     max_active_runs=3,
     schedule_interval='0 8 1 * *',  # At 08:00 on Fist day of the month   
     default_args=default_args,
     template_searchpath="/opt/bitnami/airflow/dags/git_nr-airflow-dags/include/",
     catchup=False,
-    description='DAG to collect PostgreSQL schema sizes monthly'
+    description='DAG to collect PostgreSQL schema stats monthly'
 ) as dag:
 
   gather_monthly_sizes = PostgresOperator(
-       task_id='execute_schema_size_function',
-       sql="'SELECT ods_data_management.collect_schema_sizes();'",
+       task_id='execute_schema_sizes_function',
+       sql="'SELECT ods_data_management.ods_collect_schema_sizes();'",
        postgres_conn_id="postgres_ods_conn",
        autocommit=True,
    )
+  
+  gather_monthly_totals = PostgresOperator(
+       task_id='execute_schema_totals_function',
+       sql="'SELECT ods_data_management.ods_collect_schema_totals();'",
+       postgres_conn_id="postgres_ods_conn"
+  )
 
   gather_monthly_sizes 
