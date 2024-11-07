@@ -4,7 +4,6 @@ from airflow.operators.python_operator import PythonOperator
 from airflow.operators.postgres_operator import PostgresOperator
 from airflow.operators.empty import EmptyOperator
 from datetime import datetime, timedelta
-import psycopg2
 import logging
 
 default_args = {
@@ -28,17 +27,21 @@ with DAG(
     description='DAG to collect PostgreSQL schema stats monthly'
 ) as dag:
 
+  logger = logging.getLogger("airflow.task")
+  logger.info("Connecting to PostgreSQL database")
+  
+  logger.info("Executing collect_schema_sizes function")
   gather_monthly_sizes = PostgresOperator(
        task_id='execute_schema_sizes_function',
        sql="'SELECT ods_data_management.ods_collect_schema_sizes();'",
        postgres_conn_id="postgres_ods_conn",
        autocommit=True,
    )
-  
+ 
+  logger.info("Executing collect_schema_stats function")
   gather_monthly_totals = PostgresOperator(
        task_id='execute_schema_totals_function',
        sql="'SELECT ods_data_management.ods_collect_schema_totals();'",
-       postgres_conn_id="postgres_ods_conn"
-  )
-
-  gather_monthly_sizes 
+       postgres_conn_id="postgres_ods_conn",
+       autocommit=True,
+  ) 
