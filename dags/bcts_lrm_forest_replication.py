@@ -74,4 +74,8 @@ with DAG(
             requests={"cpu": "50m", "memory": "512Mi"},
             limits={"cpu": "100m", "memory": "1024Mi"}),
             random_name_suffix=False
+<<<<<<< Updated upstream
         )
+=======
+        )
+>>>>>>> Stashed changes
