@@ -5,7 +5,7 @@ from airflow.providers.cncf.kubernetes.operators.pod import KubernetesPodOperato
 from airflow.providers.cncf.kubernetes.secret import Secret
 from datetime import timedelta
 
-LOB = 'rrs' 
+LOB = 'rrs'
 
 ods_secrets = Secret("env", None, f"{LOB}-ods-database")
 lob_secrets = Secret("env", None, f"{LOB}-database")
@@ -29,7 +29,7 @@ with DAG(
 ) as dag:
     run_replication = KubernetesPodOperator(
         task_id="run_replication",
-        image="ghcr.io/bcgov/nr-dap-ods:main",
+        image="ghcr.io/bcgov/nr-dap-ods-ora2pg:main",
         image_pull_policy="Always",
         in_cluster=True,
         service_account_name="airflow-admin",
