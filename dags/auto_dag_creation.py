@@ -87,7 +87,7 @@ with DAG(
     dag_id=f"pipeline-{{LOB}}",
     default_args=default_args,
 ) as dag:
-    ods_secrets = Secret("env", None, "ods-database")
+    ods_secrets = Secret("env", None, f"{{LOB}}ods-database")
     lob_secrets = Secret("env", None, f"{{LOB}}-database")
 
     run_replication = KubernetesPodOperator(
