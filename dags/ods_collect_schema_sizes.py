@@ -18,8 +18,8 @@ default_args = {
 }
 
 with DAG(
-    dag_id='collect_schema_stats_dag',
-    start_date=datetime(2024, 11, 1),
+    dag_id='ods_collect_schema_stats_dag',
+    start_date=datetime(2024, 11, 10),
     max_active_runs=3,
     schedule_interval='0 8 1 * *',  # At 08:00 on Fist day of the month   
     default_args=default_args,
