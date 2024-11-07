@@ -31,14 +31,14 @@ def exe_ods_collect_schema_stats():
 
   gather_monthly_sizes = PostgresOperator(
        task_id='execute_schema_sizes_function',
-       sql="'SELECT ods_data_management.ods_collect_schema_sizes();'",
+       sql="SELECT ods_data_management.ods_collect_schema_sizes();",
        postgres_conn_id="postgres_ods_conn",
        autocommit=True,
    )
  
   gather_monthly_totals = PostgresOperator(
        task_id='execute_schema_totals_function',
-       sql="'SELECT ods_data_management.ods_collect_schema_totals();'",
+       sql="SELECT ods_data_management.ods_collect_schema_totals();",
        postgres_conn_id="postgres_ods_conn",
        autocommit=True, 
     )    
