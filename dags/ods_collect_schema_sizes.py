@@ -19,7 +19,7 @@ default_args = {
 
 @dag(
     "ods_collect_schema_stats_dag",
-    start_date=datetime(2024, 11, 01),
+    start_date=datetime(2024, 11, 1),
     max_active_runs=3,
     schedule_interval='0 8 1 * *',  # At 08:00 on Fist day of the month  
     default_args=default_args,
