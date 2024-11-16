@@ -44,7 +44,7 @@ with DAG(
     if ENV == 'LOCAL':
 
         run_replication = KubernetesPodOperator(
-            task_id="run_transformation",
+            task_id="run_bcts_transformation",
             image="nrids-bcts-data-pg-transformations:main",
             cmds=["python3", "./bcts_etl.py"],
             arguments=[sql_file_path],
@@ -63,8 +63,8 @@ with DAG(
     else:
         # In Dev, Test, and Prod Environments
         run_replication = KubernetesPodOperator(
-            task_id="run_replication",
-            image="ghcr.io/bcgov/nr-dap-ods-pg-transformations:main",
+            task_id="run_bcts_transformation",
+            image="ghcr.io/bcgov/nr-dap-ods-bctstransformations:SD-128488-BCTS-ODS-GRANT-MANAGEMENT",
             cmds=["python3", "./bcts_etl.py"],
             arguments=[sql_file_path],
             image_pull_policy="Always",
