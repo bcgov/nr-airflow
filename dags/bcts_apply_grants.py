@@ -3,6 +3,7 @@ from pendulum import datetime
 from kubernetes import client
 from airflow.providers.cncf.kubernetes.operators.pod import KubernetesPodOperator
 from airflow.providers.cncf.kubernetes.secret import Secret
+from airflow.sensors.external_task import ExternalTaskSensor
 from datetime import timedelta
 import os
 
@@ -34,16 +35,23 @@ else:
 with DAG(
     start_date=datetime(2024, 10, 23),
     catchup=False,
-    schedule='0 5 * * MON-FRI',
+    schedule='0 12 * * MON-FRI',
     dag_id=f"bcts_apply-grants-{LOB}",
     default_args=default_args,
     description='DAG to apply grants to BCTS data in ODS',
 ) as dag:
+    wait_for_transformation = ExternalTaskSensor(
+        task_id='wait_for_replication',
+        external_dag_id='bcts_transformations',
+        external_task_id='task_completion_flag',
+        timeout=12000,  # Timeout in seconds
+        poke_interval=30  # How often to check (in seconds)
+    )
     
     if ENV == 'LOCAL':
 
         run_replication = KubernetesPodOperator(
-            task_id=f"apply_{LOB}_grants",
+            task_id=f"apply_bcts_grants",
             image="nrids-bcts-data-pg-access:main",
             cmds=["python3", "./bcts_acces_apply_grants.py"],
             # Following configs are different in the local development environment
@@ -61,8 +69,8 @@ with DAG(
     else:
         # In Dev, Test, and Prod Environments
         run_replication = KubernetesPodOperator(
-            task_id=f"export_{LOB}_grants",
-            image="ghcr.io/bcgov/nr-dap-ods-bctsgrantmngmt:SD-128488-BCTS-ODS-GRANT-MANAGEMENT",
+            task_id=f"apply_bcts_grants",
+            image="ghcr.io/bcgov/nr-dap-ods-bcts-pg-access:main",
             cmds=["python3", "./bcts_acces_apply_grants.py"],
             image_pull_policy="Always",
             in_cluster=True,
@@ -75,5 +83,4 @@ with DAG(
             requests={"cpu": "50m", "memory": "512Mi"},
             limits={"cpu": "100m", "memory": "1024Mi"}),
             random_name_suffix=False
-            
         )

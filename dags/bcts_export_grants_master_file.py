@@ -35,7 +35,7 @@ with DAG(
     start_date=datetime(2024, 10, 23),
     catchup=False,
     schedule=None,
-    dag_id=f"bcts_export-grants-{LOB}",
+    dag_id=f"bcts_export-grants",
     default_args=default_args,
     description='DAG to export the grants master file to ODS',
 ) as dag:
@@ -43,7 +43,7 @@ with DAG(
     if ENV == 'LOCAL':
 
         run_replication = KubernetesPodOperator(
-            task_id=f"export_{LOB}_grants",
+            task_id=f"export_bcts_grants",
             image="nrids-bcts-data-pg-access:main",
             cmds=["python3", "./bcts_access_export_master_file.py"],
             # Following configs are different in the local development environment
@@ -61,8 +61,8 @@ with DAG(
     else:
         # In Dev, Test, and Prod Environments
         run_replication = KubernetesPodOperator(
-            task_id=f"export_{LOB}_grants",
-            image="ghcr.io/bcgov/nr-dap-ods-bctsgrantmngmt:SD-128488-BCTS-ODS-GRANT-MANAGEMENT",
+            task_id=f"export_bcts_grants",
+            image="ghcr.io/bcgov/nr-dap-ods-bcts-pg-access:main",
             cmds=["python3", "./bcts_access_export_master_file.py"],
             image_pull_policy="Always",
             in_cluster=True,

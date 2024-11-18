@@ -3,6 +3,7 @@ from pendulum import datetime
 from kubernetes import client
 from airflow.providers.cncf.kubernetes.operators.pod import KubernetesPodOperator
 from airflow.providers.cncf.kubernetes.secret import Secret
+from airflow.operators.dummy import DummyOperator
 from datetime import timedelta
 import os
 
@@ -35,8 +36,8 @@ else:
 with DAG(
     start_date=datetime(2024, 10, 23),
     catchup=False,
-    schedule='0 4 * * MON-FRI',
-    dag_id=f"bcts_replication-pipeline-{LOB}",
+    schedule='0 12 * * MON-FRI', # 4 AM PST
+    dag_id=f"bcts-replication-lrm",
     default_args=default_args,
     description='DAG to replicate LRM data to ODS for BCTS Annual Developed Volume Dashboard',
 ) as dag:
@@ -58,6 +59,7 @@ with DAG(
             requests={"cpu": "50m", "memory": "512Mi"},
             limits={"cpu": "100m", "memory": "1024Mi"})
         )
+        
     else:
         # In Dev, Test, and Prod Environments
         run_replication = KubernetesPodOperator(
@@ -75,3 +77,9 @@ with DAG(
             limits={"cpu": "100m", "memory": "1024Mi"}),
             random_name_suffix=False
         )
+
+    task_completion_flag = DummyOperator(
+        task_id='task_completion_flag'
+    )
+
+    run_replication >> task_completion_flag
