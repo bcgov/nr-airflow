@@ -91,7 +91,7 @@ with DAG(
         )
 
     task_completion_flag = DummyOperator(
-        task_id='task_complete_flag'
+        task_id='task_completion_flag'
     )
 
     wait_for_replication >> annual_developed_volume_transformation >> task_completion_flag

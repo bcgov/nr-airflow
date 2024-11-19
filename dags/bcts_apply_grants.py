@@ -41,7 +41,7 @@ with DAG(
     description='DAG to apply grants to BCTS data in ODS',
 ) as dag:
     wait_for_transformation = ExternalTaskSensor(
-        task_id='wait_for_replication',
+        task_id='wait_for_transformation',
         external_dag_id='bcts_transformations',
         external_task_id='task_completion_flag',
         timeout=12000,  # Timeout in seconds
