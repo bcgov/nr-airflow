@@ -58,7 +58,7 @@ with DAG(
             # image_pull_policy="Always",
             # in_cluster=True,
             # service_account_name="airflow-admin",
-            name=f"apply_{LOB}_access_grants",
+            name=f"apply_access_grants",
             labels={"DataClass": "Medium", "ConnectionType": "database",  "Release": "airflow"},
             is_delete_operator_pod=True,
             secrets=[ods_secrets],
@@ -75,7 +75,7 @@ with DAG(
             image_pull_policy="Always",
             in_cluster=True,
             service_account_name="airflow-admin",
-            name=f"apply_{LOB}_access_grants",
+            name=f"apply_access_grants",
             labels={"DataClass": "Medium", "ConnectionType": "database",  "Release": "airflow"},
             is_delete_operator_pod=True,
             secrets=[ods_secrets],
@@ -84,3 +84,5 @@ with DAG(
             limits={"cpu": "100m", "memory": "1024Mi"}),
             random_name_suffix=False
         )
+
+    wait_for_transformation >> run_replication
