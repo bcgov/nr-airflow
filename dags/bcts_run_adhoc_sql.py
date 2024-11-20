@@ -83,7 +83,7 @@ with DAG(
         # In Dev, Test, and Prod Environments
         run_replication = KubernetesPodOperator(
             task_id="bcts_run_adhoc_sql",
-            image="ghcr.io/bcgov/nr-dap-ods-run-sql-ods:main",
+            image="ghcr.io/bcgov/nr-dap-ods-bctsadhocsql:SD-128488-BCTS-ODS-GRANT-MANAGEMENT",
             cmds=["python3", "./run_sql.py"],
             arguments=['{{dag_run.conf["file_names"]}}'],
             image_pull_policy="Always",
