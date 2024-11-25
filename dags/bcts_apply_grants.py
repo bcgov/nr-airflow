@@ -44,7 +44,7 @@ with DAG(
         task_id='wait_for_transformation',
         external_dag_id='bcts_transformations',
         external_task_id='task_completion_flag',
-        timeout=12000,  # Timeout in seconds
+        timeout=120000,  # Timeout in seconds
         poke_interval=30  # How often to check (in seconds)
     )
     
