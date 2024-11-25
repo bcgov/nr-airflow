@@ -52,7 +52,7 @@ with DAG(
 
         run_replication = KubernetesPodOperator(
             task_id=f"apply_bcts_grants",
-            image="nrids-bcts-data-pg-access:main",
+            image="nrids-bcts-data-pg-access:SD-128488-BCTS-ODS-GRANT-MANAGEMENT",
             cmds=["python3", "./bcts_acces_apply_grants.py"],
             # Following configs are different in the local development environment
             # image_pull_policy="Always",

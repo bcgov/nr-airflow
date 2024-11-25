@@ -74,7 +74,7 @@ with DAG(
         # In Dev, Test, and Prod Environments
         annual_developed_volume_transformation = KubernetesPodOperator(
             task_id="annual_developed_volume_transformation",
-            image="ghcr.io/bcgov/nr-dap-ods-bctstransformations:main",
+            image="ghcr.io/bcgov/nr-dap-ods-bctstransformations:SD-128488-BCTS-ODS-GRANT-MANAGEMENT",
             cmds=["python3", "./bcts_etl.py"],
             arguments=[annual_developed_volume_transformation_sql_file_path],
             image_pull_policy="Always",
