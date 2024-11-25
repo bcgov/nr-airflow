@@ -47,7 +47,7 @@ with DAG(
         task_id='wait_for_replication',
         external_dag_id='bcts-replication-lrm',
         external_task_id='task_completion_flag',
-        timeout=6000,  # Timeout in seconds
+        timeout=60000,  # Timeout in seconds
         poke_interval=30  # How often to check (in seconds)
     )
     
@@ -74,7 +74,7 @@ with DAG(
         # In Dev, Test, and Prod Environments
         annual_developed_volume_transformation = KubernetesPodOperator(
             task_id="annual_developed_volume_transformation",
-            image="ghcr.io/bcgov/nr-dap-ods-bctstransformations:SD-128488-BCTS-ODS-GRANT-MANAGEMENT",
+            image="ghcr.io/bcgov/nr-dap-ods-bctstransformations:main",
             cmds=["python3", "./bcts_etl.py"],
             arguments=[annual_developed_volume_transformation_sql_file_path],
             image_pull_policy="Always",
