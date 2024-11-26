@@ -1,5 +1,5 @@
 from airflow import DAG
-from datetime import datetime, timezone, timedelta
+from datetime import datetime, timezone
 from kubernetes import client
 from airflow.providers.cncf.kubernetes.operators.pod import KubernetesPodOperator
 from airflow.providers.cncf.kubernetes.secret import Secret
@@ -37,7 +37,7 @@ else:
 with DAG(
     start_date=datetime(2024, 10, 23),
     catchup=False,
-    schedule='45 23 * * MON-FRI',
+    schedule='45 12 * * MON-FRI',
     dag_id=f"bcts_transformations",
     default_args=default_args,
     description='DAG to run the transformations in ODS for BCTS Annual Developed Volume Dashboard',
@@ -49,7 +49,7 @@ with DAG(
         external_task_id='task_completion_flag',
         timeout=60000,  # Timeout in seconds
         poke_interval=30,  # How often to check (in seconds)
-        execution_delta = timedelta(minutes=1)
+        execution_delta = timedelta(minutes=15)
     )
     
     if ENV == 'LOCAL':
