@@ -49,7 +49,7 @@ with DAG(
         external_task_id='task_completion_flag',
         timeout=60000,  # Timeout in seconds
         poke_interval=30,  # How often to check (in seconds),
-        execution_date="{{ execution_date }}"
+        execution_date_fn=lambda: datetime.utcnow(),
     )
     
     if ENV == 'LOCAL':
