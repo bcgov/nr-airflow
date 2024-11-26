@@ -46,7 +46,7 @@ with DAG(
         external_task_id='task_completion_flag',
         timeout=120000,  # Timeout in seconds
         poke_interval=30,  # How often to check (in seconds)
-        execution_date_fn=lambda: datetime.now(timezone.utc).date()
+        execution_date_fn=lambda logical_date: datetime.now(timezone.utc).date()
     )
     
     if ENV == 'LOCAL':
