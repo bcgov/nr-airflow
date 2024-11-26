@@ -37,7 +37,7 @@ else:
 with DAG(
     start_date=datetime(2024, 10, 23),
     catchup=False,
-    schedule='0 12 * * MON-FRI',
+    schedule='45 12 * * MON-FRI',
     dag_id=f"bcts_transformations",
     default_args=default_args,
     description='DAG to run the transformations in ODS for BCTS Annual Developed Volume Dashboard',
