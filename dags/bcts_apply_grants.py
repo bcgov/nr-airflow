@@ -35,7 +35,7 @@ else:
 with DAG(
     start_date=datetime(2024, 10, 23),
     catchup=False,
-    schedule='50 22 * * MON-FRI',
+    schedule='27 23 * * MON-FRI',
     dag_id=f"bcts_apply_grants",
     default_args=default_args,
     description='DAG to apply grants to BCTS data in ODS',
@@ -45,7 +45,8 @@ with DAG(
         external_dag_id='bcts_transformations',
         external_task_id='task_completion_flag',
         timeout=120000,  # Timeout in seconds
-        poke_interval=30  # How often to check (in seconds)
+        poke_interval=30,  # How often to check (in seconds)
+        execution_date_fn=lambda execution_date: execution_date.replace(hour=0, minute=0, second=0, microsecond=0)
     )
     
     if ENV == 'LOCAL':

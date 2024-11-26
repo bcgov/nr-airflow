@@ -37,7 +37,7 @@ else:
 with DAG(
     start_date=datetime(2024, 10, 23),
     catchup=False,
-    schedule='40 22 * * MON-FRI',
+    schedule='25 23 * * MON-FRI',
     dag_id=f"bcts_transformations",
     default_args=default_args,
     description='DAG to run the transformations in ODS for BCTS Annual Developed Volume Dashboard',
@@ -48,7 +48,8 @@ with DAG(
         external_dag_id='bcts-replication-lrm',
         external_task_id='task_completion_flag',
         timeout=60000,  # Timeout in seconds
-        poke_interval=30  # How often to check (in seconds),
+        poke_interval=30,  # How often to check (in seconds)
+        execution_date_fn=lambda execution_date: execution_date.replace(hour=0, minute=0, second=0, microsecond=0)
     )
     
     if ENV == 'LOCAL':
