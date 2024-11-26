@@ -1,5 +1,5 @@
 from airflow import DAG
-from pendulum import datetime
+from datetime import datetime, timezone
 from kubernetes import client
 from airflow.providers.cncf.kubernetes.operators.pod import KubernetesPodOperator
 from airflow.providers.cncf.kubernetes.secret import Secret
@@ -46,7 +46,7 @@ with DAG(
         external_task_id='task_completion_flag',
         timeout=120000,  # Timeout in seconds
         poke_interval=30,  # How often to check (in seconds)
-        execution_date_fn=lambda: datetime.utcnow(),
+        execution_date_fn=lambda: datetime.now(timezone.utc).date()
     )
     
     if ENV == 'LOCAL':
