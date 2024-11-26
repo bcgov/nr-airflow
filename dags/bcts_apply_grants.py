@@ -45,7 +45,8 @@ with DAG(
         external_dag_id='bcts_transformations',
         external_task_id='task_completion_flag',
         timeout=120000,  # Timeout in seconds
-        poke_interval=30  # How often to check (in seconds)
+        poke_interval=30  # How often to check (in seconds),
+        execution_date="{{ execution_date }}"
     )
     
     if ENV == 'LOCAL':
