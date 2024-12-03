@@ -62,7 +62,7 @@ with DAG(
         # In Dev, Test, and Prod Environments
         run_replication = KubernetesPodOperator(
             task_id=f"export_bcts_grants",
-            image="ghcr.io/bcgov/nr-dap-ods-bctsgrantmngmt:main",
+            image="ghcr.io/bcgov/nr-dap-ods-bctsgrantmngmt:SD-128488-BCTS-ODS-GRANT-MANAGEMENT",
             cmds=["python3", "./bcts_access_export_master_file.py"],
             image_pull_policy="Always",
             in_cluster=True,
