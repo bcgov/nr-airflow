@@ -36,7 +36,7 @@ else:
 with DAG(
     start_date=datetime(2024, 10, 23),
     catchup=False,
-    schedule='0 12 * * MON-FRI', # 4 AM PST
+    schedule='30 12 * * MON-FRI', # 4 AM PST
     dag_id=f"bcts-replication-lrm",
     default_args=default_args,
     description='DAG to replicate LRM data to ODS for BCTS Annual Developed Volume Dashboard',

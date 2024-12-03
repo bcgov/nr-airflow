@@ -1,5 +1,5 @@
 from airflow import DAG
-from pendulum import datetime
+from datetime import datetime, timezone
 from kubernetes import client
 from airflow.providers.cncf.kubernetes.operators.pod import KubernetesPodOperator
 from airflow.providers.cncf.kubernetes.secret import Secret
@@ -35,7 +35,7 @@ else:
 with DAG(
     start_date=datetime(2024, 10, 23),
     catchup=False,
-    schedule='0 12 * * MON-FRI',
+    schedule='0 13 * * MON-FRI',
     dag_id=f"bcts_apply_grants",
     default_args=default_args,
     description='DAG to apply grants to BCTS data in ODS',
@@ -45,7 +45,8 @@ with DAG(
         external_dag_id='bcts_transformations',
         external_task_id='task_completion_flag',
         timeout=120000,  # Timeout in seconds
-        poke_interval=30  # How often to check (in seconds)
+        poke_interval=30,  # How often to check (in seconds)
+        execution_delta = timedelta(minutes=15)
     )
     
     if ENV == 'LOCAL':
@@ -70,7 +71,7 @@ with DAG(
         # In Dev, Test, and Prod Environments
         run_replication = KubernetesPodOperator(
             task_id=f"apply_bcts_grants",
-            image="ghcr.io/bcgov/nr-dap-ods-bctsgrantmngmt:main",
+            image="ghcr.io/bcgov/nr-dap-ods-bctsgrantmngmt:SD-128488-BCTS-ODS-GRANT-MANAGEMENT",
             cmds=["python3", "./bcts_acces_apply_grants.py"],
             image_pull_policy="Always",
             in_cluster=True,
