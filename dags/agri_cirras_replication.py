@@ -13,8 +13,6 @@ lob_secrets = Secret("env", None, f"{LOB}-database")
 default_args = {
     'owner': 'AGRIBRM',
     "email": ["NRM.DataFoundations@gov.bc.ca"],
-    'retries': 1,
-    'retry_delay': timedelta(minutes=5),
     "email_on_failure": True,
     "email_on_retry": True,
 }
@@ -35,7 +33,7 @@ with DAG(
         service_account_name="airflow-admin",
         name=f"run_{LOB}_replication",
         labels={"DataClass": "Medium"},
-        is_delete_operator_pod=True,
+        is_delete_operator_pod=False,
         secrets=[lob_secrets, ods_secrets],
         container_resources= client.V1ResourceRequirements(
         requests={"cpu": "50m", "memory": "512Mi"},
