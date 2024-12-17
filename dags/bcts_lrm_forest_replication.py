@@ -36,7 +36,7 @@ else:
 with DAG(
     start_date=datetime(2024, 10, 23),
     catchup=False,
-    schedule='0 12 * * MON-FRI', # 4 AM PST
+    schedule='30 12 * * MON-FRI', # 4 AM PST
     dag_id=f"bcts-replication-lrm",
     default_args=default_args,
     description='DAG to replicate LRM data to ODS for BCTS Annual Developed Volume Dashboard',
@@ -73,8 +73,8 @@ with DAG(
             is_delete_operator_pod=True,
             secrets=[lob_secrets, ods_secrets],
             container_resources= client.V1ResourceRequirements(
-            requests={"cpu": "50m", "memory": "512Mi"},
-            limits={"cpu": "100m", "memory": "1024Mi"}),
+            requests={"cpu": "100m", "memory": "1024Mi"},
+            limits={"cpu": "200m", "memory": "2048Mi"}),
             random_name_suffix=False
         )
 
