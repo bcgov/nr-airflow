@@ -7,12 +7,12 @@ from airflow.operators.dummy import DummyOperator
 from datetime import timedelta
 import os
 
-LOB = 'client'
+LOB = 'mof-client'
 # For local development environment only.
 ENV = os.getenv("AIRFLOW_ENV")
 
 ods_secrets = Secret("env", None, f"lrm-ods-database")
-lob_secrets = Secret("env", None, f"client-mof-database")
+lob_secrets = Secret("env", None, f"bcts-mof-corpdatabase")
 
 
 default_args = {
