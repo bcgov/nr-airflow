@@ -12,7 +12,7 @@ LOB = 'mof-client'
 ENV = os.getenv("AIRFLOW_ENV")
 
 ods_secrets = Secret("env", None, f"lrm-ods-database")
-lob_secrets = Secret("env", None, f"bcts-mof-corpdatabase")
+lob_secrets = Secret("env", None, f"mof-client-database")
 
 
 default_args = {
