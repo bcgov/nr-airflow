@@ -1,5 +1,5 @@
 from airflow import DAG
-from pendulum import datetime
+from datetime import datetime, timezone
 from kubernetes import client
 from airflow.providers.cncf.kubernetes.operators.pod import KubernetesPodOperator
 from airflow.providers.cncf.kubernetes.secret import Secret
@@ -37,7 +37,7 @@ else:
 with DAG(
     start_date=datetime(2024, 10, 23),
     catchup=False,
-    schedule='0 12 * * MON-FRI',
+    schedule='45 12 * * MON-FRI',
     dag_id=f"bcts_transformations",
     default_args=default_args,
     description='DAG to run the transformations in ODS for BCTS Annual Developed Volume Dashboard',
@@ -48,7 +48,8 @@ with DAG(
         external_dag_id='bcts-replication-lrm',
         external_task_id='task_completion_flag',
         timeout=60000,  # Timeout in seconds
-        poke_interval=30  # How often to check (in seconds)
+        poke_interval=30,  # How often to check (in seconds)
+        execution_delta = timedelta(minutes=15)
     )
     
     if ENV == 'LOCAL':
@@ -74,7 +75,7 @@ with DAG(
         # In Dev, Test, and Prod Environments
         annual_developed_volume_transformation = KubernetesPodOperator(
             task_id="annual_developed_volume_transformation",
-            image="ghcr.io/bcgov/nr-dap-ods-bctstransformations:main",
+            image="ghcr.io/bcgov/nr-dap-ods-bctstransformations:SD-128488-BCTS-ODS-GRANT-MANAGEMENT",
             cmds=["python3", "./bcts_etl.py"],
             arguments=[annual_developed_volume_transformation_sql_file_path],
             image_pull_policy="Always",
