@@ -94,7 +94,7 @@ with DAG(
 
         bcts_performance_report_transformation = KubernetesPodOperator(
             task_id="bcts_performance_report_transformation",
-            image="ghcr.io/bcgov/nr-dap-ods-bctstransformations:SD-128488-BCTS-ODS-GRANT-MANAGEMENT",
+            image="ghcr.io/bcgov/nr-dap-ods-bctstransformations:SD-132828-ODS-MIGRATION-BCTS-PERFORMANCE-REPORT",
             cmds=["python3", "./bcts_performance_report_transformation.py"],
             image_pull_policy="Always",
             in_cluster=True,
