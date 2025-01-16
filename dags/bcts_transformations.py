@@ -91,8 +91,26 @@ with DAG(
             random_name_suffix=False
         )
 
+
+        bcts_performance_report_transformation = KubernetesPodOperator(
+            task_id="bcts_performance_report_transformation",
+            image="ghcr.io/bcgov/nr-dap-ods-bctstransformations:SD-128488-BCTS-ODS-GRANT-MANAGEMENT",
+            cmds=["python3", "./bcts_performance_report_transformation.py"],
+            image_pull_policy="Always",
+            in_cluster=True,
+            service_account_name="airflow-admin",
+            name=f"run_{LOB}_transformation_annual_developed_volume",
+            labels={"DataClass": "Medium", "ConnectionType": "database",  "Release": "airflow"},
+            is_delete_operator_pod=True,
+            secrets=[ods_secrets],
+            container_resources= client.V1ResourceRequirements(
+            requests={"cpu": "50m", "memory": "512Mi"},
+            limits={"cpu": "100m", "memory": "1024Mi"}),
+            random_name_suffix=False
+        )
+
     task_completion_flag = DummyOperator(
         task_id='task_completion_flag'
     )
 
-    wait_for_replication >> annual_developed_volume_transformation >> task_completion_flag
+    wait_for_replication >> annual_developed_volume_transformation >> bcts_performance_report_transformation >> task_completion_flag
