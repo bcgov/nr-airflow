@@ -58,7 +58,7 @@ with DAG(
         external_task_id='task_completion_flag',
         timeout=60000,  # Timeout in seconds
         poke_interval=30,  # How often to check (in seconds)
-        execution_delta = timedelta(minutes=15)
+        execution_delta = timedelta(minutes=40)
     )
 
     wait_for_bcts_client_replication = ExternalTaskSensor(
@@ -67,7 +67,7 @@ with DAG(
         external_task_id='task_completion_flag',
         timeout=60000,  # Timeout in seconds
         poke_interval=30,  # How often to check (in seconds)
-        execution_delta = timedelta(minutes=15)
+        execution_delta = timedelta(minutes=35)
     )
     
     if ENV == 'LOCAL':
