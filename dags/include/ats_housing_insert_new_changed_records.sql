@@ -55,13 +55,25 @@ select
 			coalesce(cast(a.housing_type					 		as varchar),'~') || '|'|| 
 			coalesce(cast(a.estimated_housing	    		 		as varchar),'~') || '|'|| 
 			coalesce(cast(a.application_status			 		as varchar),'~') || '|'|| 
-			coalesce(cast(a.business_area_file_number			 		as varchar),'~')
+			coalesce(cast(a.business_area_file_number		 		as varchar),'~') || '|'||
+            coalesce(cast(a.on_hold_reason_code					as varchar),'~') || '|'||
+            coalesce(cast(a.on_hold_reason_description	 		as varchar),'~') || '|'||
+            coalesce(cast(a.on_hold_start_date					as varchar),'~') || '|'|| 
+            coalesce(cast(a.on_hold_end_date						as varchar),'~') || '|'|| 
+            coalesce(cast(a.total_on_hold_time					as varchar),'~') || '|'|| 
+            coalesce(cast(a.net_processing_time					as varchar),'~') 
 			) as key_hash,
 		'A' as record_active_ind,
 		CAST('1900-01-01 00:00:00' as timestamp(0))			effective_start_dttm, 
 		CAST('9999-12-31 00:00:00' as timestamp(0))			effective_end_dttm,
 		a.record_created_by record_created_by,
-		a.record_created_dttm record_created_dttm
+		a.record_created_dttm record_created_dttm,
+		a.on_hold_reason_code,
+		a.on_hold_reason_description,
+		a.on_hold_start_date,
+		a.on_hold_end_date,
+		a.total_on_hold_time,
+		a.net_processing_time	
 FROM	lob_dq_replication.ats_housing  a
 left 	join  lob_dq_replication_hist.ats_housing_hist d on 
 		a.application_id=d.application_id			  
@@ -125,13 +137,25 @@ select
 			coalesce(cast(a.housing_type					 		as varchar),'~') || '|'|| 
 			coalesce(cast(a.estimated_housing	    		 		as varchar),'~') || '|'|| 
 			coalesce(cast(a.application_status			 		as varchar),'~') || '|'|| 
-			coalesce(cast(a.business_area_file_number			 		as varchar),'~')
+			coalesce(cast(a.business_area_file_number		 		as varchar),'~') || '|'||
+            coalesce(cast(a.on_hold_reason_code					as varchar),'~') || '|'||
+            coalesce(cast(a.on_hold_reason_description	 		as varchar),'~') || '|'||
+            coalesce(cast(a.on_hold_start_date					as varchar),'~') || '|'|| 
+            coalesce(cast(a.on_hold_end_date						as varchar),'~') || '|'|| 
+            coalesce(cast(a.total_on_hold_time					as varchar),'~') || '|'|| 
+            coalesce(cast(a.net_processing_time					as varchar),'~') 
 			) as key_hash,
 		'A' as record_active_ind,
 		current_timestamp(0)			effective_start_dttm, 
 		CAST('9999-12-31 00:00:00' as timestamp(0)) effective_end_dttm,
 		a.record_created_by record_created_by,
-		a.record_created_dttm record_created_dttm
+		a.record_created_dttm record_created_dttm,
+		a.on_hold_reason_code,
+		a.on_hold_reason_description,
+		a.on_hold_start_date,
+		a.on_hold_end_date,
+		a.total_on_hold_time,
+		a.net_processing_time	
 FROM	lob_dq_replication.ats_housing  a
 inner 	join  ( select * from lob_dq_replication_hist.ats_housing_hist where record_active_ind='E')d on 
         a.application_id = d.application_id;
