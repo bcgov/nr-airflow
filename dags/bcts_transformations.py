@@ -43,9 +43,27 @@ with DAG(
     description='DAG to run the transformations in ODS for BCTS Annual Developed Volume Dashboard',
 ) as dag:
     
-    wait_for_replication = ExternalTaskSensor(
-        task_id='wait_for_replication',
+    wait_for_lrm_replication = ExternalTaskSensor(
+        task_id='wait_for_lrm_replication',
         external_dag_id='bcts-replication-lrm',
+        external_task_id='task_completion_flag',
+        timeout=60000,  # Timeout in seconds
+        poke_interval=30,  # How often to check (in seconds)
+        execution_delta = timedelta(minutes=15)
+    )
+
+    wait_for_bctsadmin_replication = ExternalTaskSensor(
+        task_id='wait_for_bctsadmin_replication',
+        external_dag_id='bcts-replication-bctsadmin',
+        external_task_id='task_completion_flag',
+        timeout=60000,  # Timeout in seconds
+        poke_interval=30,  # How often to check (in seconds)
+        execution_delta = timedelta(minutes=15)
+    )
+
+    wait_for_bcts_client_replication = ExternalTaskSensor(
+        task_id='wait_for_bcts_client_replication',
+        external_dag_id='bcts-replication-client',
         external_task_id='task_completion_flag',
         timeout=60000,  # Timeout in seconds
         poke_interval=30,  # How often to check (in seconds)
@@ -113,4 +131,8 @@ with DAG(
         task_id='task_completion_flag'
     )
 
-    wait_for_replication >> annual_developed_volume_transformation >> bcts_performance_report_transformation >> task_completion_flag
+    wait_for_lrm_replication >> annual_developed_volume_transformation >> task_completion_flag
+    wait_for_lrm_replication >> bcts_performance_report_transformation
+    wait_for_bctsadmin_replication >> bcts_performance_report_transformation
+    wait_for_bcts_client_replication >> bcts_performance_report_transformation
+    bcts_performance_report_transformation >> task_completion_flag
