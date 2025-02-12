@@ -117,7 +117,24 @@ with DAG(
             image_pull_policy="Always",
             in_cluster=True,
             service_account_name="airflow-admin",
-            name=f"run_{LOB}_transformation_annual_developed_volume",
+            name=f"run_{LOB}_transformation_bcts_performance_report",
+            labels={"DataClass": "Medium", "ConnectionType": "database",  "Release": "airflow"},
+            is_delete_operator_pod=True,
+            secrets=[ods_secrets],
+            container_resources= client.V1ResourceRequirements(
+            requests={"cpu": "50m", "memory": "512Mi"},
+            limits={"cpu": "100m", "memory": "1024Mi"}),
+            random_name_suffix=False
+        )
+
+        bcts_timber_inventory_ready_to_sell_report_transformation = KubernetesPodOperator(
+            task_id="bcts_timber_inventory_ready_to_sell_report_transformation",
+            image="ghcr.io/bcgov/nr-dap-ods-bctstransformations:SD-137267-Timber-Inventory-Ready-to-Sell-Report",
+            cmds=["python3", "./bcts_timber_inventory_ready_to_sell_transformation.py"],
+            image_pull_policy="Always",
+            in_cluster=True,
+            service_account_name="airflow-admin",
+            name=f"run_{LOB}_timber_inventory_ready_to_sell",
             labels={"DataClass": "Medium", "ConnectionType": "database",  "Release": "airflow"},
             is_delete_operator_pod=True,
             secrets=[ods_secrets],
