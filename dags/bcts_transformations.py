@@ -142,6 +142,7 @@ with DAG(
             requests={"cpu": "50m", "memory": "512Mi"},
             limits={"cpu": "100m", "memory": "1024Mi"}),
             random_name_suffix=False
+        )
 
         bcts_timber_inventory_ready_to_develop_report_transformation = KubernetesPodOperator(
             task_id="bcts_timber_inventory_ready_to_develop_report_transformation",
