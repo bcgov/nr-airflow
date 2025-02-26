@@ -74,7 +74,7 @@ with DAG(
 
         annual_developed_volume_transformation = KubernetesPodOperator(
             task_id="annual_developed_volume_transformation",
-            image="nrids-bcts-data-pg-transformations:SD-138729-TIMBER-INVENTORY-READY-TO-DEVELOP",
+            image="nrids-bcts-data-pg-transformations:SD-137267-Timber-Inventory-Ready-to-Sell-Report",
             cmds=["python3", "./bcts_etl.py"],
             arguments=[annual_developed_volume_transformation_sql_file_path],
             # Following configs are different in the local development environment
@@ -93,7 +93,7 @@ with DAG(
         # In Dev, Test, and Prod Environments
         annual_developed_volume_transformation = KubernetesPodOperator(
             task_id="annual_developed_volume_transformation",
-            image="ghcr.io/bcgov/nr-dap-ods-bctstransformations:SD-138729-TIMBER-INVENTORY-READY-TO-DEVELOP",
+            image="ghcr.io/bcgov/nr-dap-ods-bctstransformations:SD-137267-Timber-Inventory-Ready-to-Sell-Report",
             cmds=["python3", "./bcts_etl.py"],
             arguments=[annual_developed_volume_transformation_sql_file_path],
             image_pull_policy="Always",
@@ -112,7 +112,7 @@ with DAG(
 
         bcts_performance_report_transformation = KubernetesPodOperator(
             task_id="bcts_performance_report_transformation",
-            image="ghcr.io/bcgov/nr-dap-ods-bctstransformations:SD-138729-TIMBER-INVENTORY-READY-TO-DEVELOP",
+            image="ghcr.io/bcgov/nr-dap-ods-bctstransformations:SD-137267-Timber-Inventory-Ready-to-Sell-Report",
             cmds=["python3", "./bcts_performance_report_transformation.py"],
             image_pull_policy="Always",
             in_cluster=True,
@@ -129,7 +129,7 @@ with DAG(
 
         bcts_timber_inventory_ready_to_sell_report_transformation = KubernetesPodOperator(
             task_id="bcts_timber_inventory_ready_to_sell_report_transformation",
-            image="ghcr.io/bcgov/nr-dap-ods-bctstransformations:SD-138729-TIMBER-INVENTORY-READY-TO-DEVELOP",
+            image="ghcr.io/bcgov/nr-dap-ods-bctstransformations:SD-137267-Timber-Inventory-Ready-to-Sell-Report",
             cmds=["python3", "./bcts_timber_inventory_ready_to_sell_transformation.py"],
             image_pull_policy="Always",
             in_cluster=True,
@@ -146,12 +146,30 @@ with DAG(
 
         bcts_timber_inventory_ready_to_develop_report_transformation = KubernetesPodOperator(
             task_id="bcts_timber_inventory_ready_to_develop_report_transformation",
-            image="ghcr.io/bcgov/nr-dap-ods-bctstransformations:SD-138729-TIMBER-INVENTORY-READY-TO-DEVELOP",
+            image="ghcr.io/bcgov/nr-dap-ods-bctstransformations:SD-137267-Timber-Inventory-Ready-to-Sell-Report",
             cmds=["python3", "./bcts_timber_inventory_ready_to_develop_transformation.py"],
             image_pull_policy="Always",
             in_cluster=True,
             service_account_name="airflow-admin",
             name=f"run_{LOB}_timber_inventory_ready_to_develop",
+            labels={"DataClass": "Medium", "ConnectionType": "database",  "Release": "airflow"},
+            is_delete_operator_pod=True,
+            secrets=[ods_secrets],
+            container_resources= client.V1ResourceRequirements(
+            requests={"cpu": "50m", "memory": "512Mi"},
+            limits={"cpu": "100m", "memory": "1024Mi"}),
+            random_name_suffix=False
+
+        )
+
+        bcts_annual_development_ready_report_transformation = KubernetesPodOperator(
+            task_id="bcts_annual_development_ready_report_transformation",
+            image="ghcr.io/bcgov/nr-dap-ods-bctstransformations:SD-137267-Timber-Inventory-Ready-to-Sell-Report",
+            cmds=["python3", "./bcts_annual_development_ready_transformation.py"],
+            image_pull_policy="Always",
+            in_cluster=True,
+            service_account_name="airflow-admin",
+            name=f"run_{LOB}_annual_development_ready_transformation",
             labels={"DataClass": "Medium", "ConnectionType": "database",  "Release": "airflow"},
             is_delete_operator_pod=True,
             secrets=[ods_secrets],
