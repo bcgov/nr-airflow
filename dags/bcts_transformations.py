@@ -91,7 +91,7 @@ with DAG(
         )
     else:
         # In Dev, Test, and Prod Environments
-        annual_developed_volume_transformation = KubernetesPodOperator(
+        bcts_annual_developed_volume_transformation = KubernetesPodOperator(
             task_id="annual_developed_volume_transformation",
             image="ghcr.io/bcgov/nr-dap-ods-bctstransformations:SD-137267-Timber-Inventory-Ready-to-Sell-Report",
             cmds=["python3", "./bcts_annual_developed_volume_transformation.py"],
@@ -183,14 +183,14 @@ with DAG(
         task_id='task_completion_flag'
     )
 
-    wait_for_lrm_replication >> annual_developed_volume_transformation 
+    wait_for_lrm_replication >> bcts_annual_developed_volume_transformation 
     wait_for_lrm_replication >> bcts_performance_report_transformation
     wait_for_lrm_replication >> bcts_timber_inventory_ready_to_sell_report_transformation
     wait_for_lrm_replication >> bcts_timber_inventory_ready_to_develop_report_transformation
     wait_for_bctsadmin_replication >> bcts_performance_report_transformation
     wait_for_bcts_client_replication >> bcts_performance_report_transformation
     
-    annual_developed_volume_transformation >> task_completion_flag
+    bcts_annual_developed_volume_transformation >> task_completion_flag
     bcts_performance_report_transformation >> task_completion_flag
     bcts_timber_inventory_ready_to_sell_report_transformation >> task_completion_flag
     bcts_timber_inventory_ready_to_develop_report_transformation >> task_completion_flag
