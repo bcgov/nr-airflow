@@ -94,8 +94,7 @@ with DAG(
         annual_developed_volume_transformation = KubernetesPodOperator(
             task_id="annual_developed_volume_transformation",
             image="ghcr.io/bcgov/nr-dap-ods-bctstransformations:SD-137267-Timber-Inventory-Ready-to-Sell-Report",
-            cmds=["python3", "./bcts_etl.py"],
-            arguments=[annual_developed_volume_transformation_sql_file_path],
+            cmds=["python3", "./bcts_annual_developed_volume_transformation.py"],
             image_pull_policy="Always",
             in_cluster=True,
             service_account_name="airflow-admin",
