@@ -62,7 +62,7 @@ with DAG(
         # In Dev, Test, and Prod Environments
         run_replication = KubernetesPodOperator(
             task_id=f"export_bcts_grants",
-            image="ghcr.io/bcgov/nr-dap-ods-bctsgrantmngmt:SD-137267-Timber-Inventory-Ready-to-Sell-Report",
+            image="ghcr.io/bcgov/nr-dap-ods-bctsgrantmngmt:SD-140653-REPLICATE-LRM-FORESTVIEW-VIEWS",
             cmds=["python3", "./bcts_access_export_master_file.py"],
             image_pull_policy="Always",
             in_cluster=True,
