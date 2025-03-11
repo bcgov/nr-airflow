@@ -159,6 +159,24 @@ with DAG(
 
     )
 
+    bcts_publish_forestview_views = KubernetesPodOperator(
+        task_id="bcts_publish_forestview_views",
+        image="ghcr.io/bcgov/nr-dap-ods-bctstransformations:SD-140653-REPLICATE-LRM-FORESTVIEW-VIEWS",
+        cmds=["python3", "./bcts_publish_forestview_views.py"],
+        image_pull_policy="Always",
+        in_cluster=True,
+        service_account_name="airflow-admin",
+        name=f"run_{LOB}_publish_forestview_views",
+        labels={"DataClass": "Medium", "ConnectionType": "database",  "Release": "airflow"},
+        is_delete_operator_pod=True,
+        secrets=[ods_secrets],
+        container_resources= client.V1ResourceRequirements(
+        requests={"cpu": "50m", "memory": "512Mi"},
+        limits={"cpu": "100m", "memory": "1024Mi"}),
+        random_name_suffix=False
+
+    )
+
     task_completion_flag = DummyOperator(
         task_id='task_completion_flag'
     )
@@ -168,6 +186,7 @@ with DAG(
     wait_for_lrm_replication >> bcts_timber_inventory_ready_to_sell_report_transformation
     wait_for_lrm_replication >> bcts_timber_inventory_ready_to_develop_report_transformation
     wait_for_lrm_replication >> bcts_annual_development_ready_report_transformation
+    wait_for_lrm_replication >> bcts_publish_forestview_views
     wait_for_bctsadmin_replication >> bcts_performance_report_transformation
     wait_for_bcts_client_replication >> bcts_performance_report_transformation
     
@@ -176,6 +195,7 @@ with DAG(
     bcts_timber_inventory_ready_to_sell_report_transformation >> task_completion_flag
     bcts_timber_inventory_ready_to_develop_report_transformation >> task_completion_flag
     bcts_annual_development_ready_report_transformation >> task_completion_flag
+    bcts_publish_forestview_views >> task_completion_flag
 
 
     
