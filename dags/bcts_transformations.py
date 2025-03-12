@@ -73,7 +73,7 @@ with DAG(
     # In Dev, Test, and Prod Environments
     bcts_annual_developed_volume_transformation = KubernetesPodOperator(
         task_id="bcts_annual_developed_volume_transformation",
-        image="ghcr.io/bcgov/nr-dap-ods-bctstransformations:SD-137267-Timber-Inventory-Ready-to-Sell-Report",
+        image="ghcr.io/bcgov/nr-dap-ods-bctstransformations:SD-140653-REPLICATE-LRM-FORESTVIEW-VIEWS",
         cmds=["python3", "./bcts_annual_developed_volume_transformation.py"],
         image_pull_policy="Always",
         in_cluster=True,
