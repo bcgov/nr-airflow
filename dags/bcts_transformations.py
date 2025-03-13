@@ -91,7 +91,7 @@ with DAG(
 
     bcts_performance_report_transformation = KubernetesPodOperator(
         task_id="bcts_performance_report_transformation",
-        image="ghcr.io/bcgov/nr-dap-ods-bctstransformations:SD-137267-Timber-Inventory-Ready-to-Sell-Report",
+        image="ghcr.io/bcgov/nr-dap-ods-bctstransformations:SD-140653-REPLICATE-LRM-FORESTVIEW-VIEWS",
         cmds=["python3", "./bcts_performance_report_transformation.py"],
         image_pull_policy="Always",
         in_cluster=True,
@@ -108,7 +108,7 @@ with DAG(
 
     bcts_timber_inventory_ready_to_sell_report_transformation = KubernetesPodOperator(
         task_id="bcts_timber_inventory_ready_to_sell_report_transformation",
-        image="ghcr.io/bcgov/nr-dap-ods-bctstransformations:SD-137267-Timber-Inventory-Ready-to-Sell-Report",
+        image="ghcr.io/bcgov/nr-dap-ods-bctstransformations:SD-140653-REPLICATE-LRM-FORESTVIEW-VIEWS",
         cmds=["python3", "./bcts_timber_inventory_ready_to_sell_transformation.py"],
         image_pull_policy="Always",
         in_cluster=True,
@@ -125,7 +125,7 @@ with DAG(
 
     bcts_timber_inventory_ready_to_develop_report_transformation = KubernetesPodOperator(
         task_id="bcts_timber_inventory_ready_to_develop_report_transformation",
-        image="ghcr.io/bcgov/nr-dap-ods-bctstransformations:SD-137267-Timber-Inventory-Ready-to-Sell-Report",
+        image="ghcr.io/bcgov/nr-dap-ods-bctstransformations:SD-140653-REPLICATE-LRM-FORESTVIEW-VIEWS",
         cmds=["python3", "./bcts_timber_inventory_ready_to_develop_transformation.py"],
         image_pull_policy="Always",
         in_cluster=True,
@@ -143,7 +143,7 @@ with DAG(
 
     bcts_annual_development_ready_report_transformation = KubernetesPodOperator(
         task_id="bcts_annual_development_ready_report_transformation",
-        image="ghcr.io/bcgov/nr-dap-ods-bctstransformations:SD-137267-Timber-Inventory-Ready-to-Sell-Report",
+        image="ghcr.io/bcgov/nr-dap-ods-bctstransformations:SD-140653-REPLICATE-LRM-FORESTVIEW-VIEWS",
         cmds=["python3", "./bcts_annual_development_ready_transformation.py"],
         image_pull_policy="Always",
         in_cluster=True,
