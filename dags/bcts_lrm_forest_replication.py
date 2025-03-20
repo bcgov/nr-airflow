@@ -64,7 +64,7 @@ with DAG(
         # In Dev, Test, and Prod Environments
         run_replication = KubernetesPodOperator(
             task_id="run_replication",
-            image="ghcr.io/bcgov/nr-dap-ods-ora2pg:main",
+            image="ghcr.io/bcgov/nr-dap-ods-ora2pg:SD-140653-REPLICATE-LRM-FORESTVIEW-VIEWS",
             image_pull_policy="Always",
             in_cluster=True,
             service_account_name="airflow-admin",
