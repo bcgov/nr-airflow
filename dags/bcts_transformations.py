@@ -50,25 +50,6 @@ with DAG(
         poke_interval=30,  # How often to check (in seconds)
         execution_delta = timedelta(minutes=15)
     )
-
-    wait_for_bctsadmin_replication = ExternalTaskSensor(
-        task_id='wait_for_bctsadmin_replication',
-        external_dag_id='bcts-replication-bctsadmin',
-        external_task_id='task_completion_flag',
-        timeout=60000,  # Timeout in seconds
-        poke_interval=30,  # How often to check (in seconds)
-        execution_delta = timedelta(minutes=40)
-    )
-
-    wait_for_bcts_client_replication = ExternalTaskSensor(
-        task_id='wait_for_bcts_client_replication',
-        external_dag_id='bcts-replication-client',
-        external_task_id='task_completion_flag',
-        timeout=60000,  # Timeout in seconds
-        poke_interval=30,  # How often to check (in seconds)
-        execution_delta = timedelta(minutes=35)
-    )
-    
     
     # In Dev, Test, and Prod Environments
     bcts_annual_developed_volume_transformation = KubernetesPodOperator(
