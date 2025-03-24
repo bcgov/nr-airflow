@@ -64,7 +64,7 @@ with DAG(
         # In Dev, Test, and Prod Environments
         run_replication = KubernetesPodOperator(
             task_id="run_replication",
-            image="ghcr.io/bcgov/nr-dap-ods-ora2pg:main",
+            image="ghcr.io/bcgov/nr-dap-ods-ora2pg:SD-140653-REPLICATE-LRM-FORESTVIEW-VIEWS",
             image_pull_policy="Always",
             in_cluster=True,
             service_account_name="airflow-admin",
@@ -73,8 +73,8 @@ with DAG(
             is_delete_operator_pod=True,
             secrets=[lob_secrets, ods_secrets],
             container_resources= client.V1ResourceRequirements(
-            requests={"cpu": "50m", "memory": "512Mi"},
-            limits={"cpu": "100m", "memory": "1024Mi"}),
+            requests = {"cpu": "400m", "memory": "6144Mi"},
+            limits = {"cpu": "800m", "memory": "8192Mi"}),
             random_name_suffix=False
         )
 
