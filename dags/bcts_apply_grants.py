@@ -71,7 +71,7 @@ with DAG(
         # In Dev, Test, and Prod Environments
         run_replication = KubernetesPodOperator(
             task_id=f"apply_bcts_grants",
-            image="ghcr.io/bcgov/nr-dap-ods-bctsgrantmngmt:SD-140653-REPLICATE-LRM-FORESTVIEW-VIEWS",
+            image="ghcr.io/bcgov/nr-dap-ods-bctsgrantmngmt:SD-141096-BCTS-REPORTS-BATCH-1",
             cmds=["python3", "./bcts_acces_apply_grants.py"],
             image_pull_policy="Always",
             in_cluster=True,
