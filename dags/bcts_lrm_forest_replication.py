@@ -64,7 +64,7 @@ with DAG(
         # In Dev, Test, and Prod Environments
         run_replication = KubernetesPodOperator(
             task_id="run_replication",
-            image="ghcr.io/bcgov/nr-dap-ods-ora2pg:BCTS-ORA2PG-LOG-ERROR-IN-AUDIT-BATCH-STATUS-TABLE",
+            image="ghcr.io/bcgov/nr-dap-ods-ora2pg_bcts:Ora2pg-FASTER-LOAD-TO-POSTGRES",
             image_pull_policy="Always",
             in_cluster=True,
             service_account_name="airflow-admin",
