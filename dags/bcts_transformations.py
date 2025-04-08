@@ -54,7 +54,7 @@ with DAG(
     # In Dev, Test, and Prod Environments
     bcts_annual_developed_volume_transformation = KubernetesPodOperator(
         task_id="bcts_annual_developed_volume_transformation",
-        image="ghcr.io/bcgov/nr-dap-ods-bctstransformations:SD-141096-BCTS-REPORTS-BATCH-1",
+        image="ghcr.io/bcgov/nr-dap-ods-bctstransformations:main",
         cmds=["python3", "./bcts_annual_developed_volume_transformation.py"],
         image_pull_policy="Always",
         in_cluster=True,
@@ -72,7 +72,7 @@ with DAG(
 
     bcts_timber_inventory_ready_to_sell_report_transformation = KubernetesPodOperator(
         task_id="bcts_timber_inventory_ready_to_sell_report_transformation",
-        image="ghcr.io/bcgov/nr-dap-ods-bctstransformations:SD-141096-BCTS-REPORTS-BATCH-1",
+        image="ghcr.io/bcgov/nr-dap-ods-bctstransformations:main",
         cmds=["python3", "./bcts_timber_inventory_ready_to_sell_transformation.py"],
         image_pull_policy="Always",
         in_cluster=True,
@@ -89,7 +89,7 @@ with DAG(
 
     bcts_timber_inventory_ready_to_develop_report_transformation = KubernetesPodOperator(
         task_id="bcts_timber_inventory_ready_to_develop_report_transformation",
-        image="ghcr.io/bcgov/nr-dap-ods-bctstransformations:SD-141096-BCTS-REPORTS-BATCH-1",
+        image="ghcr.io/bcgov/nr-dap-ods-bctstransformations:main",
         cmds=["python3", "./bcts_timber_inventory_ready_to_develop_transformation.py"],
         image_pull_policy="Always",
         in_cluster=True,
@@ -107,7 +107,7 @@ with DAG(
 
     bcts_annual_development_ready_report_transformation = KubernetesPodOperator(
         task_id="bcts_annual_development_ready_report_transformation",
-        image="ghcr.io/bcgov/nr-dap-ods-bctstransformations:SD-141096-BCTS-REPORTS-BATCH-1",
+        image="ghcr.io/bcgov/nr-dap-ods-bctstransformations:main",
         cmds=["python3", "./bcts_annual_development_ready_transformation.py"],
         image_pull_policy="Always",
         in_cluster=True,
@@ -125,7 +125,7 @@ with DAG(
 
     bcts_publish_forestview_views = KubernetesPodOperator(
         task_id="bcts_publish_forestview_views",
-        image="ghcr.io/bcgov/nr-dap-ods-bctstransformations:SD-141096-BCTS-REPORTS-BATCH-1",
+        image="ghcr.io/bcgov/nr-dap-ods-bctstransformations:main",
         cmds=["python3", "./bcts_publish_forestview_views.py"],
         image_pull_policy="Always",
         in_cluster=True,
