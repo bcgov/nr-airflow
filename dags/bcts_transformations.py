@@ -159,7 +159,7 @@ with DAG(
     
     bcts_roads_constructed_report_transformation = KubernetesPodOperator(
             task_id="bcts_roads_constructed_report_transformation",
-            image="ghcr.io/bcgov/nr-dap-ods-bctstransformations:SD-146963-Roads-Constructed-and-Roads-Deactivated",
+            image="ghcr.io/bcgov/nr-dap-ods-bctstransformations:main",
             cmds=["python3", "./bcts_roads_constructed_transformation.py"],
             image_pull_policy="Always",
             in_cluster=True,
@@ -176,7 +176,7 @@ with DAG(
     
     bcts_roads_deactivated_report_transformation = KubernetesPodOperator(
             task_id="bcts_roads_deactivated_report_transformation",
-            image="ghcr.io/bcgov/nr-dap-ods-bctstransformations:SD-146963-Roads-Constructed-and-Roads-Deactivated",
+            image="ghcr.io/bcgov/nr-dap-ods-bctstransformations:main",
             cmds=["python3", "./bcts_roads_deactivated_transformation.py"],
             image_pull_policy="Always",
             in_cluster=True,
