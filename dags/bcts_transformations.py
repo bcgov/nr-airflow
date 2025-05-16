@@ -84,7 +84,9 @@ with DAG(
         container_resources= client.V1ResourceRequirements(
         requests={"cpu": "50m", "memory": "512Mi"},
         limits={"cpu": "100m", "memory": "1024Mi"}),
-        random_name_suffix=False
+        random_name_suffix=False,
+        get_logs=True,
+        attach_on_finish=True
     )
 
 
