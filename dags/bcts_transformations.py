@@ -190,6 +190,23 @@ with DAG(
             limits={"cpu": "100m", "memory": "1024Mi"}),
             random_name_suffix=False
         )
+    
+    bcts_timber_inventory_development_in_progress_report_transformation = KubernetesPodOperator(
+            task_id="bcts_timber_inventory_development_in_progress_report_transformation",
+            image="ghcr.io/bcgov/nr-dap-ods-bctstransformations:main",
+            cmds=["python3", "./bcts_timber_inventory_development_in_progress_transformation.py"],
+            image_pull_policy="Always",
+            in_cluster=True,
+            service_account_name="airflow-admin",
+            name=f"run_{LOB}_transformation_bcts_timber_inventory_development_in_progressd_report",
+            labels={"DataClass": "Medium", "ConnectionType": "database",  "Release": "airflow"},
+            is_delete_operator_pod=True,
+            secrets=[ods_secrets],
+            container_resources= client.V1ResourceRequirements(
+            requests={"cpu": "50m", "memory": "512Mi"},
+            limits={"cpu": "100m", "memory": "1024Mi"}),
+            random_name_suffix=False
+        )
 
     bcts_publish_forestview_views = KubernetesPodOperator(
         task_id="bcts_publish_forestview_views",
@@ -222,6 +239,7 @@ with DAG(
     wait_for_lrm_replication >> bcts_roads_transferred_out_report_transformation
     wait_for_lrm_replication >> bcts_roads_constructed_report_transformation
     wait_for_lrm_replication >> bcts_roads_deactivated_report_transformation
+    wait_for_lrm_replication >> bcts_timber_inventory_development_in_progress_report_transformation
     
     bcts_annual_developed_volume_transformation >> task_completion_flag
     bcts_timber_inventory_ready_to_sell_report_transformation >> task_completion_flag
@@ -232,6 +250,7 @@ with DAG(
     bcts_roads_transferred_out_report_transformation >> task_completion_flag
     bcts_roads_constructed_report_transformation >> task_completion_flag
     bcts_roads_deactivated_report_transformation >> task_completion_flag
+    bcts_timber_inventory_development_in_progress_report_transformation >> task_completion_flag
 
 
     
