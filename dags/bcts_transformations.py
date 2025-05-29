@@ -287,6 +287,7 @@ with DAG(
     wait_for_lrm_replication >> bcts_timber_inventory_development_in_progress_report_transformation
     wait_for_bctsadmin_replication >> bcts_performance_report_transformation
     wait_for_bcts_client_replication >> bcts_performance_report_transformation
+    wait_for_fta_data_import >> bcts_performance_report_transformation
     
     bcts_annual_developed_volume_transformation >> task_completion_flag
     bcts_timber_inventory_ready_to_sell_report_transformation >> task_completion_flag
