@@ -5,7 +5,6 @@ metadata:
 subjects:
   - kind: ServiceAccount
     name: airflow-admin
-    namespace: a1b9b0-prod
 roleRef:
   apiGroup: rbac.authorization.k8s.io
   kind: Role
