@@ -153,7 +153,7 @@ with DAG(
     bcts_performance_report_transformation = KubernetesPodOperator(
             task_id="bcts_performance_report_transformation",
             image="ghcr.io/bcgov/nr-dap-ods-bctstransformations:main",
-            cmds=["python3", "./bcts_performance_report_transformation.py"],
+            cmds=["python3", "./bcts_performance_report_transformation_backfill.py"],
             image_pull_policy="Always",
             in_cluster=True,
             service_account_name="airflow-admin",
@@ -166,7 +166,7 @@ with DAG(
             limits={"cpu": "100m", "memory": "1024Mi"}),
             random_name_suffix=False
         )
-
+    
     bcts_roads_transferred_in_report_transformation = KubernetesPodOperator(
             task_id="bcts_roads_transferred_in_report_transformation",
             image="ghcr.io/bcgov/nr-dap-ods-bctstransformations:main",
@@ -237,7 +237,7 @@ with DAG(
     
     bcts_timber_inventory_development_in_progress_report_transformation = KubernetesPodOperator(
             task_id="bcts_timber_inventory_development_in_progress_report_transformation",
-            image="ghcr.io/bcgov/nr-dap-ods-bctstransformations:main",
+            image="ghcr.io/bcgov/nr-dap-ods-bctstransformations:SD-147662-BCTS-DEVELOPMENT-IN-PROGRESS-REPORT",
             cmds=["python3", "./bcts_timber_inventory_development_in_progress_transformation.py"],
             image_pull_policy="Always",
             in_cluster=True,
@@ -300,6 +300,4 @@ with DAG(
     bcts_roads_constructed_report_transformation >> task_completion_flag
     bcts_roads_deactivated_report_transformation >> task_completion_flag
     bcts_timber_inventory_development_in_progress_report_transformation >> task_completion_flag
-
-
     
