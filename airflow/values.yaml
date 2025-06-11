@@ -698,7 +698,7 @@ web:
   lifecycleHooks: {}
   ## @param web.automountServiceAccountToken Mount Service Account token in pod
   ##
-  automountServiceAccountToken: false
+  automountServiceAccountToken: true # Abi: fixes this error -> ConfigException("Service token file does not exist.")
   ## @param web.hostAliases Deployment pod host aliases
   ## https://kubernetes.io/docs/concepts/services-networking/add-entries-to-pod-etc-hosts-with-host-aliases/
   ##
@@ -1042,7 +1042,7 @@ scheduler:
   lifecycleHooks: {}
   ## @param scheduler.automountServiceAccountToken Mount Service Account token in pod
   ##
-  automountServiceAccountToken: false
+  automountServiceAccountToken: true # Abi: fixes this error -> ConfigException("Service token file does not exist.")
   ## @param scheduler.hostAliases Deployment pod host aliases
   ## https://kubernetes.io/docs/concepts/services-networking/add-entries-to-pod-etc-hosts-with-host-aliases/
   ##
@@ -1387,7 +1387,7 @@ dagProcessor:
   lifecycleHooks: {}
   ## @param dagProcessor.automountServiceAccountToken Mount Service Account token in pod
   ##
-  automountServiceAccountToken: false
+  automountServiceAccountToken: true # Abi: fixes this error -> ConfigException("Service token file does not exist.")
   ## @param dagProcessor.hostAliases Deployment pod host aliases
   ## https://kubernetes.io/docs/concepts/services-networking/add-entries-to-pod-etc-hosts-with-host-aliases/
   ##
@@ -1739,7 +1739,7 @@ triggerer:
   lifecycleHooks: {}
   ## @param triggerer.automountServiceAccountToken Mount Service Account token in pod
   ##
-  automountServiceAccountToken: false
+  automountServiceAccountToken: true # Abi: fixes this error -> ConfigException("Service token file does not exist.")
   ## @param triggerer.hostAliases Deployment pod host aliases
   ## https://kubernetes.io/docs/concepts/services-networking/add-entries-to-pod-etc-hosts-with-host-aliases/
   ##
@@ -2193,7 +2193,7 @@ worker:
   lifecycleHooks: {}
   ## @param worker.automountServiceAccountToken Mount Service Account token in pod
   ##
-  automountServiceAccountToken: false
+  automountServiceAccountToken: true # Abi: fixes this error -> ConfigException("Service token file does not exist.")
   ## @param worker.hostAliases Deployment pod host aliases
   ## https://kubernetes.io/docs/concepts/services-networking/add-entries-to-pod-etc-hosts-with-host-aliases/
   ##
@@ -2503,7 +2503,7 @@ setupDBJob:
   resources: {}
   ## @param setupDBJob.automountServiceAccountToken Mount Service Account token in Airflow "setup-db" job's pods
   ##
-  automountServiceAccountToken: false
+  automountServiceAccountToken: true # Abi: fixes this error -> ConfigException("Service token file does not exist.")
   ## @param setupDBJob.hostAliases Add deployment host aliases
   ## https://kubernetes.io/docs/concepts/services-networking/add-entries-to-pod-etc-hosts-with-host-aliases/
   ##
@@ -2811,7 +2811,7 @@ serviceAccount:
   ## @param serviceAccount.automountServiceAccountToken Allows auto mount of ServiceAccountToken on the serviceAccount created
   ## Can be set to false if pods using this serviceAccount do not need to use K8s API
   ##
-  automountServiceAccountToken: false
+  automountServiceAccountToken: true # Abi: fixes this error -> ConfigException("Service token file does not exist.")
   ## @param serviceAccount.annotations Additional custom annotations for the ServiceAccount
   ##
   annotations: {}
@@ -2996,7 +2996,7 @@ metrics:
   lifecycleHooks: {}
   ## @param metrics.automountServiceAccountToken Mount Service Account token in pod
   ##
-  automountServiceAccountToken: false
+  automountServiceAccountToken: true # Abi: fixes this error -> ConfigException("Service token file does not exist.")
   ## @param metrics.hostAliases StatsD exporter pods host aliases
   ## https://kubernetes.io/docs/concepts/services-networking/add-entries-to-pod-etc-hosts-with-host-aliases/
   ##
