@@ -99,7 +99,7 @@ with DAG(
 
     bcts_timber_inventory_ready_to_sell_report_transformation = KubernetesPodOperator(
         task_id="bcts_timber_inventory_ready_to_sell_report_transformation",
-        image="ghcr.io/bcgov/nr-dap-ods-bctstransformations:BCTS-TAP-POLYGONS-UPDATE",
+        image="ghcr.io/bcgov/nr-dap-ods-bctstransformations:main",
         cmds=["python3", "./bcts_timber_inventory_ready_to_sell_transformation.py"],
         image_pull_policy="Always",
         in_cluster=True,
