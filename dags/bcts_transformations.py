@@ -152,7 +152,7 @@ with DAG(
 
     bcts_performance_report_transformation = KubernetesPodOperator(
             task_id="bcts_performance_report_transformation",
-            image="ghcr.io/bcgov/nr-dap-ods-bctstransformations:BCTS-PERFORMANCE-REPORT-2025-04-07",
+            image="ghcr.io/bcgov/nr-dap-ods-bctstransformations:BCTSADMIN-Schema-Change",
             cmds=["python3", "./bcts_performance_report_transformation_backfill.py"],
             image_pull_policy="Always",
             in_cluster=True,
