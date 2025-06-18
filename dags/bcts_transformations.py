@@ -152,7 +152,7 @@ with DAG(
 
     bcts_performance_report_transformation = KubernetesPodOperator(
             task_id="bcts_performance_report_transformation",
-            image="ghcr.io/bcgov/nr-dap-ods-bctstransformations:BCTSADMIN-Schema-Change",
+            image="ghcr.io/bcgov/nr-dap-ods-bctstransformations:BCTS-TAP-POLYGONS-UPDATE",
             cmds=["python3", "./bcts_performance_report_transformation_backfill.py"],
             image_pull_policy="Always",
             in_cluster=True,
