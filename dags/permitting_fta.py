@@ -25,7 +25,7 @@ with DAG(
     schedule='5 12 * * *',
     dag_id=f"permitting-pipeline-{LOB}",
     default_args=default_args,
-    description='DAG to replicate FTA data to ODS for X-NRS Permitting Dashboard'
+    description='DAG to replicate FTA data to ODS'
 ) as dag:
     run_replication = KubernetesPodOperator(
         task_id="run_replication",
