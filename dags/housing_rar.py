@@ -34,7 +34,7 @@ with DAG(
         labels={"DataClass": "Medium",
                 "ConnectionType": "database",
                 "Release": "airflow"},
-        is_delete_operator_pod=False,
+        is_delete_operator_pod=True,
         secrets=[rar_secrets],
         container_resources= client.V1ResourceRequirements(
         requests={"cpu": "50m", "memory": "512Mi"},
