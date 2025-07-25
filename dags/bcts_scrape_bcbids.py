@@ -36,7 +36,7 @@ with DAG(
     # In Dev, Test, and Prod Environments
     bcts_scrape_bcbids_data = KubernetesPodOperator(
         task_id="bcts_scrape_bcbids_data",
-        image="ghcr.io/bcgov/nr-dap-ods-bctsWebCrawler:DAPBCTS-5-WEEKLY-TSL-REPORT",
+        image="ghcr.io/bcgov/nr-dap-ods-bctswebcrawler:DAPBCTS-5-WEEKLY-TSL-REPORT",
         cmds=["python3", "./scrape_bcbids_tsl_weekly_report.py"],
         image_pull_policy="Always",
         in_cluster=True,
