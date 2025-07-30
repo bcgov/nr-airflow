@@ -35,7 +35,7 @@ with DAG(
         service_account_name="airflow-admin",
         name=f"run_{LOB}_replication",
         labels={"DataClass": "Medium", "ConnectionType": "database",  "Release": "airflow"},
-        is_delete_operator_pod=True,
+        is_delete_operator_pod=False,
         secrets=[lob_secrets, ods_secrets],
         container_resources= client.V1ResourceRequirements(
         requests={"cpu": "50m", "memory": "512Mi"},
