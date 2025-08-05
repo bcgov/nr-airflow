@@ -27,7 +27,7 @@ default_args = {
 with DAG(
     start_date=datetime(2024, 10, 23),
     catchup=False,
-    schedule='5 12 * * MON-FRI', # 4:05 AM PST
+    schedule='5 12 * * *', # 4:05 AM PST
     dag_id=f"bcts-replication-bctsadmin",
     default_args=default_args,
     description='DAG to replicate BCTSADMIN data to ODS for BCTS Performance Report',

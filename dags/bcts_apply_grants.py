@@ -35,7 +35,7 @@ else:
 with DAG(
     start_date=datetime(2024, 10, 23),
     catchup=False,
-    schedule='0 13 * * MON-FRI',
+    schedule='0 13 * * *',
     dag_id=f"bcts_apply_grants",
     default_args=default_args,
     description='DAG to apply grants to BCTS data in ODS',
