@@ -36,7 +36,7 @@ with DAG(
     
     # In Dev, Test, and Prod Environments
     bcts_import_bcbids_data = KubernetesPodOperator(
-        task_id="bcts_import_fta_data",
+        task_id="bcts_import_bcbids_data",
         image="ghcr.io/bcgov/nr-dap-ods-s3_2pg_bcts:DAPBCTS-5-WEEKLY-TSL-REPORT",
         cmds=["python3", "./s3_to_pg.py"],
         image_pull_policy="Always",
