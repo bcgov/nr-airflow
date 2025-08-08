@@ -30,7 +30,7 @@ with DAG(
     schedule='35 12 * * *',
     dag_id=f"bcts_audit_replication",
     default_args=default_args,
-    description='DAG to copy FTA tables to BCTS staging area.',
+    description='DAG to check for replication errors.',
 ) as dag:
     
     # In Dev, Test, and Prod Environments
@@ -56,5 +56,5 @@ with DAG(
         task_id='task_completion_flag'
     )
 
-    bcts_import_fta_data >> task_completion_flag 
+    bcts_audit_replication >> task_completion_flag 
     
