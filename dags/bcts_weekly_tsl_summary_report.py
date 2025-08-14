@@ -27,7 +27,7 @@ default_args = {
 with DAG(
     start_date=datetime(2024, 10, 23),
     catchup=False,
-    schedule='None',
+    schedule=None,
     dag_id=f"bcts_tsl_summary_report",
     default_args=default_args,
     description='DAG to run the BCTS TSL Summary Report transformations',
