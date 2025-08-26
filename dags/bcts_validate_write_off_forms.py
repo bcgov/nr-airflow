@@ -13,6 +13,7 @@ ENV = os.getenv("AIRFLOW_ENV")
 
 ods_secrets = Secret("env", None, f"{LOB}-ods-database")
 object_storage_secrets =  Secret("env", None, "bcts-s3-objectstorage") 
+lob_secrets = Secret("env", None, f"{LOB}-database")
 
 
 default_args = {
@@ -45,7 +46,7 @@ with DAG(
         name=f"apply_access_grants",
         labels={"DataClass": "Medium", "ConnectionType": "database",  "Release": "airflow"},
         is_delete_operator_pod=True,
-        secrets=[ods_secrets, object_storage_secrets],
+        secrets=[ods_secrets, object_storage_secrets, lob_secrets],
         container_resources= client.V1ResourceRequirements(
         requests={"cpu": "50m", "memory": "512Mi"},
         limits={"cpu": "100m", "memory": "1024Mi"}),
