@@ -43,7 +43,7 @@ with DAG(
         image_pull_policy="Always",
         in_cluster=True,
         service_account_name="airflow-admin",
-        name=f"apply_access_grants",
+        name=f"bcts-dap-write-off-forms-validation",
         labels={"DataClass": "Medium", "ConnectionType": "database",  "Release": "airflow"},
         is_delete_operator_pod=True,
         secrets=[ods_secrets, object_storage_secrets, lob_secrets],
