@@ -305,6 +305,24 @@ with DAG(
 
     )
 
+    bcts_silviliability_report_transformation = KubernetesPodOperator(
+        task_id="bcts_silviliability_report_transformation",
+        image="ghcr.io/bcgov/nr-dap-ods-bctstransformations:DAPBCTS-4-SILVICULTURE-LIABILITY",
+        cmds=["python3", "./bcts_sililiability_transformation.py"],
+        image_pull_policy="Always",
+        in_cluster=True,
+        service_account_name="airflow-admin",
+        name=f"run_{LOB}_transformation_silviliability_transformation",
+        labels={"DataClass": "Medium", "ConnectionType": "database",  "Release": "airflow"},
+        is_delete_operator_pod=True,
+        secrets=[ods_secrets],
+        container_resources= client.V1ResourceRequirements(
+        requests={"cpu": "50m", "memory": "512Mi"},
+        limits={"cpu": "100m", "memory": "1024Mi"}),
+        random_name_suffix=False
+
+    )
+
     task_completion_flag = DummyOperator(
         task_id='task_completion_flag'
     )
@@ -325,6 +343,9 @@ with DAG(
     wait_for_fta_data_import >> bcts_performance_report_transformation
     wait_for_lrm_replication >> bcts_volume_advertised_report_transformation
     wait_for_bctsadmin_replication >> bcts_volume_advertised_report_transformation
+    wait_for_lrm_replication_2 >> bcts_silviliability_report_transformation
+    wait_for_lrm_replication >> bcts_silviliability_report_transformation
+    wait_for_results_replication >> bcts_silviliability_report_transformation
     
     bcts_annual_developed_volume_transformation >> task_completion_flag
     bcts_timber_inventory_ready_to_sell_report_transformation >> task_completion_flag
@@ -338,4 +359,5 @@ with DAG(
     bcts_roads_deactivated_report_transformation >> task_completion_flag
     bcts_timber_inventory_development_in_progress_report_transformation >> task_completion_flag
     bcts_volume_advertised_report_transformation >> task_completion_flag
+    bcts_silviliability_report_transformation >> task_completion_flag
     
