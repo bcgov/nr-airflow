@@ -72,10 +72,28 @@ with DAG(
     wait_for_fta_data_import = ExternalTaskSensor(
     task_id='wait_for_fta_data_import',
     external_dag_id='bcts_import_fta_data',
-    external_task_id='bcts_import_fta_data',
+    external_task_id='task_completion_flag',
     timeout=60000,  # Timeout in seconds
     poke_interval=30,  # How often to check (in seconds)
     execution_delta = timedelta(minutes=10)
+    )
+
+    wait_for_results_replication = ExternalTaskSensor(
+    task_id='wait_for_results_replication',
+    external_dag_id='bcts-replication-results',
+    external_task_id='task_completion_flag',
+    timeout=60000,  # Timeout in seconds
+    poke_interval=30,  # How often to check (in seconds)
+    execution_delta = timedelta(minutes=5)
+    )
+
+    wait_for_lrm_replication_2 = ExternalTaskSensor(
+    task_id='wait_for_lrm_replication_2',
+    external_dag_id='bcts-replication-lrm2',
+    external_task_id='task_completion_flag',
+    timeout=60000,  # Timeout in seconds
+    poke_interval=30,  # How often to check (in seconds)
+    execution_delta = timedelta(minutes=3)
     )
     
     # In Dev, Test, and Prod Environments

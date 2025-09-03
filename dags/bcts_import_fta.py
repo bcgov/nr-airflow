@@ -27,7 +27,7 @@ default_args = {
 with DAG(
     start_date=datetime(2024, 10, 23),
     catchup=False,
-    schedule='35 12 * * MON-FRI',
+    schedule='35 12 * * *',
     dag_id=f"bcts_import_fta_data",
     default_args=default_args,
     description='DAG to copy FTA tables to BCTS staging area.',

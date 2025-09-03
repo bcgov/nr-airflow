@@ -27,7 +27,7 @@ default_args = {
 with DAG(
     start_date=datetime(2024, 10, 23),
     catchup=False,
-    schedule='10 12 * * MON-FRI', # 4:10 AM PST
+    schedule='10 12 * * *', # 4:10 AM PST
     dag_id=f"bcts-replication-client",
     default_args=default_args,
     description='DAG to replicate Timber Pricing CLIENT data to ODS for BCTS Performance Report',
