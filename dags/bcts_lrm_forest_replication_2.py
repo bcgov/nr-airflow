@@ -14,9 +14,9 @@ LOB = 'lrm2'
 ENV = os.getenv("AIRFLOW_ENV")
 
 # Use same ODS secrets as existing LRM replication DAG
-ods_secrets = Secret("env", None, f"lrm-ods-database")
+ods_secrets = Secret("env", None, f"{LOB}-ods-database")
 # Use different LOB secrets for this second LRM replication DAG as app_name = lrm2 to grab list of tables to replicate from cdc_master_table_list.
-lob_secrets = Secret("env", None, f"{LOB}-database")
+lob_secrets = Secret("env", None, f"lrm-database")
 
 if ENV == 'LOCAL':
     default_args = {
