@@ -9,7 +9,7 @@ from airflow.operators.dummy import DummyOperator
 from datetime import timedelta
 import os
 
-LOB = 'lrm2'
+LOB = 'lrm'
 # For local development environment only.
 ENV = os.getenv("AIRFLOW_ENV")
 
