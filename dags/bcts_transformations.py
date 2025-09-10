@@ -39,6 +39,7 @@ with DAG(
     schedule='45 12 * * *',
     dag_id=f"bcts_transformations",
     default_args=default_args,
+    concurrency=3,
     description='DAG to run the transformations in ODS for BCTS Annual Developed Volume Dashboard',
 ) as dag:
     
