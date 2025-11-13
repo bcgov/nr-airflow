@@ -1,0 +1,10 @@
+kind: ImageStream
+apiVersion: image.openshift.io/v1
+metadata:
+  name: airflow-worker
+spec:
+  lookupPolicy:
+    local: false
+status:
+  dockerImageRepository: 'image-registry.openshift-image-registry.svc:5000/a1b9b0-test/airflow-worker'
+  publicDockerImageRepository: image-registry.apps.emerald.devops.gov.bc.ca/a1b9b0-test/airflow-worker
