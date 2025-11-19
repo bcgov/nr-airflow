@@ -10,12 +10,12 @@
 ## @param global.storageClass Global StorageClass for Persistent Volume(s)
 
 global:
-  imageRegistry: image-registry.openshift-image-registry.svc:5000 # Abi: Redirects to Artifactory Docker Hub proxy. Needed to not hit Docker Hub pull limit
+  imageRegistry: image-registry.apps.emerald.devops.gov.bc.ca # image-registry.openshift-image-registry.svc # Abi: Redirects to Artifactory Docker Hub proxy. Needed to not hit Docker Hub pull limit
   ## E.g.
   ## imagePullSecrets:
   ##   - myRegistryKeySecretName
   ##
-  imagePullSecrets: []
+  imagePullSecrets: [] # Abi: varies with environment
   storageClass: ""
 
 ## @section Common parameters
@@ -126,10 +126,10 @@ dags:
   ## @param dags.image.pullSecrets Init container load-dags image pull secrets
   ##
   image:
-    registry: image-registry.openshift-image-registry.svc:5000
-    repository: a1b9b0-test/os-shell
-    tag: 11-debian-11-r90
-    digest: sha256:d2ba31e6943ea581b0e21f05208a953d901b1d95ceec892e4bb2e63e837c46e8
+    registry: image-registry.apps.emerald.devops.gov.bc.ca
+    repository: a1b9b0-prod/os-shell
+    tag: 11-debian-11-r60
+    # digest: sha256:d2ba31e6943ea581b0e21f05208a953d901b1d95ceec892e4bb2e63e837c46e8
     pullPolicy: IfNotPresent
     ## Optionally specify an array of imagePullSecrets.
     ## Secrets must be manually created in the namespace.
@@ -215,10 +215,10 @@ web:
   ## @param web.image.pullSecrets Airflow image pull secrets
   ## @param web.image.debug Enable image debug mode
   image:
-    registry: image-registry.openshift-image-registry.svc:5000
-    repository: a1b9b0-test/airflow
-    tag: 2.7.3-debian-11-r0
-    digest: sha256:8a6a6ee48cac5563dde93771c459ffc314c7b1c30be9f51c7f87e49ed54e8260
+    registry: image-registry.apps.emerald.devops.gov.bc.ca
+    repository: a1b9b0-prod/airflow
+    tag: 2.7.1-debian-11-r0
+    # digest: sha256:8a6a6ee48cac5563dde93771c459ffc314c7b1c30be9f51c7f87e49ed54e8260
     ## Specify a imagePullPolicy
     ## Defaults to 'Always' if image tag is 'latest', else set to 'IfNotPresent'
     ## ref: https://kubernetes.io/docs/user-guide/images/#pre-pulling-images
@@ -495,10 +495,10 @@ scheduler:
   ## @param scheduler.image.debug Enable image debug mode
   ##
   image:
-    registry: image-registry.openshift-image-registry.svc:5000
-    repository: a1b9b0-test/airflow-scheduler
-    tag: 2.7.3-debian-11-r0
-    digest: sha256:4bfa2d5a3f621ff131ed752a9d307e67d670529a689d81acf3ab6ce5f82b5a03
+    registry: image-registry.apps.emerald.devops.gov.bc.ca
+    repository: a1b9b0-prod/airflow-scheduler
+    tag: 2.7.1-debian-11-r0
+    # digest: sha256:4bfa2d5a3f621ff131ed752a9d307e67d670529a689d81acf3ab6ce5f82b5a03
     ## Specify a imagePullPolicy
     ## Defaults to 'Always' if image tag is 'latest', else set to 'IfNotPresent'
     ## ref: https://kubernetes.io/docs/user-guide/images/#pre-pulling-images
@@ -720,10 +720,10 @@ worker:
   ## @param worker.image.debug Enable image debug mode
   ##
   image:
-    registry: image-registry.openshift-image-registry.svc:5000
-    repository: a1b9b0-test/airflow-worker
-    tag: 2.7.3-debian-11-r0
-    digest: sha256:6b2131772fbd87a74eeaa738d9bab838e97698024fef6bd6b475517b981c1ca9
+    registry: image-registry.apps.emerald.devops.gov.bc.ca
+    repository: a1b9b0-prod/airflow-worker
+    tag: 2.7.1-debian-11-r0
+    # digest: sha256:6b2131772fbd87a74eeaa738d9bab838e97698024fef6bd6b475517b981c1ca9
     ## Specify a imagePullPolicy
     ## Defaults to 'Always' if image tag is 'latest', else set to 'IfNotPresent'
     ## ref: https://kubernetes.io/docs/user-guide/images/#pre-pulling-images
@@ -1014,10 +1014,10 @@ git:
   ## @param git.image.pullSecrets Git image pull secrets
   ##
   image:
-    registry: image-registry.openshift-image-registry.svc:5000
-    repository: a1b9b0-test/git
+    registry: image-registry.apps.emerald.devops.gov.bc.ca
+    repository: a1b9b0-prod/git
     tag: 2.42.1-debian-11-r0
-    digest: sha256:fd38f9bfb7e8fa264cc1872fda5de657113c7bcadd1429ca911c94ab630a142a
+    # digest: sha256:fd38f9bfb7e8fa264cc1872fda5de657113c7bcadd1429ca911c94ab630a142a
     ## Specify a imagePullPolicy
     ## Defaults to 'Always' if image tag is 'latest', else set to 'IfNotPresent'
     ## ref: https://kubernetes.io/docs/user-guide/images/#pre-pulling-images
@@ -1054,7 +1054,7 @@ git:
     #  git checkout 
     repositories:
       - repository: https://github.com/bcgov/nr-airflow
-        branch: a1b9b0-test
+        branch: a1b9b0-prod
         name: nr-airflow-dags
         path: /dags
 
@@ -1413,10 +1413,10 @@ metrics:
   ## @param metrics.image.pullSecrets Airflow exporter image pull secrets
   ##
   image:
-    registry: image-registry.openshift-image-registry.svc:5000
-    repository: a1b9b0-test/airflow-exporter
-    tag: 0.20220314.0-debian-11-r440
-    digest: sha256:89453db74190a2de89e2c31a8c55473d971b00b99bf30586703acce73b7cdbe0
+    registry: image-registry.apps.emerald.devops.gov.bc.ca
+    repository: a1b9b0-prod/airflow-exporter
+    tag: 0.20220314.0-debian-11-r407
+    # digest: sha256:89453db74190a2de89e2c31a8c55473d971b00b99bf30586703acce73b7cdbe0
     pullPolicy: IfNotPresent
     ## Optionally specify an array of imagePullSecrets.
     ## Secrets must be manually created in the namespace.
