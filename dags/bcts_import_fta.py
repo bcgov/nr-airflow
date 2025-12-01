@@ -36,7 +36,7 @@ with DAG(
     # In Dev, Test, and Prod Environments
     bcts_import_fta_data = KubernetesPodOperator(
         task_id="bcts_import_fta_data",
-        image="ghcr.io/bcgov/nr-dap-ods-bctstransformations:BCTS-PERFORMANCE-REPORT-2025-04-07",
+        image="ghcr.io/bcgov/nr-dap-ods-bctstransformations:DAP-BCTS-11-Licence-Transfer-Report",
         cmds=["python3", "./bcts_import_fta_data.py"],
         image_pull_policy="Always",
         in_cluster=True,
