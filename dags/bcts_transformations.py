@@ -386,8 +386,7 @@ with DAG(
     wait_for_bctsadmin_replication >> bcts_licence_transfer_report_transformation
     wait_for_fta_data_import >> bcts_licence_transfer_report_transformation
 
-    wait_for_lrm_replication_2 >> bcts_licence_sold_to_out_of_province_report_transformation
-    wait_for_lrm_replication >> bcts_licence_sold_to_out_of_province_report_transformation
+    wait_for_fta_data_import >> bcts_licence_sold_to_out_of_province_report_transformation
     wait_for_bctsadmin_replication >> bcts_licence_sold_to_out_of_province_report_transformation
     wait_for_bcts_client_replication >> bcts_licence_sold_to_out_of_province_report_transformation
     
