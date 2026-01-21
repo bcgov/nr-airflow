@@ -20,7 +20,7 @@ default_args = {
 
 
 @dag(
-    "lob_dq_ats_housing_hist",
+    "housing-history-ats",
     start_date=datetime(2024, 2, 20),
     max_active_runs=3,
     schedule=None,
