@@ -363,7 +363,7 @@ with DAG(
     bcts_licence_issued_with_unbilled_volume_report_transformation = KubernetesPodOperator(
         task_id="bcts_licence_issued_with_unbilled_volume_report_transformation",
         image="ghcr.io/bcgov/nr-dap-ods-bctstransformations:DAPBCTS-16-LICENCE-SOLD-WITH-UNBILLED-VOLUME",
-        cmds=["python3", "./bcts_licence_issued_with_unbilled_volume_transformation.py"],
+        cmds=["python3", "./bcts_licence_issued_with_unbilled_volume_report_transformation.py"],
         image_pull_policy="Always",
         in_cluster=True,
         service_account_name="airflow-admin",
