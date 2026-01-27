@@ -367,7 +367,7 @@ with DAG(
         image_pull_policy="Always",
         in_cluster=True,
         service_account_name="airflow-admin",
-        name=f"run_{LOB}_transformation_licence_sold_to_out_of_province_report",
+        name=f"run_{LOB}_transformation_licence_issued_with_unbilled_volume_report",
         labels={"DataClass": "Medium", "ConnectionType": "database",  "Release": "airflow"},
         is_delete_operator_pod=True,
         secrets=[ods_secrets],
