@@ -98,8 +98,8 @@ diagnosticMode:
 ## @param image.debug Specify if debug values should be set
 ##
 image:
-  registry: docker.io
-  repository: bitnami/postgresql
+  registry: image-registry.apps.emerald.devops.gov.bc.ca
+  repository: a1b9b0-prod/postgresql
   tag: 16.0.0-debian-11-r15
   digest: ""
   ## Specify a imagePullPolicy

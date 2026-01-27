@@ -1,45 +1,57 @@
-# IMPORTANT: Delete this DAG once X-NRS Dashboard is being refreshed from like-to-like replicated tables
-
 from airflow import DAG
 from pendulum import datetime
 from kubernetes import client
 from airflow.providers.cncf.kubernetes.operators.pod import KubernetesPodOperator
 from airflow.providers.cncf.kubernetes.secret import Secret
+from airflow.operators.dummy import DummyOperator
 from datetime import timedelta
+import os
 
-LOB = 'fta' # ats, fta, rrs, or lexis
+LOB = 'results'
+# For local development environment only.
+ENV = os.getenv("AIRFLOW_ENV")
 
-ods_secrets = Secret("env", None, "ods-database")
-lob_secrets = Secret("env", None, f"{LOB}-database-temporary")
+ods_secrets = Secret("env", None, f"lrm-ods-database")
+lob_secrets = Secret("env", None, f"results-database")
+
 
 default_args = {
-    'owner': 'PMT',
+    'owner': 'BCTS',
     "email": ["NRM.DataFoundations@gov.bc.ca"],
     'retries': 1,
     'retry_delay': timedelta(minutes=5),
     "email_on_failure": True,
-    "email_on_retry": True,
+    "email_on_retry": False,
 }
 
 with DAG(
-    start_date=datetime(2023, 11, 23),
+    start_date=datetime(2024, 10, 23),
     catchup=False,
-    schedule='5 12 * * *',
-    dag_id=f"permitting-pipeline-{LOB}-temporary",
+    schedule='40 12 * * *', # 4:40 AM PST
+    dag_id=f"bcts-replication-results",
     default_args=default_args,
-    description='DAG to replicate FTA query to ODS for X-NRS Permitting Dashboard'
+    description='DAG to replicate RESULTS data to ODS for BCTS Reporting',
 ) as dag:
+    
     run_replication = KubernetesPodOperator(
         task_id="run_replication",
-        image="ghcr.io/bcgov/nr-dap-ods-ora2pg:main",
+        image="ghcr.io/bcgov/nr-dap-ods-ora2pg_bcts:main",
         image_pull_policy="Always",
         in_cluster=True,
         service_account_name="airflow-admin",
         name=f"run_{LOB}_replication",
         labels={"DataClass": "Medium", "ConnectionType": "database",  "Release": "airflow"},
-        is_delete_operator_pod=False,
+        is_delete_operator_pod=True,
         secrets=[lob_secrets, ods_secrets],
         container_resources= client.V1ResourceRequirements(
-        requests={"cpu": "50m", "memory": "512Mi"},
-        limits={"cpu": "100m", "memory": "1024Mi"})
+        requests = {"cpu": "100m", "memory": "1024Mi"},
+        limits   = {"cpu": "200m", "memory": "2048Mi"}
+        ),
+        random_name_suffix=False
     )
+
+    task_completion_flag = DummyOperator(
+        task_id='task_completion_flag'
+    )
+
+    run_replication >> task_completion_flag

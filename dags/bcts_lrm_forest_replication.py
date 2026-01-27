@@ -36,7 +36,7 @@ else:
 with DAG(
     start_date=datetime(2024, 10, 23),
     catchup=False,
-    schedule='30 12 * * MON-FRI', # 4 AM PST
+    schedule='30 12 * * *', # 4 AM PST
     dag_id=f"bcts-replication-lrm",
     default_args=default_args,
     description='DAG to replicate LRM data to ODS for BCTS Annual Developed Volume Dashboard',
@@ -64,7 +64,7 @@ with DAG(
         # In Dev, Test, and Prod Environments
         run_replication = KubernetesPodOperator(
             task_id="run_replication",
-            image="ghcr.io/bcgov/nr-dap-ods-ora2pg:main",
+            image="ghcr.io/bcgov/nr-dap-ods-ora2pg_bcts:main",
             image_pull_policy="Always",
             in_cluster=True,
             service_account_name="airflow-admin",
@@ -75,6 +75,8 @@ with DAG(
             container_resources= client.V1ResourceRequirements(
             requests = {"cpu": "200m", "memory": "2048Mi"},
             limits = {"cpu": "400m", "memory": "4096Mi"}),
+            requests = {"cpu": "50m", "memory": "1024Mi"},
+            limits = {"cpu": "100m", "memory": "6144Mi"}),
             random_name_suffix=False
         )
 

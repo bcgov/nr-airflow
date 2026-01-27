@@ -25,7 +25,7 @@ with DAG(
     schedule='0 12 * * *',
     dag_id=f"permitting-pipeline-{LOB}",
     default_args=default_args,
-    description='DAG to replicate ATS data to ODS for X-NRS Permitting Dashboard',
+    description='DAG to replicate ATS data to ODS',
 ) as dag:
     run_replication = KubernetesPodOperator(
         task_id="run_replication",
@@ -39,5 +39,5 @@ with DAG(
         secrets=[lob_secrets, ods_secrets],
         container_resources= client.V1ResourceRequirements(
         requests={"cpu": "50m", "memory": "512Mi"},
-        limits={"cpu": "100m", "memory": "1024Mi"})
+        limits={"cpu": "100m", "memory": "5Gi"})
     )

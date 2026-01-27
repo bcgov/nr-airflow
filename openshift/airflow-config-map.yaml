@@ -1,0 +1,223 @@
+kind: ConfigMap
+apiVersion: v1
+metadata:
+  name: airflow-configuration
+  labels:
+    DataClass: Low
+    Release: airflow
+    app.kubernetes.io/instance: airflow
+    app.kubernetes.io/managed-by: Helm
+    app.kubernetes.io/name: airflow
+    app.kubernetes.io/version: 2.7.3
+    helm.sh/chart: airflow-16.1.2
+  annotations:
+    meta.helm.sh/release-name: airflow
+    meta.helm.sh/release-namespace: a1b9b0-prod
+data:
+  pod_template.yaml: |-
+    apiVersion: v1
+    kind: Pod
+    metadata:
+      name: k8s-executor-pod
+      labels:
+        DataClass: Low
+        Release: airflow
+        app.kubernetes.io/instance: airflow
+        app.kubernetes.io/managed-by: Helm
+        app.kubernetes.io/name: airflow
+        app.kubernetes.io/version: 2.7.3
+        helm.sh/chart: airflow-16.1.2
+        app.kubernetes.io/component: worker
+    spec:
+      
+      affinity:
+        podAffinity:
+          
+        podAntiAffinity:
+          preferredDuringSchedulingIgnoredDuringExecution:
+            - podAffinityTerm:
+                labelSelector:
+                  matchLabels:
+                    app.kubernetes.io/instance: airflow
+                    app.kubernetes.io/name: airflow
+                    app.kubernetes.io/component: worker
+                topologyKey: kubernetes.io/hostname
+              weight: 1
+        nodeAffinity:
+          
+      restartPolicy: Never
+      serviceAccountName: airflow-admin
+      initContainers:
+        - name: clone-repositories
+          image: "artifacts.developer.gov.bc.ca/docker-remote/bitnami/git:2.42.1-debian-11-r0"
+          imagePullPolicy: "IfNotPresent"
+          resources:
+            limits:
+              cpu: 250m
+              memory: 600Mi
+            requests:
+              cpu: 10m
+              memory: 100Mi
+          command:
+            - /bin/bash
+          args:
+            - -ec
+            - |
+              . /opt/bitnami/scripts/libfs.sh
+              [[ -f "/opt/bitnami/scripts/git/entrypoint.sh" ]] && . /opt/bitnami/scripts/git/entrypoint.sh
+              is_dir_empty "/dags/nr-airflow-dags" && git clone https://github.com/bcgov/nr-airflow --branch main /dags/nr-airflow-dags
+          volumeMounts:
+            - name: git-cloned-dags
+              mountPath: /dags
+          env:
+            - name: http_proxy
+              value: http://swpxkam.gov.bc.ca:8080
+            - name: https_proxy
+              value: http://swpxkam.gov.bc.ca:8080
+            - name: no_proxy
+              value: NO_PROXY=.cluster.local,.svc,10.91.0.0/16,172.30.0.0/16,127.0.0.1,localhost,.gov.bc.ca
+        - name: k8s-executor-init-config
+          image: artifacts.developer.gov.bc.ca/docker-remote/bitnami/airflow-worker:2.7.3-debian-11-r0
+          imagePullPolicy: IfNotPresent
+          command:
+            - /bin/bash
+          args:
+            - -ec
+            - |
+                . /opt/bitnami/scripts/airflow-worker-env.sh
+                . /opt/bitnami/scripts/libairflowworker.sh
+
+                airflow_generate_config # Generate the config file
+                cp /opt/bitnami/airflow/airflow.cfg /opt/bitnami/airflow/k8s-executor-config/airflow.cfg
+          env:
+            - name: AIRFLOW_FERNET_KEY
+              valueFrom:
+                secretKeyRef:
+                  name: airflow
+                  key: airflow-fernet-key
+            - name: AIRFLOW_SECRET_KEY
+              valueFrom:
+                secretKeyRef:
+                  name: airflow
+                  key: airflow-secret-key
+            - name: AIRFLOW_LOAD_EXAMPLES
+              value: "no"
+            - name: AIRFLOW_DATABASE_NAME
+              value: "bitnami_airflow"
+            - name: AIRFLOW_DATABASE_USERNAME
+              value: "bn_airflow"
+            - name: AIRFLOW_DATABASE_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: airflow-postgresql
+                  key: password
+            - name: AIRFLOW_DATABASE_HOST
+              value: "airflow-postgresql"
+            - name: AIRFLOW_DATABASE_PORT_NUMBER
+              value: "5432"
+            - name: AIRFLOW__KUBERNETES__NAMESPACE
+              value: a1b9b0-prod
+            - name: AIRFLOW__KUBERNETES__WORKER_CONTAINER_REPOSITORY
+              value: docker.io/bitnami/airflow-worker
+            - name: AIRFLOW__KUBERNETES__WORKER_CONTAINER_TAG
+              value: 2.7.3-debian-11-r0
+            - name: AIRFLOW__KUBERNETES__IMAGE_PULL_POLICY
+              value: IfNotPresent
+            - name: AIRFLOW__KUBERNETES__DAGS_IN_IMAGE
+              value: "True"
+            - name: AIRFLOW__KUBERNETES__DELETE_WORKER_PODS
+              value: "True"
+            - name: AIRFLOW__KUBERNETES__DELETE_WORKER_PODS_ON_FAILURE
+              value: "False"
+            - name: AIRFLOW__KUBERNETES__WORKER_SERVICE_ACCOUNT_NAME
+              value: airflow-admin
+            - name: AIRFLOW__KUBERNETES__POD_TEMPLATE_FILE
+              value: "/opt/bitnami/airflow/pod_template.yaml"
+            - name: AIRFLOW_EXECUTOR
+              value: KubernetesExecutor
+            - name: AIRFLOW_WEBSERVER_HOST
+              value: airflow
+            - name: AIRFLOW_WEBSERVER_PORT_NUMBER
+              value: "8080"
+          resources:
+            limits:
+              cpu: 500m
+              memory: 700Mi
+            requests:
+              cpu: 10m
+              memory: 200Mi
+          volumeMounts:
+            - name: k8s-executor-config
+              mountPath: /opt/bitnami/airflow/k8s-executor-config
+      containers:
+        - name: airflow-worker
+          image: artifacts.developer.gov.bc.ca/docker-remote/bitnami/airflow-worker:2.7.3-debian-11-r0
+          imagePullPolicy: IfNotPresent
+          env:
+            - name: AIRFLOW__CORE__EXECUTOR
+              value: LocalExecutor
+            - name: AIRFLOW_FERNET_KEY
+              valueFrom:
+                secretKeyRef:
+                  name: airflow
+                  key: airflow-fernet-key
+            - name: AIRFLOW_SECRET_KEY
+              valueFrom:
+                secretKeyRef:
+                  name: airflow
+                  key: airflow-secret-key
+            - name: AIRFLOW_LOAD_EXAMPLES
+              value: "no"
+            - name: AIRFLOW_DATABASE_NAME
+              value: "bitnami_airflow"
+            - name: AIRFLOW_DATABASE_USERNAME
+              value: "bn_airflow"
+            - name: AIRFLOW_DATABASE_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: airflow-postgresql
+                  key: password
+            - name: AIRFLOW_DATABASE_HOST
+              value: "airflow-postgresql"
+            - name: AIRFLOW_DATABASE_PORT_NUMBER
+              value: "5432"
+            
+            - name: AIRFLOW_EXECUTOR
+              value: KubernetesExecutor
+            - name: AIRFLOW_WEBSERVER_HOST
+              value: airflow
+            - name: AIRFLOW_WEBSERVER_PORT_NUMBER
+              value: "8080"
+            - name: http_proxy
+              value: http://swpxkam.gov.bc.ca:8080
+            - name: https_proxy
+              value: http://swpxkam.gov.bc.ca:8080
+            - name: no_proxy
+              value: NO_PROXY=.cluster.local,.svc,10.91.0.0/16,172.30.0.0/16,127.0.0.1,localhost,.gov.bc.ca
+          ports:
+            - name: worker
+              containerPort: 8793
+          resources:
+            limits:
+              cpu: 500m
+              memory: 700Mi
+            requests:
+              cpu: 10m
+              memory: 200Mi
+          volumeMounts:
+            - name: k8s-executor-config
+              mountPath: /opt/bitnami/airflow/airflow.cfg
+              subPath: airflow.cfg
+            - mountPath: /bitnami/python/
+              name: requirements
+            - name: git-cloned-dags
+              mountPath: /opt/bitnami/airflow/dags/git_nr-airflow-dags
+              subPath: nr-airflow-dags//dags
+      volumes:
+        - name: k8s-executor-config
+          emptyDir: {}
+        - configMap:
+            name: airflow-requirements
+          name: requirements
+        - name: git-cloned-dags
+          emptyDir: {}
