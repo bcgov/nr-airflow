@@ -100,7 +100,7 @@ with DAG(
     # In Dev, Test, and Prod Environments
     bcts_annual_developed_volume_transformation = KubernetesPodOperator(
         task_id="bcts_annual_developed_volume_transformation",
-        image="ghcr.io/bcgov/nr-dap-ods-bctstransformations:main",
+        image="ghcr.io/bcgov/nr-dap-ods-bctstransformations:BCTS-PYTHON-VERSION-UPDATES",
         cmds=["python3", "./bcts_annual_developed_volume_transformation.py"],
         image_pull_policy="Always",
         in_cluster=True,
@@ -118,7 +118,7 @@ with DAG(
 
     bcts_timber_inventory_ready_to_sell_report_transformation = KubernetesPodOperator(
         task_id="bcts_timber_inventory_ready_to_sell_report_transformation",
-        image="ghcr.io/bcgov/nr-dap-ods-bctstransformations:main",
+        image="ghcr.io/bcgov/nr-dap-ods-bctstransformations:BCTS-PYTHON-VERSION-UPDATES",
         cmds=["python3", "./bcts_timber_inventory_ready_to_sell_transformation.py"],
         image_pull_policy="Always",
         in_cluster=True,
@@ -135,7 +135,7 @@ with DAG(
 
     bcts_timber_inventory_ready_to_develop_report_transformation = KubernetesPodOperator(
         task_id="bcts_timber_inventory_ready_to_develop_report_transformation",
-        image="ghcr.io/bcgov/nr-dap-ods-bctstransformations:main",
+        image="ghcr.io/bcgov/nr-dap-ods-bctstransformations:BCTS-PYTHON-VERSION-UPDATES",
         cmds=["python3", "./bcts_timber_inventory_ready_to_develop_transformation.py"],
         image_pull_policy="Always",
         in_cluster=True,
@@ -153,7 +153,7 @@ with DAG(
 
     bcts_annual_development_ready_report_transformation = KubernetesPodOperator(
         task_id="bcts_annual_development_ready_report_transformation",
-        image="ghcr.io/bcgov/nr-dap-ods-bctstransformations:main",
+        image="ghcr.io/bcgov/nr-dap-ods-bctstransformations:BCTS-PYTHON-VERSION-UPDATES",
         cmds=["python3", "./bcts_annual_development_ready_transformation.py"],
         image_pull_policy="Always",
         in_cluster=True,
@@ -171,7 +171,7 @@ with DAG(
 
     bcts_performance_report_transformation = KubernetesPodOperator(
             task_id="bcts_performance_report_transformation",
-            image="ghcr.io/bcgov/nr-dap-ods-bctstransformations:main",
+            image="ghcr.io/bcgov/nr-dap-ods-bctstransformations:BCTS-PYTHON-VERSION-UPDATES",
             cmds=["python3", "./bcts_performance_report_transformation_backfill.py"],
             image_pull_policy="Always",
             in_cluster=True,
@@ -188,7 +188,7 @@ with DAG(
     
     bcts_roads_transferred_in_report_transformation = KubernetesPodOperator(
             task_id="bcts_roads_transferred_in_report_transformation",
-            image="ghcr.io/bcgov/nr-dap-ods-bctstransformations:main",
+            image="ghcr.io/bcgov/nr-dap-ods-bctstransformations:BCTS-PYTHON-VERSION-UPDATES",
             cmds=["python3", "./bcts_roads_transferred_in_transformation.py"],
             image_pull_policy="Always",
             in_cluster=True,
@@ -205,7 +205,7 @@ with DAG(
     
     bcts_roads_transferred_out_report_transformation = KubernetesPodOperator(
             task_id="bcts_roads_transferred_out_report_transformation",
-            image="ghcr.io/bcgov/nr-dap-ods-bctstransformations:main",
+            image="ghcr.io/bcgov/nr-dap-ods-bctstransformations:BCTS-PYTHON-VERSION-UPDATES",
             cmds=["python3", "./bcts_roads_transferred_out_transformation.py"],
             image_pull_policy="Always",
             in_cluster=True,
@@ -222,7 +222,7 @@ with DAG(
     
     bcts_roads_constructed_report_transformation = KubernetesPodOperator(
             task_id="bcts_roads_constructed_report_transformation",
-            image="ghcr.io/bcgov/nr-dap-ods-bctstransformations:main",
+            image="ghcr.io/bcgov/nr-dap-ods-bctstransformations:BCTS-PYTHON-VERSION-UPDATES",
             cmds=["python3", "./bcts_roads_constructed_transformation.py"],
             image_pull_policy="Always",
             in_cluster=True,
@@ -239,7 +239,7 @@ with DAG(
     
     bcts_roads_deactivated_report_transformation = KubernetesPodOperator(
             task_id="bcts_roads_deactivated_report_transformation",
-            image="ghcr.io/bcgov/nr-dap-ods-bctstransformations:main",
+            image="ghcr.io/bcgov/nr-dap-ods-bctstransformations:BCTS-PYTHON-VERSION-UPDATES",
             cmds=["python3", "./bcts_roads_deactivated_transformation.py"],
             image_pull_policy="Always",
             in_cluster=True,
@@ -256,7 +256,7 @@ with DAG(
     
     bcts_timber_inventory_development_in_progress_report_transformation = KubernetesPodOperator(
             task_id="bcts_timber_inventory_development_in_progress_report_transformation",
-            image="ghcr.io/bcgov/nr-dap-ods-bctstransformations:main",
+            image="ghcr.io/bcgov/nr-dap-ods-bctstransformations:BCTS-PYTHON-VERSION-UPDATES",
             cmds=["python3", "./bcts_timber_inventory_development_in_progress_transformation.py"],
             image_pull_policy="Always",
             in_cluster=True,
@@ -273,7 +273,7 @@ with DAG(
     
     bcts_volume_advertised_report_transformation = KubernetesPodOperator(
             task_id="bcts_volume_advertised_report_transformation",
-            image="ghcr.io/bcgov/nr-dap-ods-bctstransformations:SD-140098-VOLUME-ADVERTISED-REPORT",
+            image="ghcr.io/bcgov/nr-dap-ods-bctstransformations:BCTS-PYTHON-VERSION-UPDATES",
             cmds=["python3", "./bcts_volume_advertised_transformation.py"],
             image_pull_policy="Always",
             in_cluster=True,
@@ -290,7 +290,7 @@ with DAG(
 
     bcts_publish_forestview_views = KubernetesPodOperator(
         task_id="bcts_publish_forestview_views",
-        image="ghcr.io/bcgov/nr-dap-ods-bctstransformations:main",
+        image="ghcr.io/bcgov/nr-dap-ods-bctstransformations:BCTS-PYTHON-VERSION-UPDATES",
         cmds=["python3", "./bcts_publish_forestview_views.py"],
         image_pull_policy="Always",
         in_cluster=True,
@@ -308,7 +308,7 @@ with DAG(
 
     bcts_silviliability_report_transformation = KubernetesPodOperator(
         task_id="bcts_silviliability_report_transformation",
-        image="ghcr.io/bcgov/nr-dap-ods-bctstransformations:DAPBCTS-4-SILVICULTURE-LIABILITY",
+        image="ghcr.io/bcgov/nr-dap-ods-bctstransformations:BCTS-PYTHON-VERSION-UPDATES",
         cmds=["python3", "./bcts_sililiability_transformation.py"],
         image_pull_policy="Always",
         in_cluster=True,
@@ -326,7 +326,7 @@ with DAG(
 
     bcts_licence_transfer_report_transformation = KubernetesPodOperator(
         task_id="bcts_licence_transfer_report_transformation",
-        image="ghcr.io/bcgov/nr-dap-ods-bctstransformations:DAP-BCTS-11-Licence-Transfer-Report",
+        image="ghcr.io/bcgov/nr-dap-ods-bctstransformations:BCTS-PYTHON-VERSION-UPDATES",
         cmds=["python3", "./bcts_licence_transfer_transformation.py"],
         image_pull_policy="Always",
         in_cluster=True,
@@ -344,7 +344,7 @@ with DAG(
 
     bcts_licence_sold_to_out_of_province_report_transformation = KubernetesPodOperator(
         task_id="bcts_licence_sold_to_out_of_province_report_transformation",
-        image="ghcr.io/bcgov/nr-dap-ods-bctstransformations:DAPBCTS-14-LICENCE-SOLD-TO-OUT-OF-PROVINCE-REGISTRANTS",
+        image="ghcr.io/bcgov/nr-dap-ods-bctstransformations:BCTS-PYTHON-VERSION-UPDATES",
         cmds=["python3", "./bcts_licence_sold_to_out_of_province_transformation.py"],
         image_pull_policy="Always",
         in_cluster=True,
