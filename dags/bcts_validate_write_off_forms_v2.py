@@ -37,7 +37,7 @@ with DAG(
     
     # In Dev, Test, and Prod Environments
     validate_write_off_forms = KubernetesPodOperator(
-        task_id=f"bcts_validate_write_off_forms",
+        task_id=f"bcts_validate_write_off_forms_v2",
         image="ghcr.io/bcgov/nr-dap-ods-bctstransformations:BCTS-WO-FORM-VALIDATION-UPDATED-FORMAT",
         cmds=["python3", "./bcts_validate_write_off_forms_transformation_v2.py"],
         image_pull_policy="Always",
