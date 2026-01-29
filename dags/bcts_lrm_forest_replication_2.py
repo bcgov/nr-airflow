@@ -77,8 +77,8 @@ with DAG(
             is_delete_operator_pod=True,
             secrets=[lob_secrets, ods_secrets],
             container_resources= client.V1ResourceRequirements(
-            requests = {"cpu": "400m", "memory": "4096Mi"},
-            limits = {"cpu": "800m", "memory": "6144Mi"}),
+            requests={"cpu": "800m", "memory": "8192Mi"},
+            limits={"cpu": "1600m", "memory": "12288Mi"})
             random_name_suffix=False
         )
 
