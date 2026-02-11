@@ -17,7 +17,7 @@ with DAG(
     start_date=datetime(2024, 2, 20),
     catchup=False,
     schedule=None,
-    dag_id="lob_dq_ats_housing",
+    dag_id="housing-query-ats",
     default_args=default_args,
     description='DAG to create table of monthly ATS connectivity licenses'
 ) as dag:
