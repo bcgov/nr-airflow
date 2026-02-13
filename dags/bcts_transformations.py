@@ -270,6 +270,13 @@ with DAG(
             limits={"cpu": "100m", "memory": "1024Mi"}),
             random_name_suffix=False
         )
+    else:
+        # In Dev, Test, and Prod Environments
+        annual_developed_volume_transformation = KubernetesPodOperator(
+            task_id="annual_developed_volume_transformation",
+            image="ghcr.io/bcgov/nr-dap-ods-bctstransformations:main",
+            cmds=["python3", "./bcts_etl.py"],
+            arguments=[annual_developed_volume_transformation_sql_file_path],
     
     bcts_volume_advertised_report_transformation = KubernetesPodOperator(
             task_id="bcts_volume_advertised_report_transformation",
@@ -288,6 +295,40 @@ with DAG(
             random_name_suffix=False
         )
 
+
+        bcts_performance_report_transformation = KubernetesPodOperator(
+            task_id="bcts_performance_report_transformation",
+            image="ghcr.io/bcgov/nr-dap-ods-bctstransformations:main",
+            cmds=["python3", "./bcts_performance_report_transformation.py"],
+            image_pull_policy="Always",
+            in_cluster=True,
+            service_account_name="airflow-admin",
+            name=f"run_{LOB}_transformation_bcts_performance_report",
+            labels={"DataClass": "Medium", "ConnectionType": "database",  "Release": "airflow"},
+            is_delete_operator_pod=True,
+            secrets=[ods_secrets],
+            container_resources= client.V1ResourceRequirements(
+            requests={"cpu": "50m", "memory": "512Mi"},
+            limits={"cpu": "100m", "memory": "1024Mi"}),
+            random_name_suffix=False
+        )
+
+        bcts_timber_inventory_ready_to_sell_report_transformation = KubernetesPodOperator(
+            task_id="bcts_timber_inventory_ready_to_sell_report_transformation",
+            image="ghcr.io/bcgov/nr-dap-ods-bctstransformations:main",
+            cmds=["python3", "./bcts_timber_inventory_ready_to_sell_transformation.py"],
+            image_pull_policy="Always",
+            in_cluster=True,
+            service_account_name="airflow-admin",
+            name=f"run_{LOB}_timber_inventory_ready_to_sell",
+            labels={"DataClass": "Medium", "ConnectionType": "database",  "Release": "airflow"},
+            is_delete_operator_pod=True,
+            secrets=[ods_secrets],
+            container_resources= client.V1ResourceRequirements(
+            requests={"cpu": "50m", "memory": "512Mi"},
+            limits={"cpu": "100m", "memory": "1024Mi"}),
+            random_name_suffix=False
+        )
     bcts_publish_forestview_views = KubernetesPodOperator(
         task_id="bcts_publish_forestview_views",
         image="ghcr.io/bcgov/nr-dap-ods-bctstransformations:main",
@@ -399,6 +440,17 @@ with DAG(
     task_completion_flag = DummyOperator(
         task_id='task_completion_flag'
     )
+
+    wait_for_lrm_replication >> annual_developed_volume_transformation 
+    wait_for_lrm_replication >> bcts_performance_report_transformation
+    wait_for_lrm_replication >> bcts_timber_inventory_ready_to_sell_report_transformation
+    wait_for_bctsadmin_replication >> bcts_performance_report_transformation
+    wait_for_bcts_client_replication >> bcts_performance_report_transformation
+    
+    annual_developed_volume_transformation >> task_completion_flag
+    bcts_performance_report_transformation >> task_completion_flag
+    bcts_timber_inventory_ready_to_sell_report_transformation >> task_completion_flag
+
 
     wait_for_lrm_replication >> bcts_annual_developed_volume_transformation 
     wait_for_lrm_replication >> bcts_timber_inventory_ready_to_sell_report_transformation
