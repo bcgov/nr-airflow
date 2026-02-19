@@ -100,7 +100,7 @@ with DAG(
     # In Dev, Test, and Prod Environments
     bcts_annual_developed_volume_transformation = KubernetesPodOperator(
         task_id="bcts_annual_developed_volume_transformation",
-        image="ghcr.io/bcgov/nr-dap-ods-bctstransformations:main",
+        image="ghcr.io/bcgov/nr-dap-ods-bctstransformations:BCTS-ADV-BIWEEKLY",
         cmds=["python3", "./bcts_annual_developed_volume_transformation.py"],
         image_pull_policy="Always",
         in_cluster=True,
