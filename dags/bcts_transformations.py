@@ -256,7 +256,7 @@ with DAG(
 
     bcts_roads_planned_deactivation_report_transformation = KubernetesPodOperator(
             task_id="bcts_roads_planned_deactivation_report_transformation",
-            image="ghcr.io/bcgov/nr-dap-ods-bctstransformations:DAPBCTS-18-ROADS-PLANNED-FOR-DEACTIVATION",
+            image="ghcr.io/bcgov/nr-dap-ods-bctstransformations:main",
             cmds=["python3", "./bcts_roads_planned_deactivation_transformation.py"],
             image_pull_policy="Always",
             in_cluster=True,
