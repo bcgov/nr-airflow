@@ -254,6 +254,23 @@ with DAG(
             random_name_suffix=False
         )
     
+    bcts_roads_planned_deactivation_report_transformation = KubernetesPodOperator(
+            task_id="bcts_roads_planned_deactivation_report_transformation",
+            image="ghcr.io/bcgov/nr-dap-ods-bctstransformations:DAPBCTS-18-ROADS-PLANNED-FOR-DEACTIVATION",
+            cmds=["python3", "./bcts_roads_planned_deactivation_transformation.py"],
+            image_pull_policy="Always",
+            in_cluster=True,
+            service_account_name="airflow-admin",
+            name=f"run_{LOB}_transformation_bcts_roads_planned_deactivation_report",
+            labels={"DataClass": "Medium", "ConnectionType": "database",  "Release": "airflow"},
+            is_delete_operator_pod=True,
+            secrets=[ods_secrets],
+            container_resources= client.V1ResourceRequirements(
+            requests={"cpu": "50m", "memory": "512Mi"},
+            limits={"cpu": "100m", "memory": "1024Mi"}),
+            random_name_suffix=False
+        )
+    
     bcts_timber_inventory_development_in_progress_report_transformation = KubernetesPodOperator(
             task_id="bcts_timber_inventory_development_in_progress_report_transformation",
             image="ghcr.io/bcgov/nr-dap-ods-bctstransformations:main",
@@ -455,4 +472,7 @@ with DAG(
     bcts_licence_sold_to_out_of_province_report_transformation >> task_completion_flag
     bcts_licence_issued_with_unbilled_volume_report_transformation >> task_completion_flag
     bcts_weighted_sale_term_report_transformation >> task_completion_flag
+
+    bcts_roads_planned_deactivation_report_transformation >> task_completion_flag
+    wait_for_lrm_replication >> bcts_roads_planned_deactivation_report_transformation
     
