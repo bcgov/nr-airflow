@@ -47,7 +47,7 @@ with DAG(
         task_id='wait_for_lrm_replication',
         external_dag_id='bcts-replication-lrm',
         external_task_id='task_completion_flag',
-        timeout=60000,  # Timeout in seconds
+        timeout=6000,  # Timeout in seconds
         poke_interval=30,  # How often to check (in seconds)
         execution_delta = timedelta(minutes=15)
     )
@@ -56,7 +56,7 @@ with DAG(
         task_id='wait_for_bctsadmin_replication',
         external_dag_id='bcts-replication-bctsadmin',
         external_task_id='task_completion_flag',
-        timeout=60000,  # Timeout in seconds
+        timeout=6000,  # Timeout in seconds
         poke_interval=30,  # How often to check (in seconds)
         execution_delta = timedelta(minutes=40)
     )
@@ -65,7 +65,7 @@ with DAG(
         task_id='wait_for_bcts_client_replication',
         external_dag_id='bcts-replication-client',
         external_task_id='task_completion_flag',
-        timeout=60000,  # Timeout in seconds
+        timeout=6000,  # Timeout in seconds
         poke_interval=30,  # How often to check (in seconds)
         execution_delta = timedelta(minutes=35)
     )
@@ -74,7 +74,7 @@ with DAG(
     task_id='wait_for_fta_data_import',
     external_dag_id='bcts_import_fta_data',
     external_task_id='bcts_import_fta_data',
-    timeout=60000,  # Timeout in seconds
+    timeout=6000,  # Timeout in seconds
     poke_interval=30,  # How often to check (in seconds)
     execution_delta = timedelta(minutes=10)
     )
@@ -83,7 +83,7 @@ with DAG(
     task_id='wait_for_results_replication',
     external_dag_id='bcts-replication-results',
     external_task_id='task_completion_flag',
-    timeout=60000,  # Timeout in seconds
+    timeout=6000,  # Timeout in seconds
     poke_interval=30,  # How often to check (in seconds)
     execution_delta = timedelta(minutes=5)
     )
@@ -92,7 +92,7 @@ with DAG(
     task_id='wait_for_lrm_replication_2',
     external_dag_id='bcts-replication-lrm2',
     external_task_id='task_completion_flag',
-    timeout=60000,  # Timeout in seconds
+    timeout=6000,  # Timeout in seconds
     poke_interval=30,  # How often to check (in seconds)
     execution_delta = timedelta(minutes=3)
     )
