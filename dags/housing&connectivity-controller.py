@@ -12,7 +12,7 @@ default_args = {
 
 # Define the controller DAG
 controller_dag = DAG(
-    'lob_dq_ats_controller',
+    'housing&connectivity-controller',
     default_args=default_args,
     description='Controller DAG to trigger jobs for ATS housing and connectivity',
     schedule_interval='@monthly',
